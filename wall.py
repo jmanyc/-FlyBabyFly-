@@ -4,7 +4,7 @@ class Wall(Obstacle):
 	
 	def __init__(self, lastBeamColor):
 	
-		Obstacle.__init__(self, position, color)
+		Obstacle.__init__(self, position, color, x1, y1, x2, y2)
 		self.b1color = b1color
 		self.b2color = b2color
 		self.b3color = b3color
