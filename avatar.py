@@ -11,6 +11,7 @@ class Avatar():
 		self.vy = yVelocity
 		self.color = color
 		flyer = pygame.Rect((x1, y1), (x2, y2))
+		
 	def setPosition(self, position):
 		self.position = position
 		
