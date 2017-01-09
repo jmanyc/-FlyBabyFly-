@@ -5,7 +5,7 @@
 import pygame
 import os
 
-class Avatar(object): 
+class Avatar(): 
     def __init__(self):
         self.image = pygame.image.load( "Spider.png" ).convert_alpha()
         self.x = 20 # initial spawn of the image
