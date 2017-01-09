@@ -27,7 +27,7 @@ class Avatar():
 		### if a key is pressed we check if it's the up or space bar and add to the speed, double the gravity value ###
 		if self.y > self.topLimit and self.crashing == False:
 			key = pygame.key.get_pressed()
-			if key[pygame.K_SPACE] or key[pygame.K_UP]:
+			if key[pygame.K_SPACE] or key[pygame.K_UP] or key[pygame.K_w]:
 				self.curSpeed += self.gravity*2
 			### Color of Avatar changed depending on arrow key pressed & image swapped out ###
 			if key[pygame.K_1] :
