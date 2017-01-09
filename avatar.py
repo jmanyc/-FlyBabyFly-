@@ -3,7 +3,6 @@
 # CS269
 # 1/5/17
 import pygame
-import os
 
 class Avatar(): 
     def __init__(self):
