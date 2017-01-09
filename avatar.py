@@ -48,6 +48,9 @@ class Avatar(object):
         ### Returns the state of the avatar ###
         return self.alive
         
+    def setCrashing(self, bool):
+        ### For use in collision, so after colliding with a block the flier falls, then dies ###
+        self.crashing == True
         
     def setAlive(self, bool):### Note to team, make sure if we add restarts to set avatar alive again ###
         ### Sets the alive state of the avatar ###
