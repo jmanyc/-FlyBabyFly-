@@ -1,0 +1,23 @@
+def getHighScores(playerscore = -1):	
+	fp = file(HighScoreFile.txt) #reads the file
+	lines = fp.readlines() #reads lines and creates an array of lines
+	fp.close()
+	scorelist = []
+	for line in lines:
+		words = line.split()
+		scorelist.append(words[0])
+		
+	if playerscore != -1:
+		scorelist.append(playerscore)
+		scorelist.sort()
+	
+	retString = ''
+	for score in scorelist:
+		retString += score
+		retString += '\n'		
+	
+	fp = file( HighScoreFile.txt, 'w')
+	fp.write()
+	fp.close()	
+		
+	return scorelist
