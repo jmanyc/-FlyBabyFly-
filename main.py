@@ -17,11 +17,12 @@ pygame.mixer.init()
 pygame.init()
 pygame.font.init()
 
-screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
+screen = pygame.display.set_mode((1366,768),pygame.FULLSCREEN)
 clock = pygame.time.Clock()
 hoverSound = pygame.mixer.Sound( "sound/click.wav" )
 clickSound = pygame.mixer.Sound( "sound/pop.wav" )
 gameState = 0
+squirrel = pygame.image.load( "squirrel.png" ).convert_alpha()
 class MenuLabel():
 	def __init__(self, text, font, bkgColor, fontColor, fontSize, (x,y), state):
 		### Storing all the important text information ###
@@ -80,10 +81,10 @@ screen.fill((40,80,160)) #BKG
 # varName = MenuLable("Text", "Font-Style", BkgColor of Box, Text Color, fontSize, Position, gamestate it points to)
 
 #Main Menu
-start = MenuLabel("Start Game", "Helvetica", (100,100,100),(0,0,0),32,(300,100),1)
-instruction = MenuLabel("Instructions", "Helvetica", (100,100,100),(0,0,0),32,(300,180),2)
-credits = MenuLabel("Credits", "Helvetica", (100,100,100),(0,0,0),32,(300,260),3)
-quit = MenuLabel("Quit", "Helvetica", (100,100,100),(0,0,0),32,(300,340),4)
+start = MenuLabel("Start Game", "Helvetica", (100,100,100),(0,0,0),26,(300,100),1)
+instruction = MenuLabel("Instructions", "Helvetica", (100,100,100),(0,0,0),26,(300,180),2)
+credits = MenuLabel("Credits", "Helvetica", (100,100,100),(0,0,0),26,(300,260),3)
+quit = MenuLabel("Quit", "Helvetica", (100,100,100),(0,0,0),26,(300,340),4)
 mainMenu = [start, credits, quit, instruction] #Main Menu Labels
 
 #Credits
@@ -106,7 +107,7 @@ while 1:#Main loop
 		# handle every event since the last frame.
 		screen.fill((40,80,160))
 		mouse = pygame.mouse.get_pos() # Position of the mouse, gets refreshed every tick
-		
+		screen.blit(squirrel,(500,50))
 		for item in mainMenu:
 			if item.hover((mouse[0],mouse[1])) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
 				# If hovering over the item, and a button is clicked, go to the state the button is linked to. 
@@ -122,7 +123,6 @@ while 1:#Main loop
 			
 	
 	elif gameState == 1: #The actual game looping part
-
 		flier.keyPressed() # handles pressing keys, now if we need to speed up our program work on this
 		flier.applyGravity() # calls the simulated gravity function of avatar
 		screen.fill((255,255,255))# white background on the screen
