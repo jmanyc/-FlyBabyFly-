@@ -10,8 +10,9 @@ Colors = enum(RED = (255,0,0), GREEN = (0,255,0), BLUE = (0,0,255))
 
 class Avatar(): 
 	def __init__(self):
+		self.crashSound = pygame.mixer.Sound( "hit_obstacle.wav" )
 		### Starts with Red Image ###
-	 	self.image = pygame.image.load( "Red.png" ).convert_alpha()
+		self.image = pygame.image.load( "Red.png" ).convert_alpha()
 		self.x = 20 # initial spawn of the image
 		self.y = 30
 		### Setting the upper and lower limits so it stays on screen ###
@@ -42,6 +43,7 @@ class Avatar():
 
 		else:
 			if self.crashing == False: #As we haven't changed it yet, this way we do it only once and the falling is smooth
+				self.crashSound.play()
 				self.curSpeed = 0
 			self.crashing = True
 		
@@ -51,6 +53,7 @@ class Avatar():
 			self.curSpeed -= self.gravity
 			self.y -= self.curSpeed
 		else:
+			self.crashSound.play()
 			self.alive = False
 			
 	def setColor(self, color):
@@ -76,34 +79,34 @@ class Avatar():
 		### Draws the avatar at the selected area ###
 		surface.blit(self.image,(self.x,self.y))
 		
-	###def setAvatar(self, image):    Idea for later
+	###def setAvatar(self, image):	  Idea for later
 	
 		
 		
 		
 ##### Test code, copied and edited from source #####
+if __name__ == "__main__":
+	pygame.init()
+	screen = pygame.display.set_mode((800, 600))
+	avatar = Avatar()
+	clock = pygame.time.Clock()
 
-pygame.init()
-screen = pygame.display.set_mode((800, 600))
-avatar = Avatar()
-clock = pygame.time.Clock()
-
-while 1:#Main loop
-	# handle every event since the last frame.
-	avatar.keyPressed() # handle the keys
-	avatar.applyGravity() # calls the simulated gravity function of avatar
-	
-	screen.fill((255,255,255))# white background on the screen
-	avatar.update(screen) # updates the position of the avatar on the screen
-	pygame.display.update() # update the screen
-	
-	if avatar.getAlive() == False:
-		print "You Crashed!"
-		pygame.quit()#Quit the game
-		break
-	
-	for event in pygame.event.get():
-		if event.type == pygame.QUIT:
+	while 1:#Main loop
+		# handle every event since the last frame.
+		avatar.keyPressed() # handle the keys
+		avatar.applyGravity() # calls the simulated gravity function of avatar
+		
+		screen.fill((255,255,255))# white background on the screen
+		avatar.update(screen) # updates the position of the avatar on the screen
+		pygame.display.update() # update the screen
+		
+		if avatar.getAlive() == False:
+			print "You Crashed!"
 			pygame.quit()#Quit the game
 			break
-	clock.tick(60) # 60 fps
+		
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
+				pygame.quit()#Quit the game
+				break
+		clock.tick(60) # 60 fps
