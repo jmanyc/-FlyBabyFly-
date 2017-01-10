@@ -1,0 +1,9 @@
+fp = file(filename)
+	lines = fp.readlines()
+	fp.close()
+	for line in lines:
+		words = line.split()
+		if words[0] == "base":
+			setBase(lsys, words[1])
+		elif words[0] == "rule":
+			addRule(lsys, words[1:])
