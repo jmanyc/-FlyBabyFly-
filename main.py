@@ -20,7 +20,7 @@ infoObject = pygame.display.Info()
 screen = pygame.display.set_mode((infoObject.current_w, infoObject.current_h), pygame.FULLSCREEN) # Here are the old falues (1366, 768)
 
 clock = pygame.time.Clock()
-hoverSound = pygame.mixer.Sound( "Sounds/click.wav" )
+hoverSound = pygame.mixer.Sound( "Sriounds/click.wav" )
 clickSound = pygame.mixer.Sound( "Sounds/pop.wav" )
 gameState = 0
 squirrel = pygame.image.load( "squirrel.png" ).convert_alpha()
@@ -135,7 +135,6 @@ while 1:#Main loop
 		flier.update(screen) # updates the position of the avatar on the screen
 	
 		if flier.getAlive() == False:
-			print "You Crashed!"
 			gameState = 5 #goto loss screen 
 			
 	
@@ -156,6 +155,7 @@ while 1:#Main loop
 		if key[pygame.K_BACKSPACE]:
 			clickSound.play()
 			gameState = 5
+			screen.fill((40,80,160))
 			
 	elif gameState == 4: #Quit
 		pygame.quit()
