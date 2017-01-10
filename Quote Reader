@@ -7,7 +7,6 @@ def getQuote():
 	quoteslist = []
 	for line in lines:
 		quoteslist.append(line)
-        
-    quote = random.choice(quoteslist)
+        quote = random.choice(quoteslist)
 		
 	return quote
