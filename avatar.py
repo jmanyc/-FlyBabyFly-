@@ -10,14 +10,15 @@ Colors = enum(RED = (255,0,0), GREEN = (0,255,0), BLUE = (0,0,255))
 
 class Avatar(): 
 	def __init__(self):
+		self.infoObject = pygame.display.Info()
 		self.crashSound = pygame.mixer.Sound( "sound/hit_obstacle.wav" )
 		### Starts with Red Image ###
 		self.image = pygame.image.load( "Red.png" ).convert_alpha()
-		self.x = 20 # initial spawn of the image
-		self.y = 30
+		self.x = self.infoObject.current_w/12 # initial spawn of the image
+		self.y = self.infoObject.current_h/12
 		### Setting the upper and lower limits so it stays on screen ###
-		self.topLimit = 20 
-		self.bottomLimit = 470
+		self.topLimit = self.infoObject.current_h/14 
+		self.bottomLimit = self.infoObject.current_h * .8
 		self.curSpeed = 0 #current speed of the avatar
 		self.gravity = 0.12 #the gravity setting on the avatar, remember this number is added to the speed every tick, so 60 times a second
 		self.alive = True #Used to control the gameState
