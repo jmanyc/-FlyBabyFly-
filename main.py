@@ -19,8 +19,8 @@ pygame.font.init()
 
 screen = pygame.display.set_mode((640, 480))
 clock = pygame.time.Clock()
-hoverSound = pygame.mixer.Sound( "click.wav" )
-clickSound = pygame.mixer.Sound( "pop.wav" )
+hoverSound = pygame.mixer.Sound( "sound/click.wav" )
+clickSound = pygame.mixer.Sound( "sound/pop.wav" )
 gameState = 0
 class MenuLabel():
 	def __init__(self, text, font, bkgColor, fontColor, fontSize, (x,y), state):
