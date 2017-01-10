@@ -18,10 +18,8 @@ pygame.init()
 pygame.font.init()
 infoObject = pygame.display.Info()
 
-<<<<<<< HEAD
 screen = pygame.display.set_mode((infoObject.current_w, infoObject.current_h), pygame.FULLSCREEN) # Here are the old falues (1366, 768)
-=======
->>>>>>> origin/master
+
 clock = pygame.time.Clock()
 hoverSound = pygame.mixer.Sound( "sound/click.wav" )
 clickSound = pygame.mixer.Sound( "sound/pop.wav" )
