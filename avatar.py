@@ -10,7 +10,7 @@ Colors = enum(RED = (255,0,0), GREEN = (0,255,0), BLUE = (0,0,255))
 
 class Avatar(): 
 	def __init__(self):
-		self.crashSound = pygame.mixer.Sound( "hit_obstacle.wav" )
+		self.crashSound = pygame.mixer.Sound( "sound/hit_obstacle.wav" )
 		### Starts with Red Image ###
 		self.image = pygame.image.load( "Red.png" ).convert_alpha()
 		self.x = 20 # initial spawn of the image
