@@ -1,15 +1,22 @@
+# Fly Baby Fly
+# Jan Plan 2017
+# CS269
+# 1/10/17
+
+import pygame, os, sys
+
 class Beams():
 
-	def __init__(self, position, color, height, width, speed):
+	def __init__(self, position, color, width, height, speed):
+	
 		self.position = position
-		self.x = position[0]
-		self.y = position[1]
+		self.x = self.position[0]
+		self.y = self.position[1]
 		self.color = color
 		self.speed = speed
 		self.height = height
 		self.width = width
 		self.beam = pygame.Rect((self.x-self.width/2,self.y-self.height/2), (self.width, self.height))
-
 		
 	def setPosition(self, position):
 		self.position = position
@@ -22,19 +29,48 @@ class Beams():
 		
 	def getColor(self):
 		return self.color
-	
-# this update method will work if we use an image for the beam, otherwise, we need a differetn update method
-#     def update(self, surface):
-#         ### Draws the beam at the selected area ###
-#         surface.blit(self.beam,(self.x,self.y))
+        
+	def draw(self, surface):
+		pygame.draw.rect(surface, self.color, self.obstacle)
+		
+	def moveObs(self, speed, surface):
 
-# moveObs is incomplete
-	
-    	def moveObs(self, speed):
-    		def moveObs(self, speed, surface):
+		surface.fill((255, 255, 255), self.obstacle)	# fill a surface with the obstacle on a white background
+		self.obstacle.move_ip(self.speed, 0)	# change the object's internal position
 
-		self.x += self.speed
-		self.obstacle.move(self.x, 0)
-		#self.obstacle.draw(surface)
-		#pygame.draw.(surface)
-		self.draw(surface)
+		self.draw(surface)    # redraw the obstacle at its new position on the display
+		
+		
+# ------------- Test code ----------------------------------------------------------------
+		
+pygame.init()
+screen = pygame.display.set_mode((800, 600))
+
+
+# color options 
+
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+BLUE = (0,0,255)
+
+myObstacle = Obstacle([500, 500], BLUE, 40, 280, -5)	# create the obstacle object
+
+clock = pygame.time.Clock()	# initialize pygame's internal clock
+screen.fill((255,255,255))	# fill the screen with a white background
+
+
+myObstacle.draw(screen)	# draw the obstacle to the screen
+print "entering main loop"
+
+while 1: #Main loop
+
+	myObstacle.moveObs(-5, screen)	# move the obstacle leftwards
+	
+	pygame.display.update([myObstacle.obstacle]) # update the location of the obstacle on the screen
+	
+	for event in pygame.event.get():
+		if event.type == pygame.QUIT:
+			print "terminating"
+			sys.exit()
+			break
+	clock.tick(60) # 60 fps
