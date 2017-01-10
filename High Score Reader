@@ -13,8 +13,7 @@ def getHighScores(playerscore = -1):
 	
 	retString = ''
 	for score in scorelist:
-		retString += score
-		retString += '\n'		
+		retString += score + '\n'		
 	
 	fp = file( HighScoreFile.txt, 'w')
 	fp.write()
