@@ -17,7 +17,7 @@ pygame.mixer.init()
 pygame.init()
 pygame.font.init()
 
-screen = pygame.display.set_mode((640, 480))
+screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
 clock = pygame.time.Clock()
 hoverSound = pygame.mixer.Sound( "sound/click.wav" )
 clickSound = pygame.mixer.Sound( "sound/pop.wav" )
