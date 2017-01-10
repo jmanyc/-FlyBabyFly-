@@ -1,13 +1,16 @@
 import random
 
 def getQuote():	
-	fp = file(Quotes.txt) #reads the file
+	fp = file('Quotes.txt') #reads the file
 	lines = fp.readlines() #reads lines and creates an array of lines
 	fp.close() 
 	quoteslist = []
 	for line in lines:
-		if line != ''
-		quoteslist.append(line)
-        quote = random.choice(quoteslist)
+		if line != '':
+			quoteslist.append(line)
+        	quote = random.choice(quoteslist)
 		
 	return quote
+	
+if __name__ == "__main__":
+	print getQuote()
