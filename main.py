@@ -8,7 +8,6 @@
 import pygame
 import sys
 import avatar
-from time import sleep
 
 pygame.mixer.pre_init(44100, -16, 2, 2048)
 pygame.mixer.init()
@@ -21,8 +20,8 @@ infoObject = pygame.display.Info()
 screen = pygame.display.set_mode((infoObject.current_w, infoObject.current_h), pygame.FULLSCREEN) # Here are the old falues (1366, 768)
 
 clock = pygame.time.Clock()
-hoverSound = pygame.mixer.Sound( "sound/click.wav" )
-clickSound = pygame.mixer.Sound( "sound/pop.wav" )
+hoverSound = pygame.mixer.Sound( "Sounds/click.wav" )
+clickSound = pygame.mixer.Sound( "Sounds/pop.wav" )
 gameState = 0
 squirrel = pygame.image.load( "squirrel.png" ).convert_alpha()
 class MenuLabel():
@@ -83,24 +82,26 @@ screen.fill((40,80,160)) #BKG
 # varName = MenuLable("Text", "Font-Style", BkgColor of Box, Text Color, fontSize, Position, gamestate it points to)
 
 #Main Menu
-start = MenuLabel("Start Game", "Helvetica", (100,100,100),(0,0,0),26,(300,100),1)
-instruction = MenuLabel("Instructions", "Helvetica", (100,100,100),(0,0,0),26,(300,180),2)
-credits = MenuLabel("Credits", "Helvetica", (100,100,100),(0,0,0),26,(300,260),3)
-quit = MenuLabel("Quit", "Helvetica", (100,100,100),(0,0,0),26,(300,340),4)
-mainMenu = [start, credits, quit, instruction] #Main Menu Labels
+title = MenuLabel("Fly Baby, Fly", "Helvetica", (100,100,100),(255,255,51),42,(300,100),100)
+start = MenuLabel("Start Game", "Helvetica", (100,100,100),(0,0,0),26,(300,200),1)
+instruction = MenuLabel("Instructions", "Helvetica", (100,100,100),(0,0,0),26,(300,280),2)
+mainQuit = MenuLabel("Quit", "Helvetica", (100,100,100),(0,0,0),26,(300,360),4)
+mainMenu = [start, mainQuit, instruction] #Main Menu Labels
 
 #Credits
 cast = MenuLabel("THE CREW", "Helvetica", (100,100,100),(0,0,0),48,(300,180),100)
+lossBack = MenuLabel("Back", "Helvetica", (100,100,100),(0,0,0),24,(420,80),5)
 
 #Instructions
 help = MenuLabel("Press Spacebar to increase your upward speed!", "Helvetica", (100,100,100),(0,0,0),24,(320,180),100)
-back = MenuLabel("Backspace to go back", "Helvetica", (100,100,100),(0,0,0),24,(400,80),100)
+mainBack = MenuLabel("Back", "Helvetica", (100,100,100),(0,0,0),24,(420,80),0)
 
 #Loss Screen
-restart = MenuLabel("Retry!", "Helvetica", (100,100,100),(0,0,0),32,(300,100),1)
-main = MenuLabel("Main Menu", "Helvetica", (100,100,100),(0,0,0),32,(300,180),0)
-lossMenu = [restart, credits, quit, main]
-
+credits = MenuLabel("Credits", "Helvetica", (100,100,100),(0,0,0),26,(300,260),3)
+restart = MenuLabel("Retry!", "Helvetica", (100,100,100),(0,0,0),26,(300,100),1)
+main = MenuLabel("Main Menu", "Helvetica", (100,100,100),(0,0,0),26,(300,180),0)
+lossQuit = MenuLabel("Quit", "Helvetica", (100,100,100),(0,0,0),26,(300,340),4)
+lossMenu = [restart, credits, lossQuit, main]
 
 justClicked = False #Boolean so we can't double click options in the menu
 flier = avatar.Avatar()
@@ -110,6 +111,7 @@ while 1:#Main loop
 		screen.fill((40,80,160))
 		mouse = pygame.mouse.get_pos() # Position of the mouse, gets refreshed every tick
 		screen.blit(squirrel,(500,50))
+		title.update(screen)
 		for item in mainMenu:
 			if item.hover((mouse[0],mouse[1])) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
 				# If hovering over the item, and a button is clicked, go to the state the button is linked to. 
@@ -140,7 +142,7 @@ while 1:#Main loop
 	elif gameState == 2: #Instructions
 		screen.fill((40,80,160))
 		help.update(screen)
-		back.update(screen)
+		mainBack.update(screen)
 		key = pygame.key.get_pressed()
 		if key[pygame.K_BACKSPACE]:
 			clickSound.play()
@@ -149,18 +151,18 @@ while 1:#Main loop
 	elif gameState == 3: #Credits
 		screen.fill((40,80,160))
 		cast.update(screen)
-		back.update(screen)
+		lossBack.update(screen)
 		key = pygame.key.get_pressed()
 		if key[pygame.K_BACKSPACE]:
 			clickSound.play()
-			gameState = 0
+			gameState = 5
 			
 	elif gameState == 4: #Quit
 		pygame.quit()
 		sys.exit()
 		
 	elif gameState == 5: #Loss Screen
-		screen.fill((40,80,160))
+		
 		mouse = pygame.mouse.get_pos() # Position of the mouse, gets refreshed every tick
 		for item in lossMenu:
 			if item.hover((mouse[0],mouse[1])) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
