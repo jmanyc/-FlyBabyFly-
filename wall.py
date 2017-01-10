@@ -59,7 +59,6 @@ class Wall(Obstacle):
 		pygame.draw.rect(surface, self.section1color, self.section1.obstacle)
 		pygame.draw.rect(surface, self.section2color, self.section2.obstacle)
 		pygame.draw.rect(surface, self.section3color, self.section3.obstacle)
-
 		
 	def moveWall(self, speed, surface):
 		for section in self.sub_wallSections:
