@@ -20,11 +20,10 @@ infoObject = pygame.display.Info()
 screen = pygame.display.set_mode((infoObject.current_w, infoObject.current_h), pygame.FULLSCREEN) # Here are the old falues (1366, 768)
 
 clock = pygame.time.Clock()
-hoverSound = pygame.mixer.Sound( "Sounds/click.wav" )
-clickSound = pygame.mixer.Sound( "Sounds/pop.wav" )
-backgroundMusic = pygame.mixer.Sound( "Sounds/background.mp3" )
+hoverSound = pygame.mixer.Sound( "Assets/sound/click.wav" )
+clickSound = pygame.mixer.Sound( "Assets/sound/pop.wav" )
 gameState = 0
-squirrel = pygame.image.load( "squirrel.png" ).convert_alpha()
+squirrel = pygame.image.load( "Assets/img/squirrelPilot.png" ).convert_alpha()
 class MenuLabel():
 	def __init__(self, text, font, bkgColor, fontColor, fontSize, (x,y), state):
 		### Storing all the important text information ###
@@ -83,30 +82,30 @@ screen.fill((40,80,160)) #BKG
 # varName = MenuLable("Text", "Font-Style", BkgColor of Box, Text Color, fontSize, Position, gamestate it points to)
 
 #Main Menu
-title = MenuLabel("Fly Baby, Fly", "Helvetica", (100,100,100),(255,255,51),42,(300,100),100)
-start = MenuLabel("Start Game", "Helvetica", (100,100,100),(0,0,0),26,(300,200),1)
-instruction = MenuLabel("Instructions", "Helvetica", (100,100,100),(0,0,0),26,(300,280),2)
-mainQuit = MenuLabel("Quit", "Helvetica", (100,100,100),(0,0,0),26,(300,360),4)
+title = MenuLabel("Fly Baby, Fly", "Comic Sans MS", (100,100,100),(255,255,51),42,(300,100),100)
+start = MenuLabel("Start Game", "Comic Sans MS", (100,100,100),(0,0,0),26,(300,200),1)
+instruction = MenuLabel("Instructions", "Comic Sans MS", (100,100,100),(0,0,0),26,(300,280),2)
+mainQuit = MenuLabel("Quit", "Comic Sans MS", (100,100,100),(0,0,0),26,(300,360),4)
 mainMenu = [start, mainQuit, instruction] #Main Menu Labels
 
 #Credits
-cast = MenuLabel("THE CREW", "Helvetica", (100,100,100),(0,0,0),48,(300,180),100)
-lossBack = MenuLabel("Back", "Helvetica", (100,100,100),(0,0,0),24,(420,80),5)
+cast = MenuLabel("THE CREW", "Comic Sans MS", (100,100,100),(0,0,0),48,(300,180),100)
+lossBack = MenuLabel("Back", "Comic Sans MS", (100,100,100),(0,0,0),24,(420,80),5)
 
 #Instructions
-help = MenuLabel("Press Spacebar to increase your upward speed!", "Helvetica", (100,100,100),(0,0,0),24,(320,180),100)
-mainBack = MenuLabel("Back", "Helvetica", (100,100,100),(0,0,0),24,(420,80),0)
+help = MenuLabel("Press Spacebar to increase your upward speed!", "Comic Sans MS", (100,100,100),(0,0,0),24,(320,180),100)
+mainBack = MenuLabel("Back", "Comic Sans MS", (100,100,100),(0,0,0),24,(420,80),0)
 
 #Loss Screen
-credits = MenuLabel("Credits", "Helvetica", (100,100,100),(0,0,0),26,(300,260),3)
-restart = MenuLabel("Retry!", "Helvetica", (100,100,100),(0,0,0),26,(300,100),1)
-main = MenuLabel("Main Menu", "Helvetica", (100,100,100),(0,0,0),26,(300,180),0)
-lossQuit = MenuLabel("Quit", "Helvetica", (100,100,100),(0,0,0),26,(300,340),4)
+credits = MenuLabel("Credits", "Comic Sans MS", (100,100,100),(0,0,0),26,(300,260),3)
+restart = MenuLabel("Retry!", "Comic Sans MS", (100,100,100),(0,0,0),26,(300,100),1)
+main = MenuLabel("Main Menu", "Comic Sans MS", (100,100,100),(0,0,0),26,(300,180),0)
+lossQuit = MenuLabel("Quit", "Comic Sans MS", (100,100,100),(0,0,0),26,(300,340),4)
 lossMenu = [restart, credits, lossQuit, main]
 
 justClicked = False #Boolean so we can't double click options in the menu
 flier = avatar.Avatar()
-pygame.mixer.music.load("Sounds/background.mp3")
+pygame.mixer.music.load("Assets/sound/background.mp3")
 pygame.mixer.music.play(-1)
 while 1:#Main loop
 	if gameState == 0: #Start Menu
@@ -120,7 +119,8 @@ while 1:#Main loop
 				# If hovering over the item, and a button is clicked, go to the state the button is linked to. 
 				clickSound.play()
 				gameState = item.getState()
-				if gameState == 1:
+				if gameState == 1: #If you add anything to this if statement, add it to the retry menu too
+					pygame.mixer.music.set_volume(0.4)
 					# Reseting the avatar game, had to call it flier because naming it avatar, along with the avatar file was messy
 					flier = avatar.Avatar()
 				break
@@ -138,6 +138,7 @@ while 1:#Main loop
 		flier.update(screen) # updates the position of the avatar on the screen
 	
 		if flier.getAlive() == False:
+			pygame.mixer.music.set_volume(1.0)
 			gameState = 5 #goto loss screen 
 			
 	
@@ -173,6 +174,7 @@ while 1:#Main loop
 				clickSound.play()
 				gameState = item.getState()
 				if gameState == 1:
+					pygame.mixer.music.set_volume(0.4)
 					# Reseting the avatar game, had to call it flier because naming it avatar, along with the avatar file was messy
 					flier = avatar.Avatar()
 				justClicked = pygame.mouse.get_pressed()[0]

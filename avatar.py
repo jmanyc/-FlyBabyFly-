@@ -11,9 +11,9 @@ Colors = enum(RED = (255,0,0), GREEN = (0,255,0), BLUE = (0,0,255))
 class Avatar(): 
 	def __init__(self):
 		self.infoObject = pygame.display.Info()
-		self.crashSound = pygame.mixer.Sound( "Sounds/hit_obstacle.wav" )
+		self.crashSound = pygame.mixer.Sound( "Assets/sound/hit_obstacle.wav" )
 		### Starts with Red Image ###
-		self.image = pygame.image.load( "Red.png" ).convert_alpha()
+		self.image = pygame.image.load( "Assets/img/Red.png" ).convert_alpha()
 		self.x = self.infoObject.current_w/12 # initial spawn of the image
 		self.y = self.infoObject.current_h/12
 		### Setting the upper and lower limits so it stays on screen ###
@@ -34,13 +34,13 @@ class Avatar():
 			### Color of Avatar changed depending on arrow key pressed & image swapped out ###
 			if key[pygame.K_1] :
 				self.color = Colors.RED
-				self.image = pygame.image.load( "Red.png" ).convert_alpha()
+				self.image = pygame.image.load( "Assets/img/Red.png" ).convert_alpha()
 			if key[pygame.K_2] :
 				self.color = Colors.GREEN
-				self.image = pygame.image.load( "Green.png" ).convert_alpha()
+				self.image = pygame.image.load( "Assets/img/Green.png" ).convert_alpha()
 			if key[pygame.K_3] :
 				self.color = Colors.BLUE
-				self.image = pygame.image.load( "Blue.png" ).convert_alpha()
+				self.image = pygame.image.load( "Assets/img/Blue.png" ).convert_alpha()
 
 		else:
 			if self.crashing == False: #As we haven't changed it yet, this way we do it only once and the falling is smooth
