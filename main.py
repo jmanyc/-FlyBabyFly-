@@ -122,10 +122,11 @@ lossQuit = MenuLabel("Quit", "Comic Sans MS", (100,100,100),(0,0,0),26,(300,340)
 lossMenu = [restart, credits, lossQuit, main]
 
 
-imageBkg = pygame.image.load( "Assets/img/HouseNoGrass.png" ).convert_alpha()
-imageBkg = pygame.transform.scale(imageBkg,(screenWidth,screenHeight))
+imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseNoGrass.png" ).convert_alpha(),(screenWidth,screenHeight))
+grass = pygame.transform.scale(pygame.image.load("Assets/img/Grass.png").convert_alpha(),(screenWidth/2,screenHeight/2))
+
 justClicked = False #Boolean so we can't double click options in the menu
-flier = avatar.Avatar()
+flier = avatar.Avatar(screenWidth, screenHeight)
 counter = 0
 objectList = []
 RED = (255, 0, 0)
@@ -147,7 +148,7 @@ while 1:#Main loop
 				if gameState == 1: #If you add anything to this if statement, add it to the retry menu too
 					pygame.mixer.music.set_volume(0.4)
 					# Reseting the avatar game, had to call it flier because naming it avatar, along with the avatar file was messy
-					flier = avatar.Avatar()
+					flier = avatar.Avatar(screenWidth, screenHeight)
 				break
 			
 			item.update(screen)
@@ -156,6 +157,7 @@ while 1:#Main loop
 	
 	elif gameState == 1: #The actual game looping part
 		screen.blit(imageBkg,(0,0))
+		screen.blit(grass,(0,0))
 		counter+=1
 		tempList = []
 		if counter %100 == 0:
@@ -222,7 +224,7 @@ while 1:#Main loop
 				if gameState == 1:
 					pygame.mixer.music.set_volume(0.4)
 					# Reseting the avatar game, had to call it flier because naming it avatar, along with the avatar file was messy
-					flier = avatar.Avatar()
+					flier = avatar.Avatar(screenWidth, screenHeight)
 				justClicked = pygame.mouse.get_pressed()[0]
 				
 				break

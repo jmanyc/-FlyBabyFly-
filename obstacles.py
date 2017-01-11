@@ -16,13 +16,7 @@ class Obstacle():
 		self.speed = speed
 		self.height = height
 		self.width = width
-<<<<<<< HEAD
 		self.obstacle = pygame.Rect((self.x,self.y), (self.width, self.height))
-		
-=======
-		self.obstacle = pygame.Rect((self.x-self.width/2,self.y-self.height/2), (self.width, self.height))
-		#self.leftSide = self.x
->>>>>>> origin/master
 		
 	def setPosition(self, position):
 		self.position = position

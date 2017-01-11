@@ -9,17 +9,22 @@ def enum(**enums):
 Colors = enum(RED = (255,0,0), GREEN = (0,255,0), BLUE = (0,0,255))
 
 class Avatar(): 
-	def __init__(self):
+	def __init__(self, screenWidth, screenHeight):
 		self.infoObject = pygame.display.Info()
 		self.crashSound = pygame.mixer.Sound( "Assets/sound/hit_obstacle.wav" )
 		### Starts with Red Image ###
-		self.image = pygame.image.load( "Assets/img/Red.png" ).convert_alpha()
+		self.imageScale = (screenWidth/17, screenHeight/10)
+		self.image = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelWhitePlane.png" ).convert_alpha(), self.imageScale)
+		self.redImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelRedPlane.png" ).convert_alpha(), self.imageScale)
+		self.blueImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelBluePlane.png" ).convert_alpha(), self.imageScale)
+		self.greenImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelGreenPlane.png" ).convert_alpha(), self.imageScale)
+		
 		self.image_c = self.image.get_rect()	#
-		self.x = self.infoObject.current_w/12 # initial spawn of the image
-		self.y = self.infoObject.current_h/12
+		self.x = screenWidth/12 # initial spawn of the image
+		self.y = screenHeight/4
 		### Setting the upper and lower limits so it stays on screen ###
-		self.topLimit = self.infoObject.current_h/14 
-		self.bottomLimit = self.infoObject.current_h * .8
+		self.topLimit = screenHeight/8 
+		self.bottomLimit = screenHeight*7/8 - self.image.get_height()
 		self.curSpeed = 0 #current speed of the avatar
 		self.gravity = 0.12 #the gravity setting on the avatar, remember this number is added to the speed every tick, so 60 times a second
 		self.alive = True #Used to control the gameState
@@ -35,13 +40,13 @@ class Avatar():
 			### Color of Avatar changed depending on arrow key pressed & image swapped out ###
 			if key[pygame.K_1] :
 				self.color = Colors.RED
-				self.image = pygame.image.load( "Assets/img/Red.png" ).convert_alpha()
+				self.image = self.redImage
 			if key[pygame.K_2] :
 				self.color = Colors.GREEN
-				self.image = pygame.image.load( "Assets/img/Green.png" ).convert_alpha()
+				self.image = self.greenImage
 			if key[pygame.K_3] :
 				self.color = Colors.BLUE
-				self.image = pygame.image.load( "Assets/img/Blue.png" ).convert_alpha()
+				self.image = self.blueImage
 
 		else:
 			if self.crashing == False: #As we haven't changed it yet, this way we do it only once and the falling is smooth
@@ -82,7 +87,7 @@ class Avatar():
 		surface.blit(self.image,(self.x,self.y))
 		
 	def getPosition(self):
-		return self.x + self.infoObject.current_w/12
+		return self.x + screenWidth/12 # Talk to austin about this
 		
 	###def setAvatar(self, image):	  Idea for later
 	
@@ -92,7 +97,7 @@ class Avatar():
 # 				print 'COLLIDED'
 # 				self.setColor(rect.getColor)
 # 				
- 	def checkCollisions(self, sprite1, sprite2):
+ 	#def checkCollisions(self, sprite1, sprite2):
  		
 		
 				
