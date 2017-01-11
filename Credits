@@ -11,12 +11,12 @@ DJ (Art Assistance): Dean
 
 Special Thanks to: Bruce "Not CIA" Maxwell
 
-Producer = MenuLabel("He's a People Person (Producer): Chris Marcello", "Comic Sans MS", (100,100,100),(0,0,0), 26, (300,400), 100)
-Designer = MenuLabel("Man with Vision (Designer): James Lindberg", "Comic Sans MS", (100,100,100),(0,0,0), 26, (300,360), 100)
-Programmer = MenuLabel("Hackerman (Lead Programmer): Lucas DeGraw", "Comic Sans MS", (100,100,100),(0,0,0), 26, (300,320), 100)
-Artist = MenuLabel("Frida Kahlo + GIMP (Lead Artist): Riley Karp", "Comic Sans MS", (100,100,100),(0,0,0), 26, (300,280), 100)
-Sound = MenuLabel("Mariachi (Lead Sound Design): Jerry Diaz ", "Comic Sans MS", (100,100,100),(0,0,0), 26, (300,240), 100)
-Gamer = MenuLabel("Gamer (Quality Assurance): Austin Nantkees", "Comic Sans MS", (100,100,100),(0,0,0), 26, (300,200), 100)
-Knife = MenuLabel("Swiss Army Knife (Multirole): Jon", "Comic Sans MS", (100,100,100),(0,0,0), 26, (300,160), 100)
-DJ = MenuLabel("DJ (Art Assistance): Dean", "Comic Sans MS", (100,100,100),(0,0,0), 26, (300, 120), 100)
-Bruce = MenuLabel("Special Thanks to: Bruce (Totally Not CIA) Maxwell","Comic Sans MS",(100,100,100),(0,0,0),26,(300, 80),100)
+Producer = MenuLabel("He's a People Person (Producer): Chris Marcello", "Comic Sans MS", (100,100,100),(0,0,0), 26, (400, 100), 100)
+Designer = MenuLabel("Man with Vision (Designer): James Lindberg", "Comic Sans MS", (100,100,100),(0,0,0), 26, (400, 160), 100)
+Programmer = MenuLabel("Hackerman (Lead Programmer): Lucas DeGraw", "Comic Sans MS", (100,100,100),(0,0,0), 26, (400, 220), 100)
+Artist = MenuLabel("Frida Kahlo + GIMP (Lead Artist): Riley Karp", "Comic Sans MS", (100,100,100),(0,0,0), 26, (400,280), 100)
+Sound = MenuLabel("Mariachi (Lead Sound Design): Jerry Diaz ", "Comic Sans MS", (100,100,100),(0,0,0), 26, (400,340), 100)
+Gamer = MenuLabel("Gamer (Quality Assurance): Austin Nantkees", "Comic Sans MS", (100,100,100),(0,0,0), 26, (400,400), 100)
+Knife = MenuLabel("Swiss Army Knife (Multirole): Jon", "Comic Sans MS", (100,100,100),(0,0,0), 26, (400,460), 100)
+DJ = MenuLabel("DJ (Art Assistance): Dean", "Comic Sans MS", (100,100,100),(0,0,0), 26, (400, 520), 100)
+Bruce = MenuLabel("Special Thanks to: Bruce (Totally Not CIA) Maxwell","Comic Sans MS",(100,100,100),(0,0,0),26,(400, 600),100)
