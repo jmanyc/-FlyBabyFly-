@@ -8,6 +8,7 @@
 import pygame
 import sys
 import avatar
+from wall import Wall
 
 pygame.mixer.pre_init(44100, -16, 2, 2048)
 pygame.mixer.init()
@@ -16,14 +17,18 @@ pygame.mixer.init()
 pygame.init()
 pygame.font.init()
 infoObject = pygame.display.Info()
-
-screen = pygame.display.set_mode((infoObject.current_w, infoObject.current_h), pygame.FULLSCREEN) # Here are the old falues (1366, 768)
+screenWidth = infoObject.current_w
+screenHeight = infoObject.current_h
+print screenWidth
+print screenHeight
+screen = pygame.display.set_mode((screenWidth, screenHeight), pygame.FULLSCREEN)
 
 clock = pygame.time.Clock()
 hoverSound = pygame.mixer.Sound( "Assets/sound/click.wav" )
 clickSound = pygame.mixer.Sound( "Assets/sound/pop.wav" )
 gameState = 0
 squirrel = pygame.image.load( "Assets/img/squirrelPilot.png" ).convert_alpha()
+
 class MenuLabel():
 	def __init__(self, text, font, bkgColor, fontColor, fontSize, (x,y), state):
 		### Storing all the important text information ###
@@ -50,7 +55,7 @@ class MenuLabel():
 		
 	def hover(self, (x,y)):
 		### Used to tell if the cursor is hovering over a button ###
-		if (x>=self.x - self.width/6 and x <= self.x + self.width*7/6) and (y >= self.y -self.height/4 and y <= self.y + self.height*5/4):
+		if (x>=self.x - self.width/8 and x <= self.x + self.width*9/8) and (y >= self.y -self.height/4 and y <= self.y + self.height*5/4):
             ### Creates a box that checks if the inputted coords are inside this box's space ###
 			if self.hoverOnce == False: # So we
 				self.hoverOnce = True
@@ -66,8 +71,8 @@ class MenuLabel():
 		return self.state
 	
 	def update(self, screen):
-		pygame.draw.rect( screen, (0,0,0), pygame.Rect( (self.x - self.width/8, self.y-self.height/8), (self.width*8/6, self.height*6/4) ) )
-		pygame.draw.rect( screen, self.bkgColor, pygame.Rect( (self.x - self.width/6, self.y-self.height/4), (self.width*8/6, self.height*6/4) ) )
+		pygame.draw.rect( screen, (0,0,0), pygame.Rect( (self.x - self.width/8 + 7, self.y-self.height/4 + 7), (self.width*10/8, self.height*6/4) ) ) #box-Shadow
+		pygame.draw.rect( screen, self.bkgColor, pygame.Rect( (self.x - self.width/8, self.y-self.height/4), (self.width*10/8, self.height*6/4) ) )
 		screen.blit( self.cText, (self.x, self.y) )
 			
 			### 0 = menu loop
@@ -75,6 +80,7 @@ class MenuLabel():
 			### 2 = Instructions
 			### 3 = Credits
 			### 4 = Quit Game
+			### 5 = Loss Screen
 		
 screen.fill((40,80,160)) #BKG
 
@@ -89,12 +95,22 @@ mainQuit = MenuLabel("Quit", "Comic Sans MS", (100,100,100),(0,0,0),26,(300,360)
 mainMenu = [start, mainQuit, instruction] #Main Menu Labels
 
 #Credits
-cast = MenuLabel("THE CREW", "Comic Sans MS", (100,100,100),(0,0,0),48,(300,180),100)
-lossBack = MenuLabel("Back", "Comic Sans MS", (100,100,100),(0,0,0),24,(420,80),5)
+Producer = MenuLabel("He's a People Person (Producer): Chris Marcello", "Comic Sans MS", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8), 100)
+Designer = MenuLabel("Man with Vision (Designer): James Lindberg", "Comic Sans MS", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 70), 100)
+Programmer = MenuLabel("Hackerman (Lead Programmer): Lucas DeGraw", "Comic Sans MS", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 140), 100)
+Artist = MenuLabel("Frida Kahlo + GIMP (Lead Artist): Riley Karp", "Comic Sans MS", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 210), 100)
+Sound = MenuLabel("Mariachi (Lead Sound Design): Jerry Diaz ", "Comic Sans MS", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 280), 100)
+Gamer = MenuLabel("Gamer (Quality Assurance): Austin Nantkees", "Comic Sans MS", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 350), 100)
+Knife = MenuLabel("Swiss Army Knife (Multirole): Jon", "Comic Sans MS", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 420), 100)
+DJ = MenuLabel("DJ (Art Assistance): Dean", "Comic Sans MS", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 490), 100)
+Bruce = MenuLabel("Special Thanks to: Bruce (Totally Not CIA) Maxwell","Comic Sans MS",(100,100,100),(0,0,0),26,(screenWidth/2, screenHeight/8 + 560),100)
+
+lossBack = MenuLabel("Back", "Comic Sans MS", (100,100,100),(0,0,0),24,(screenWidth*8/9,screenHeight/11),5)
+creditsMenu = [Producer, Designer, Programmer, Artist, Sound, Gamer, Knife, DJ, Bruce, lossBack]
 
 #Instructions
-help = MenuLabel("Press Spacebar to increase your upward speed!", "Comic Sans MS", (100,100,100),(0,0,0),24,(320,180),100)
-mainBack = MenuLabel("Back", "Comic Sans MS", (100,100,100),(0,0,0),24,(420,80),0)
+help = MenuLabel("Press Spacebar to increase your upward speed!", "Comic Sans MS", (100,100,100),(0,0,0),24,(screenWidth/2,screenHeight/3),100)
+mainBack = MenuLabel("Back", "Comic Sans MS", (100,100,100),(0,0,0),24,(screenWidth*6/7,screenHeight/7),0)
 
 #Loss Screen
 credits = MenuLabel("Credits", "Comic Sans MS", (100,100,100),(0,0,0),26,(300,260),3)
@@ -144,19 +160,22 @@ while 1:#Main loop
 	
 	elif gameState == 2: #Instructions
 		screen.fill((40,80,160))
+		mouse = pygame.mouse.get_pos()
 		help.update(screen)
 		mainBack.update(screen)
 		key = pygame.key.get_pressed()
-		if key[pygame.K_BACKSPACE]:
+		if key[pygame.K_BACKSPACE] or (mainBack.hover((mouse[0],mouse[1])) == True and pygame.mouse.get_pressed()[0]):
 			clickSound.play()
 			gameState = 0
 			
+			
 	elif gameState == 3: #Credits
 		screen.fill((40,80,160))
-		cast.update(screen)
-		lossBack.update(screen)
+		mouse = pygame.mouse.get_pos()
+		for item in creditsMenu:
+			item.update(screen)
 		key = pygame.key.get_pressed()
-		if key[pygame.K_BACKSPACE]:
+		if key[pygame.K_BACKSPACE] or (lossBack.hover((mouse[0],mouse[1])) == True and pygame.mouse.get_pressed()[0]):
 			clickSound.play()
 			gameState = 5
 			screen.fill((40,80,160))
