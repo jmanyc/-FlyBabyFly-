@@ -5,7 +5,7 @@
 
 import pygame, os, sys
 
-class Beams():
+class Beam():
 
 	def __init__(self, position, color, width, height, speed):
 	
@@ -31,12 +31,12 @@ class Beams():
 		return self.color
         
 	def draw(self, surface):
-		pygame.draw.rect(surface, self.color, self.obstacle)
+		pygame.draw.rect(surface, self.color, self.beam)
 		
-	def moveObs(self, speed, surface):
+	def moveBeam(self, speed, surface):
 
-		surface.fill((255, 255, 255), self.obstacle)	# fill a surface with the obstacle on a white background
-		self.obstacle.move_ip(self.speed, 0)	# change the object's internal position
+		surface.fill((255, 255, 255), self.beam)	# fill a surface with the obstacle on a white background
+		self.beam.move_ip(self.speed, 0)	# change the object's internal position
 
 		self.draw(surface)    # redraw the obstacle at its new position on the display
 		
@@ -53,20 +53,20 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0,0,255)
 
-myObstacle = Obstacle([500, 500], BLUE, 40, 280, -5)	# create the obstacle object
+myBeam = Beam([500, 300], BLUE, 40, 800, -5)	# create the obstacle object
 
 clock = pygame.time.Clock()	# initialize pygame's internal clock
 screen.fill((255,255,255))	# fill the screen with a white background
 
 
-myObstacle.draw(screen)	# draw the obstacle to the screen
+myBeam.draw(screen)	# draw the obstacle to the screen
 print "entering main loop"
 
 while 1: #Main loop
 
-	myObstacle.moveObs(-5, screen)	# move the obstacle leftwards
+	myBeam.moveBeam(-5, screen)	# move the obstacle leftwards
 	
-	pygame.display.update([myObstacle.obstacle]) # update the location of the obstacle on the screen
+	pygame.display.update([myBeam.beam]) # update the location of the obstacle on the screen
 	
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
