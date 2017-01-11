@@ -192,7 +192,6 @@ while 1:#Main loop
 		
 		
 		flier.update(screen)
-		pygame.display.update()
 		 # updates the position of the avatar on the screen
 	
 		if flier.getAlive() == False: #if the flier is dead
