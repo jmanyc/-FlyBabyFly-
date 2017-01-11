@@ -107,7 +107,7 @@ class Avatar():
 if __name__ == "__main__":
 	pygame.init()
 	screen = pygame.display.set_mode((800, 600))
-	avatar = Avatar()
+	avatar = Avatar(800,600)
 	heights = []	# put the heights of the three blocks in a list (in the main loop the section
 	heights.extend([150, 150, 150]) # \ heights will vary while the wall sections remain adjacent)
 	myWall = Wall(Colors.BLUE, [500, 125], [500, 275], [500,425], Colors.RED, Colors.GREEN, Colors.BLUE, heights)	# create the Wall object
