@@ -19,13 +19,15 @@ pygame.font.init()
 infoObject = pygame.display.Info()
 screenWidth = infoObject.current_w
 screenHeight = infoObject.current_h
-print screenWidth
-print screenHeight
+
 screen = pygame.display.set_mode((screenWidth, screenHeight), pygame.FULLSCREEN)
 
 clock = pygame.time.Clock()
 hoverSound = pygame.mixer.Sound( "Assets/sound/click.wav" )
 clickSound = pygame.mixer.Sound( "Assets/sound/pop.wav" )
+pygame.mixer.music.load("Assets/sound/background.mp3")
+pygame.mixer.music.play(-1)
+
 gameState = 0
 squirrel = pygame.image.load( "Assets/img/squirrelPilot.png" ).convert_alpha()
 
@@ -119,10 +121,17 @@ main = MenuLabel("Main Menu", "Comic Sans MS", (100,100,100),(0,0,0),26,(300,180
 lossQuit = MenuLabel("Quit", "Comic Sans MS", (100,100,100),(0,0,0),26,(300,340),4)
 lossMenu = [restart, credits, lossQuit, main]
 
+
+imageBkg = pygame.image.load( "Assets/img/HouseNoGrass.png" ).convert_alpha()
+imageBkg = pygame.transform.scale(imageBkg,(screenWidth,screenHeight))
 justClicked = False #Boolean so we can't double click options in the menu
 flier = avatar.Avatar()
-pygame.mixer.music.load("Assets/sound/background.mp3")
-pygame.mixer.music.play(-1)
+counter = 0
+objectList = []
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+BLUE = (0,0,255)
+
 while 1:#Main loop
 	if gameState == 0: #Start Menu
 		# handle every event since the last frame.
@@ -146,15 +155,33 @@ while 1:#Main loop
 			
 	
 	elif gameState == 1: #The actual game looping part
+		screen.blit(imageBkg,(0,0))
+		counter+=1
+		tempList = []
+		if counter %100 == 0:
+			myWall = Wall(BLUE, screenWidth, screenHeight)	# create the Wall object
+			objectList.append(myWall)
 		flier.keyPressed() # handles pressing keys, now if we need to speed up our program work on this
 		flier.applyGravity() # calls the simulated gravity function of avatar
-		screen.fill((255,255,255))# white background on the screen
-		#Create an iterator here to move each object/obstacle
+		#screen.fill((255,255,255))# white background on the screen
 		
-		flier.update(screen) # updates the position of the avatar on the screen
+		#Create an iterator here to move each object/obstacle
+		for item in objectList:
+			item.moveWall(-4, screen)
+			if item.getX > -10:
+				tempList.append(item)
+				
+		objectList = tempList
+		
+		
+		flier.update(screen)
+		pygame.display.update()
+		 # updates the position of the avatar on the screen
 	
 		if flier.getAlive() == False:
 			pygame.mixer.music.set_volume(1.0)
+			objectList = []
+			
 			gameState = 5 #goto loss screen 
 			
 	

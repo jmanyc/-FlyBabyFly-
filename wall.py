@@ -9,35 +9,36 @@ from obstacles import Obstacle
 
 class Wall(Obstacle):
 	
-	def __init__(self, lastBeamColor, pos1, pos2, pos3, color1, color2, color3, heights, speed = None):
-
-		self.width = 40 # width hardcoded because it should always be the same
-		self.heights = heights
+	
+	def __init__(self, lastBeamColor, xPos, screenHeight, speed = None):
+		self.top = screenHeight/8
+		self.obstacleHeight = screenHeight/4
+		self.width = 50 # width hardcoded because it should always be the same
 		self.speed = speed
+		self.RED = (255,0,0)
+		self.BLUE = (0,0,255)
+		self.GREEN = (0,255,0)
 		if self.speed != None:
-			self.section1 = Obstacle(pos1, color1, self.width, self.heights[0], self.speed)
-			self.section2 = Obstacle(pos2, color2, self.width, self.heights[1], self.speed)
-			self.section3 = Obstacle(pos3, color3, self.width, self.heights[2], self.speed)
+			self.section1 = Obstacle((xPos, self.top), self.RED, self.width, self.obstacleHeight, self.speed)
+			self.section2 = Obstacle((xPos, self.top + self.obstacleHeight), self.BLUE, self.width, self.obstacleHeight, self.speed)
+			self.section3 = Obstacle((xPos, self.top + self.obstacleHeight * 2), self.GREEN, self.width, self.obstacleHeight, self.speed)
 		else:
-			self.section1 = Obstacle(pos1, color1, self.width, self.heights[0])
-			self.section2 = Obstacle(pos2, color2, self.width, self.heights[1])
-			self.section3 = Obstacle(pos3, color3, self.width, self.heights[2])
+			self.section1 = Obstacle((xPos, self.top), self.RED, self.width, self.obstacleHeight)
+			self.section2 = Obstacle((xPos, self.top + self.obstacleHeight), self.BLUE, self.width, self.obstacleHeight)
+			self.section3 = Obstacle((xPos, self.top + self.obstacleHeight * 2), self.GREEN, self.width, self.obstacleHeight)
 		
-		self.sub_wallSections = []
-		self.sub_wallSections.extend([self.section1.obstacle, self.section2.obstacle, self.section3.obstacle])
+		#self.sub_wallSections = [] #edit this to do all in one line
+		#self.sub_wallSections.extend([self.section1.obstacle, self.section2.obstacle, self.section3.obstacle])
 		
 		self.wallSections = []
 		self.wallSections.extend([self.section1, self.section2, self.section3])
 		
-		self.section1color = color1
-		self.section2color = color2
-		self.section3color = color3
-		self.lastBeamColor = lastBeamColor
+		#self.lastBeamColor = lastBeamColor
 		
-		self.sectionColors = []
-		self.sectionColors.extend([self.section1color, self.section2color, self.section3color])
+		#self.sectionColors = []
+		#self.sectionColors.extend([self.section1color, self.section2color, self.section3color])
 		
-	def setSection1color(self, color):
+	"""def setSection1color(self, color):
 		self.section1color = color
 		
 	def getSection1color(self):
@@ -53,7 +54,7 @@ class Wall(Obstacle):
 		self.section3color = color
 		
 	def getSection3color(self):
-		return self.section3color
+		return self.section3color"""
 		
 # 	def draw(self, surface):
 # 		pygame.draw.rect(surface, self.section1color, self.section1.obstacle)
@@ -64,7 +65,8 @@ class Wall(Obstacle):
 		for section in self.wallSections:
 			section.moveObs(speed, surface)
 			section.draw(surface)
-
+	def getX(self):
+		return self.wallSections.getXPosition()
 	#	self.update()
 		
 	#def update(self):
