@@ -19,3 +19,4 @@ Sound = MenuLabel("Mariachi (Lead Sound Design): Jerry Diaz ", "Comic Sans MS", 
 Gamer = MenuLabel("Gamer (Quality Assurance): Austin Nantkees", "Comic Sans MS", (100,100,100),(0,0,0), 26, (300,80), 100)
 Knife = MenuLabel("Swiss Army Knife (Multirole): Jon", "Comic Sans MS", (100,100,100),(0,0,0), 26, (300,60), 100)
 DJ = MenuLabel("DJ (Art Assistance): Dean", "Comic Sans MS", (100,100,100),(0,0,0), 26, (300,40), 100)
+Bruce = MenuLabel("Special Thanks to: Bruce (Totally Not CIA) Maxwell", "Comic Sans MS", (100, 100, 100), (0,0,0), 26, (300, 20), 100)
