@@ -129,8 +129,8 @@ lossQuit = MenuLabel("Quit", "Comic Sans MS", (100,100,100),(0,0,0),26,(300,340)
 lossMenu = [restart, credits, lossQuit, main]
 
 
-imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseNoGrass.png" ).convert(),(screenWidth,screenHeight))
-grass = pygame.transform.scale(pygame.image.load("Assets/img/Grass.png").convert_alpha(),(screenWidth/3,screenHeight))
+imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseWGrass.png" ).convert(),(screenWidth,screenHeight))
+#grass = pygame.transform.scale(pygame.image.load("Assets/img/Grass.png").convert_alpha(),(screenWidth/3,screenHeight))
 
 justClicked = False #Boolean so we can't double click options in the menu
 flier = avatar.Avatar(screenWidth, screenHeight)
@@ -173,7 +173,7 @@ while 1:#Main loop
 	
 	elif gameState == 1: #The actual game looping part
 		screen.blit(imageBkg,(0,0))
-		screen.blit(grass,(0,0))
+		#screen.blit(grass,(0,0))
 		counter+=1
 		tempList = []
 		if counter % 100 == 0:
