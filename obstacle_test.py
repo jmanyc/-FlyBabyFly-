@@ -6,13 +6,13 @@
 import pygame, os, sys
 from obstacles import Obstacle
 
-# ------------- Test code ----------------------------------------------------------------
+# ------------- Obstacle Test code ----------------------------------------------------------------
 		
-pygame.init()
-screen = pygame.display.set_mode((800, 600))
+pygame.init()	# initialize pygame
+screen = pygame.display.set_mode((800, 600))	# initialize the display surface
 
 
-# color options 
+# set color options 
 
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)

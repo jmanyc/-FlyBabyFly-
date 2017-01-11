@@ -8,18 +8,18 @@ from wall import Wall
 
 # ------------- Wall Test Code -----------------------------------------------------------
 		
-pygame.init()
-screen = pygame.display.set_mode((800, 600))
+pygame.init()	# initialize pygame
+screen = pygame.display.set_mode((800, 600))	# initialize the display surface
 
-# color options 
+# set color options 
 
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0,0,255)
 
-heights = []
-heights.extend([150, 150, 150])
-myWall = Wall(BLUE, [500, 125], [500, 275], [500,425], RED, GREEN, BLUE, heights, -5)	# create the Wall object
+heights = []	# put the heights of the three blocks in a list (in the main loop the section
+heights.extend([150, 150, 150]) # \ heights will vary while the wall sections remain adjacent)
+myWall = Wall(BLUE, [500, 125], [500, 275], [500,425], RED, GREEN, BLUE, heights)	# create the Wall object
 
 clock = pygame.time.Clock()	# initialize pygame's internal clock
 screen.fill((255,255,255))	# fill the screen with a white background
@@ -31,9 +31,6 @@ print "entering main loop"
 while 1: #Main loop
 
 	myWall.moveWall(-10, screen)	# move the obstacle leftwards
-	
-#	pygame.display.update([myObstacle.obstacle]) # update the location of the obstacle on the screen
-	#myWall.update()
 	
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
