@@ -23,11 +23,11 @@ class Wall(Obstacle):
 			self.section2 = Obstacle(pos2, color2, self.width, self.heights[1])
 			self.section3 = Obstacle(pos3, color3, self.width, self.heights[2])
 		
-		self.wallSections = []
-		self.wallSections.extend([self.section1.obstacle, self.section2.obstacle, self.section3.obstacle])
-		
 		self.sub_wallSections = []
-		self.sub_wallSections.extend([self.section1, self.section2, self.section3])
+		self.sub_wallSections.extend([self.section1.obstacle, self.section2.obstacle, self.section3.obstacle])
+		
+		self.wallSections = []
+		self.wallSections.extend([self.section1, self.section2, self.section3])
 		
 		self.section1color = color1
 		self.section2color = color2
@@ -55,21 +55,23 @@ class Wall(Obstacle):
 	def getSection3color(self):
 		return self.section3color
 		
-	def draw(self, surface):
-		pygame.draw.rect(surface, self.section1color, self.section1.obstacle)
-		pygame.draw.rect(surface, self.section2color, self.section2.obstacle)
-		pygame.draw.rect(surface, self.section3color, self.section3.obstacle)
+# 	def draw(self, surface):
+# 		pygame.draw.rect(surface, self.section1color, self.section1.obstacle)
+# 		pygame.draw.rect(surface, self.section2color, self.section2.obstacle)
+# 		pygame.draw.rect(surface, self.section3color, self.section3.obstacle)
 		
 	def moveWall(self, speed, surface):
-		for section in self.sub_wallSections:
+		for section in self.wallSections:
 			section.moveObs(speed, surface)
 			section.draw(surface)
-			
-		self.update()
+
+	#	self.update()
 		
-	def update(self):
-		for section in self.wallSections:
-			pygame.display.update([section])
+	#def update(self):
+	#	for section in self.sub_wallSections:
+		#	pygame.display.update([section])
+			#pygame.display.update()
+
 			
 	def sectionList(self):
-		return self.wallSections
+		return self.sub_wallSections
