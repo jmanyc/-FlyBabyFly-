@@ -37,27 +37,27 @@ class Wall(Obstacle):
 		#self.sectionColors.extend([self.section1color, self.section2color, self.section3color])
 		
 
-	"""def setSection1color(self, color):
-# 	def getRectColor(self, current_rect):
-# 		return current
-		
-	def setSection1color(self, color):
-		self.section1color = color
-		
-	def getSection1color(self):
-		return self.section1color
-		
-	def setSection2color(self, color):
-		self.section2color = color
-		
-	def getSection2color(self):
-		return self.section2color
-		
-	def setSection3color(self, color):
-		self.section3color = color
-		
-	def getSection3color(self):
-		return self.section3color"""
+# 	"""def setSection1color(self, color):
+# # 	def getRectColor(self, current_rect):
+# # 		return current
+# 		
+# 	def setSection1color(self, color):
+# 		self.section1color = color
+# 		
+# 	def getSection1color(self):
+# 		return self.section1color
+# 		
+# 	def setSection2color(self, color):
+# 		self.section2color = color
+# 		
+# 	def getSection2color(self):
+# 		return self.section2color
+# 		
+# 	def setSection3color(self, color):
+# 		self.section3color = color
+# 		
+# 	def getSection3color(self):
+# 		return self.section3color"""
 		
 # 	def draw(self, surface):
 # 		pygame.draw.rect(surface, self.section1color, self.section1.obstacle)

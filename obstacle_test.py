@@ -18,7 +18,7 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0,0,255)
 
-myObstacle = Obstacle([500, 500], BLUE, 40, 280, -5)	# create the obstacle object
+myObstacle = Obstacle([500, 500], BLUE, 40, 280)	# create the obstacle object
 
 clock = pygame.time.Clock()	# initialize pygame's internal clock
 screen.fill((255,255,255))	# fill the screen with a white background
