@@ -20,8 +20,9 @@ infoObject = pygame.display.Info()
 screen = pygame.display.set_mode((infoObject.current_w, infoObject.current_h), pygame.FULLSCREEN) # Here are the old falues (1366, 768)
 
 clock = pygame.time.Clock()
-hoverSound = pygame.mixer.Sound( "Sriounds/click.wav" )
+hoverSound = pygame.mixer.Sound( "Sounds/click.wav" )
 clickSound = pygame.mixer.Sound( "Sounds/pop.wav" )
+backgroundMusic = pygame.mixer.Sound( "Sounds/background.mp3" )
 gameState = 0
 squirrel = pygame.image.load( "squirrel.png" ).convert_alpha()
 class MenuLabel():
@@ -105,6 +106,7 @@ lossMenu = [restart, credits, lossQuit, main]
 
 justClicked = False #Boolean so we can't double click options in the menu
 flier = avatar.Avatar()
+backgroundMusic.play()
 while 1:#Main loop
 	if gameState == 0: #Start Menu
 		# handle every event since the last frame.
