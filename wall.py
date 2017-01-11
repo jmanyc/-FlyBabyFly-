@@ -23,11 +23,11 @@ class Wall(Obstacle):
 			self.section2 = Obstacle(pos2, color2, self.width, self.heights[1])
 			self.section3 = Obstacle(pos3, color3, self.width, self.heights[2])
 		
-		self.wallSections = []
-		self.wallSections.extend([self.section1.obstacle, self.section2.obstacle, self.section3.obstacle])
-		
 		self.sub_wallSections = []
-		self.sub_wallSections.extend([self.section1, self.section2, self.section3])
+		self.sub_wallSections.extend([self.section1.obstacle, self.section2.obstacle, self.section3.obstacle])
+		
+		self.wallSections = []
+		self.wallSections.extend([self.section1, self.section2, self.section3])
 		
 		self.section1color = color1
 		self.section2color = color2
@@ -61,15 +61,15 @@ class Wall(Obstacle):
 		pygame.draw.rect(surface, self.section3color, self.section3.obstacle)
 		
 	def moveWall(self, speed, surface):
-		for section in self.sub_wallSections:
+		for section in self.wallSections:
 			section.moveObs(speed, surface)
 			section.draw(surface)
-			
+
 		self.update()
 		
 	def update(self):
-		for section in self.wallSections:
+		for section in self.sub_wallSections:
 			pygame.display.update([section])
 			
 	def sectionList(self):
-		return self.wallSections
+		return self.sub_wallSections

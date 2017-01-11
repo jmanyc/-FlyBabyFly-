@@ -23,15 +23,16 @@ myWall = Wall(BLUE, [500, 125], [500, 275], [500,425], RED, GREEN, BLUE, heights
 
 clock = pygame.time.Clock()	# initialize pygame's internal clock
 screen.fill((255,255,255))	# fill the screen with a white background
+#pygame.display.update()
 
 
-myWall.draw(screen)	# draw the obstacle to the screen
+#myWall.draw(screen)	# draw the obstacle to the screen
 print "entering main loop"
 
 while 1: #Main loop
 
-	myWall.moveWall(-10, screen)	# move the obstacle leftwards
-	
+	myWall.moveWall(-5, screen)	# move the obstacle leftwards
+#	pygame.display.update()
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			print "terminating"
