@@ -31,7 +31,8 @@ print "entering main loop"
 while 1: #Main loop
 
 	myObstacle.moveObs(-5, screen)	# move the obstacle leftwards
-	
+	myObstacle.draw(screen)
+
 	pygame.display.update([myObstacle.obstacle]) # update the location of the obstacle on the screen
 #	pygame.display.update()
 	
