@@ -69,7 +69,7 @@ class Wall(Obstacle):
 			section.moveObs(speed, surface)
 			section.draw(surface)
 	def getX(self):
-		return self.wallSections.getXPosition()
+		return self.wallSections[0].getXPosition()
 	#	self.update()
 		
 	#def update(self):

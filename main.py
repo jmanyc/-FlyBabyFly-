@@ -130,7 +130,7 @@ lossMenu = [restart, credits, lossQuit, main]
 
 
 imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseNoGrass.png" ).convert(),(screenWidth,screenHeight))
-grass = pygame.transform.scale(pygame.image.load("Assets/img/Grass.png").convert(),(screenWidth/3,screenHeight))
+grass = pygame.transform.scale(pygame.image.load("Assets/img/Grass.png").convert_alpha(),(screenWidth/3,screenHeight))
 
 justClicked = False #Boolean so we can't double click options in the menu
 flier = avatar.Avatar(screenWidth, screenHeight)
@@ -186,7 +186,7 @@ while 1:#Main loop
 		#Create an iterator here to move each object, and stop drawing the ones that go off-screen
 		for item in objectList:
 			item.moveWall(-4, screen)
-			if item.getX > -10:
+			if item.getX() > -screenWidth/28:
 				tempList.append(item)
 				
 		objectList = tempList
