@@ -19,8 +19,8 @@ pygame.font.init()
 infoObject = pygame.display.Info()
 screenWidth = infoObject.current_w
 screenHeight = infoObject.current_h
-
-screen = pygame.display.set_mode((screenWidth, screenHeight), pygame.FULLSCREEN)
+displayFlags = pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE
+screen = pygame.display.set_mode((screenWidth, screenHeight), displayFlags)
 
 clock = pygame.time.Clock()
 hoverSound = pygame.mixer.Sound( "Assets/sound/click.wav" )
