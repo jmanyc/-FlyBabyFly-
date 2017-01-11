@@ -32,7 +32,7 @@ print "entering main loop"
 while 1: #Main loop
 
 	myWall.moveWall(-5, screen)	# move the obstacle leftwards
-#	pygame.display.update()
+	pygame.display.update()
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			print "terminating"

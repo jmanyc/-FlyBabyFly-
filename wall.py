@@ -65,11 +65,13 @@ class Wall(Obstacle):
 			section.moveObs(speed, surface)
 			section.draw(surface)
 
-		self.update()
+	#	self.update()
 		
-	def update(self):
-		for section in self.sub_wallSections:
-			pygame.display.update([section])
+	#def update(self):
+	#	for section in self.sub_wallSections:
+		#	pygame.display.update([section])
+			#pygame.display.update()
+
 			
 	def sectionList(self):
 		return self.sub_wallSections
