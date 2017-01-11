@@ -106,7 +106,8 @@ lossMenu = [restart, credits, lossQuit, main]
 
 justClicked = False #Boolean so we can't double click options in the menu
 flier = avatar.Avatar()
-backgroundMusic.play()
+pygame.mixer.music.load("Sounds/background.mp3")
+pygame.mixer.music.play(-1)
 while 1:#Main loop
 	if gameState == 0: #Start Menu
 		# handle every event since the last frame.
