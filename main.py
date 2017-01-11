@@ -113,13 +113,14 @@ Knife = MenuLabel("Swiss Army Knife (Multirole): Jon", "Comic Sans MS", (100,100
 DJ = MenuLabel("DJ (Art Assistance): Dean", "Comic Sans MS", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 490), 100)
 Bruce = MenuLabel("Special Thanks to: Bruce (Totally Not CIA) Maxwell","Comic Sans MS",(100,100,100),(0,0,0),26,(screenWidth/2, screenHeight/8 + 560),100)
 
-lossBack = MenuLabel("Back", "Comic Sans MS", (100,100,100),(0,0,0),24,(screenWidth*8/9,screenHeight/11),5)
+lossBack = MenuLabel("Back", "Comic Sans MS", (100,100,100),(0,0,0),24,(screenWidth*8/9,screenHeight/15),5)
 creditsMenu = [Producer, Designer, Programmer, Artist, Sound, Gamer, Knife, DJ, Bruce, lossBack]
 
 #Instructions
-help = MenuLabel("Go through the color block that matches your plane!", "Comic Sans MS", (100,100,100),(0,0,0),24,(screenWidth/2,screenHeight/5),100)
-controls = MenuLabel("Press Spacebar to increase your upward speed!", "Comic Sans MS", (100,100,100),(0,0,0),24,(screenWidth/2,screenHeight/3),100)
-mainBack = MenuLabel("Back", "Comic Sans MS", (100,100,100),(0,0,0),24,(screenWidth*6/7,screenHeight/8),0)
+paint = MenuLabel("Paint streams will change your plane's color", "Comic Sans MS", (100,100,100),(0,0,0),24,(screenWidth/2,screenHeight*2/7),100)
+help = MenuLabel("Go through the color block that matches your plane", "Comic Sans MS", (100,100,100),(0,0,0),24,(screenWidth/2,screenHeight*3/7),100)
+controls = MenuLabel("Press Spacebar to increase your upward speed!", "Comic Sans MS", (100,100,100),(0,0,0),24,(screenWidth/2,screenHeight*4/7),100)
+mainBack = MenuLabel("Back", "Comic Sans MS", (100,100,100),(0,0,0),24,(screenWidth*6/7,screenHeight/15),0)
 
 #Loss Screen
 credits = MenuLabel("Credits", "Comic Sans MS", (100,100,100),(0,0,0),26,(300,260),3)
@@ -128,8 +129,8 @@ main = MenuLabel("Main Menu", "Comic Sans MS", (100,100,100),(0,0,0),26,(300,180
 lossQuit = MenuLabel("Quit", "Comic Sans MS", (100,100,100),(0,0,0),26,(300,340),4)
 lossMenu = [restart, credits, lossQuit, main]
 
-imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseWGrass.png" ).convert(),(screenWidth,screenHeight))
-#grass = pygame.transform.scale(pygame.image.load("Assets/img/Grass.png").convert_alpha(),(screenWidth/3,screenHeight))
+imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseNoGrass.png" ).convert(),(screenWidth,screenHeight))
+grass = pygame.transform.scale(pygame.image.load("Assets/img/Grass.png").convert_alpha(),(screenWidth/3,screenHeight))
 
 justClicked = False #Boolean so we can't double click options in the menu
 flier = avatar.Avatar(screenWidth, screenHeight)
@@ -187,9 +188,8 @@ while 1:#Main loop
 			item.moveWall(-4, screen)
 			if item.getX() > -screenWidth/28:
 				tempList.append(item)
-				
+				### If performance becomes an issue, check into forcing all update at once, instead of staggered
 		objectList = tempList
-		
 		
 		flier.update(screen)
 	
@@ -207,6 +207,7 @@ while 1:#Main loop
 		help.update(screen)
 		controls.update(screen)
 		mainBack.update(screen)
+		paint.update(screen)
 		key = pygame.key.get_pressed()
 		if key[pygame.K_BACKSPACE] or (mainBack.hover((mouse[0],mouse[1])) == True and pygame.mouse.get_pressed()[0]):
 			clickSound.play()
