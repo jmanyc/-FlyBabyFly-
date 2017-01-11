@@ -3,7 +3,7 @@
 # CS269
 # 1/5/17
 import pygame
-
+from wall import Wall
 def enum(**enums):
 		return type('Enum', (), enums)
 Colors = enum(RED = (255,0,0), GREEN = (0,255,0), BLUE = (0,0,255))
@@ -14,6 +14,7 @@ class Avatar():
 		self.crashSound = pygame.mixer.Sound( "Assets/sound/hit_obstacle.wav" )
 		### Starts with Red Image ###
 		self.image = pygame.image.load( "Assets/img/Red.png" ).convert_alpha()
+		self.image_c = self.image.get_rect()	#
 		self.x = self.infoObject.current_w/12 # initial spawn of the image
 		self.y = self.infoObject.current_h/12
 		### Setting the upper and lower limits so it stays on screen ###
@@ -80,9 +81,21 @@ class Avatar():
 		### Draws the avatar at the selected area ###
 		surface.blit(self.image,(self.x,self.y))
 		
+	def getPosition(self):
+		return self.x + self.infoObject.current_w/12
+		
 	###def setAvatar(self, image):	  Idea for later
 	
+# 	def checkCollision(self, activeRects):
+# 		for rectangle in activeRects:
+# 			if rectangle.leftSide - self.getPosition <= 3:
+# 				print 'COLLIDED'
+# 				self.setColor(rect.getColor)
+# 				
+ 	def checkCollisions(self, sprite1, sprite2):
+ 		
 		
+				
 		
 		
 ##### Test code, copied and edited from source #####
@@ -90,6 +103,12 @@ if __name__ == "__main__":
 	pygame.init()
 	screen = pygame.display.set_mode((800, 600))
 	avatar = Avatar()
+	heights = []	# put the heights of the three blocks in a list (in the main loop the section
+	heights.extend([150, 150, 150]) # \ heights will vary while the wall sections remain adjacent)
+	myWall = Wall(Colors.BLUE, [500, 125], [500, 275], [500,425], Colors.RED, Colors.GREEN, Colors.BLUE, heights)	# create the Wall object
+	#myRects = []
+#	myRects.extend([myWall.sectionList])
+	#print len(myRects)
 	clock = pygame.time.Clock()
 
 	while 1:#Main loop
@@ -98,6 +117,10 @@ if __name__ == "__main__":
 		avatar.applyGravity() # calls the simulated gravity function of avatar
 		
 		screen.fill((255,255,255))# white background on the screen
+		myWall.moveWall(-5, screen)	# move the obstacle leftwards
+		avatar.checkCollision(myRects)
+
+
 		avatar.update(screen) # updates the position of the avatar on the screen
 		pygame.display.update() # update the screen
 		

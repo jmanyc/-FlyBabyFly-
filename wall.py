@@ -23,8 +23,8 @@ class Wall(Obstacle):
 			self.section2 = Obstacle(pos2, color2, self.width, self.heights[1])
 			self.section3 = Obstacle(pos3, color3, self.width, self.heights[2])
 		
-		self.sub_wallSections = []
-		self.sub_wallSections.extend([self.section1.obstacle, self.section2.obstacle, self.section3.obstacle])
+		#self.sub_wallSections = []
+		#self.sub_wallSections.extend([self.section1.obstacle, self.section2.obstacle, self.section3.obstacle])
 		
 		self.wallSections = []
 		self.wallSections.extend([self.section1, self.section2, self.section3])
@@ -36,6 +36,9 @@ class Wall(Obstacle):
 		
 		self.sectionColors = []
 		self.sectionColors.extend([self.section1color, self.section2color, self.section3color])
+		
+# 	def getRectColor(self, current_rect):
+# 		return current
 		
 	def setSection1color(self, color):
 		self.section1color = color
@@ -74,4 +77,4 @@ class Wall(Obstacle):
 
 			
 	def sectionList(self):
-		return self.sub_wallSections
+		return self.wallSections
