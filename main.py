@@ -129,7 +129,7 @@ lossQuit = MenuLabel("Quit", "Comic Sans MS", (100,100,100),(0,0,0),26,(300,340)
 lossMenu = [restart, credits, lossQuit, main]
 
 
-imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseNoGrass.png" ).convert_alpha(),(screenWidth,screenHeight))
+imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseNoGrass.png" ).convert(),(screenWidth,screenHeight))
 grass = pygame.transform.scale(pygame.image.load("Assets/img/Grass.png").convert_alpha(),(screenWidth/3,screenHeight))
 
 justClicked = False #Boolean so we can't double click options in the menu
