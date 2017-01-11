@@ -41,4 +41,4 @@ class Obstacle():
 		#pygame.draw.rect(surface, (255, 255, 255), self.obstacle)
 		self.obstacle.move_ip(speed, 0)	# change the object's internal position
 		self.x += speed
-		#self.draw(surface)    # redraw the obstacle at its new position on the display
+		self.draw(surface)    # redraw the obstacle at its new position on the display

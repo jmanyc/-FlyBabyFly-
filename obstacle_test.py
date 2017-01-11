@@ -25,6 +25,7 @@ screen.fill((255,255,255))	# fill the screen with a white background
 
 
 myObstacle.draw(screen)	# draw the obstacle to the screen
+pygame.display.update()
 print "entering main loop"
 
 while 1: #Main loop
@@ -32,6 +33,7 @@ while 1: #Main loop
 	myObstacle.moveObs(-5, screen)	# move the obstacle leftwards
 	
 	pygame.display.update([myObstacle.obstacle]) # update the location of the obstacle on the screen
+#	pygame.display.update()
 	
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
