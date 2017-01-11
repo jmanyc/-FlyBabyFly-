@@ -23,8 +23,8 @@ class Avatar():
 		self.x = screenWidth/12 # initial spawn of the image
 		self.y = screenHeight/4
 		### Setting the upper and lower limits so it stays on screen ###
-		self.topLimit = screenHeight/8 
-		self.bottomLimit = screenHeight*7/8 - self.image.get_height()
+		self.topLimit = screenHeight*3/16 
+		self.bottomLimit = screenHeight*15/16 - self.image.get_height()
 		self.curSpeed = 0 #current speed of the avatar
 		self.gravity = 0.12 #the gravity setting on the avatar, remember this number is added to the speed every tick, so 60 times a second
 		self.alive = True #Used to control the gameState

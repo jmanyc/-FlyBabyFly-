@@ -53,18 +53,21 @@ class MenuLabel():
 		self.x = x - self.width/2
 		self.y = y
 		self.hoverOnce = False
+		self.isHover = False
 		self.state = state #Right now, a number giving a gamestate variable
 		
 	def hover(self, (x,y)):
 		### Used to tell if the cursor is hovering over a button ###
 		if (x>=self.x - self.width/8 and x <= self.x + self.width*9/8) and (y >= self.y -self.height/4 and y <= self.y + self.height*5/4):
             ### Creates a box that checks if the inputted coords are inside this box's space ###
-			if self.hoverOnce == False: # So we
+			if self.hoverOnce == False:#So sound and bkgColor are only changed once per hover
 				self.hoverOnce = True
 				hoverSound.play()
 				self.bkgColor = (self.bkgColor[0]+20,self.bkgColor[1]+20,self.bkgColor[2]+20)
                 # Yes, this can cause issues if you pick any color above 235... So don't do that, less operations this way
+			self.isHover = True
 			return True
+		self.isHover = False
 		self.hoverOnce = False
 		self.bkgColor = self.tempColor
 		return False
@@ -75,7 +78,10 @@ class MenuLabel():
 	
 	def update(self, screen):
 		### Draws the shadow, then the rectangle, then the text onto the screen ###
-		pygame.draw.rect( screen, (0,0,0), pygame.Rect( (self.x - self.width/8 + 7, self.y-self.height/4 + 7), (self.width*10/8, self.height*6/4) ) ) #box-Shadow
+		if self.isHover == True:
+			pygame.draw.rect( screen, (255,255,255), pygame.Rect( (self.x - self.width/8 + 7, self.y-self.height/4 + 7), (self.width*10/8, self.height*6/4) ) ) #box-Shadow
+		else:
+			pygame.draw.rect( screen, (0,0,0), pygame.Rect( (self.x - self.width/8 + 7, self.y-self.height/4 + 7), (self.width*10/8, self.height*6/4) ) ) #box-Shadow
 		pygame.draw.rect( screen, self.bkgColor, pygame.Rect( (self.x - self.width/8, self.y-self.height/4), (self.width*10/8, self.height*6/4) ) )
 		screen.blit( self.cText, (self.x, self.y) )
 			
@@ -124,7 +130,7 @@ lossMenu = [restart, credits, lossQuit, main]
 
 
 imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseNoGrass.png" ).convert_alpha(),(screenWidth,screenHeight))
-grass = pygame.transform.scale(pygame.image.load("Assets/img/Grass.png").convert_alpha(),(screenWidth/2,screenHeight/2))
+grass = pygame.transform.scale(pygame.image.load("Assets/img/Grass.png").convert_alpha(),(screenWidth/3,screenHeight))
 
 justClicked = False #Boolean so we can't double click options in the menu
 flier = avatar.Avatar(screenWidth, screenHeight)
@@ -170,7 +176,7 @@ while 1:#Main loop
 		screen.blit(grass,(0,0))
 		counter+=1
 		tempList = []
-		if counter %100 == 0:
+		if counter % 100 == 0:
 			myWall = Wall(BLUE, screenWidth, screenHeight,colors)	# create the Wall object
 			objectList.append(myWall)
 		flier.keyPressed() # handles pressing keys, now if we need to speed up our program work on this
@@ -195,7 +201,7 @@ while 1:#Main loop
 			objectList = []
 			
 			gameState = 5 #goto loss screen 
-		print clock.get_fps()
+		print clock.get_fps() #Prints out the fps during the game for testing
 			
 	
 	elif gameState == 2: #Instructions
