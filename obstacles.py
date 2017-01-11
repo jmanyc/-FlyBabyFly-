@@ -7,13 +7,12 @@ import pygame, os, sys
 
 class Obstacle():
 
-	def __init__(self, position, color, width, height, speed = None):
+	def __init__(self, position, color, width, height,):
 	
 		self.position = position
 		self.x = self.position[0]
 		self.y = self.position[1]
 		self.color = color
-		self.speed = speed
 		self.height = height
 		self.width = width
 		self.obstacle = pygame.Rect((self.x,self.y), (self.width, self.height))

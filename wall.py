@@ -3,29 +3,25 @@
 # CS269
 # 1/5/17
 
-import pygame, os, sys
+import pygame, os, sys, random
 from obstacles import Obstacle
-
 
 class Wall(Obstacle):
 	
 	
-	def __init__(self, lastBeamColor, xPos, screenHeight, speed = None):
+	def __init__(self, lastBeamColor, xPos, screenHeight, colors):
 		self.top = screenHeight/8
 		self.obstacleHeight = screenHeight/4
-		self.width = xPos/28 # width hardcoded because it should always be the same
-		self.speed = speed
-		self.RED = (255,0,0)
-		self.BLUE = (0,0,255)
-		self.GREEN = (0,255,0)
-		if self.speed != None:
-			self.section1 = Obstacle((xPos, self.top), self.RED, self.width, self.obstacleHeight, self.speed)
-			self.section2 = Obstacle((xPos, self.top + self.obstacleHeight), self.BLUE, self.width, self.obstacleHeight, self.speed)
-			self.section3 = Obstacle((xPos, self.top + self.obstacleHeight * 2), self.GREEN, self.width, self.obstacleHeight, self.speed)
-		else:
-			self.section1 = Obstacle((xPos, self.top), self.RED, self.width, self.obstacleHeight)
-			self.section2 = Obstacle((xPos, self.top + self.obstacleHeight), self.BLUE, self.width, self.obstacleHeight)
-			self.section3 = Obstacle((xPos, self.top + self.obstacleHeight * 2), self.GREEN, self.width, self.obstacleHeight)
+		self.width = xPos/28
+
+		self.colorList = [lastBeamColor]#Creating the list to pick the 3 colors from, with the needed color
+		self.colorList.append(random.choice(colors))# randomly pull some colors to look nice
+		self.colorList.append(random.choice(colors))
+		random.shuffle(self.colorList) # Now we shuffle the list and then assign them to the following obstacles
+		
+		self.section1 = Obstacle((xPos, self.top), self.colorList[0], self.width, self.obstacleHeight)
+		self.section2 = Obstacle((xPos, self.top + self.obstacleHeight), self.colorList[1], self.width, self.obstacleHeight)
+		self.section3 = Obstacle((xPos, self.top + self.obstacleHeight * 2), self.colorList[2], self.width, self.obstacleHeight)
 		#self.sub_wallSections = [] #edit this to do all in one line
 
 		#self.sub_wallSections = []

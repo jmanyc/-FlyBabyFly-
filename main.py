@@ -47,7 +47,7 @@ class MenuLabel():
 		self.width = self.cText.get_rect().width
 		self.height = self.cText.get_rect().height
 		
-		#Color of the rectangle
+		#Color of the rectangle, and dealing with hover/state
 		self.bkgColor = bkgColor
 		self.tempColor = bkgColor #Backup color for when we change it on hover
 		self.x = x - self.width/2
@@ -70,9 +70,11 @@ class MenuLabel():
 		return False
 		
 	def getState(self):
+		### Returns the gameState the button points to ###
 		return self.state
 	
 	def update(self, screen):
+		### Draws the shadow, then the rectangle, then the text onto the screen ###
 		pygame.draw.rect( screen, (0,0,0), pygame.Rect( (self.x - self.width/8 + 7, self.y-self.height/4 + 7), (self.width*10/8, self.height*6/4) ) ) #box-Shadow
 		pygame.draw.rect( screen, self.bkgColor, pygame.Rect( (self.x - self.width/8, self.y-self.height/4), (self.width*10/8, self.height*6/4) ) )
 		screen.blit( self.cText, (self.x, self.y) )
@@ -84,8 +86,6 @@ class MenuLabel():
 			### 4 = Quit Game
 			### 5 = Loss Screen
 		
-screen.fill((40,80,160)) #BKG
-
 ### Menu Items/Labels ###
 # varName = MenuLable("Text", "Font-Style", BkgColor of Box, Text Color, fontSize, Position, gamestate it points to)
 
@@ -111,8 +111,9 @@ lossBack = MenuLabel("Back", "Comic Sans MS", (100,100,100),(0,0,0),24,(screenWi
 creditsMenu = [Producer, Designer, Programmer, Artist, Sound, Gamer, Knife, DJ, Bruce, lossBack]
 
 #Instructions
-help = MenuLabel("Press Spacebar to increase your upward speed!", "Comic Sans MS", (100,100,100),(0,0,0),24,(screenWidth/2,screenHeight/3),100)
-mainBack = MenuLabel("Back", "Comic Sans MS", (100,100,100),(0,0,0),24,(screenWidth*6/7,screenHeight/7),0)
+help = MenuLabel("Go through the color block that matches your plane!", "Comic Sans MS", (100,100,100),(0,0,0),24,(screenWidth/2,screenHeight/5),100)
+controls = MenuLabel("Press Spacebar to increase your upward speed!", "Comic Sans MS", (100,100,100),(0,0,0),24,(screenWidth/2,screenHeight/3),100)
+mainBack = MenuLabel("Back", "Comic Sans MS", (100,100,100),(0,0,0),24,(screenWidth*6/7,screenHeight/8),0)
 
 #Loss Screen
 credits = MenuLabel("Credits", "Comic Sans MS", (100,100,100),(0,0,0),26,(300,260),3)
@@ -129,9 +130,18 @@ justClicked = False #Boolean so we can't double click options in the menu
 flier = avatar.Avatar(screenWidth, screenHeight)
 counter = 0
 objectList = []
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
+
+RED = (255,0,0)
 BLUE = (0,0,255)
+GREEN = (0,255,0)
+YELLOW = (255,255,0)
+PURPLE = (255,0,255)
+CYAN = (0,255,255)
+MAROON = (128,0,0)
+OLIVE = (128,128,0)
+colors = [RED, BLUE, GREEN, YELLOW, PURPLE, CYAN, MAROON, OLIVE] ### For current game, only BLUE RED GREEN
+###colors = [RED,BLUE,GREEN]
+
 
 while 1:#Main loop
 	if gameState == 0: #Start Menu
@@ -161,13 +171,13 @@ while 1:#Main loop
 		counter+=1
 		tempList = []
 		if counter %100 == 0:
-			myWall = Wall(BLUE, screenWidth, screenHeight)	# create the Wall object
+			myWall = Wall(BLUE, screenWidth, screenHeight,colors)	# create the Wall object
 			objectList.append(myWall)
 		flier.keyPressed() # handles pressing keys, now if we need to speed up our program work on this
 		flier.applyGravity() # calls the simulated gravity function of avatar
 		#screen.fill((255,255,255))# white background on the screen
 		
-		#Create an iterator here to move each object/obstacle
+		#Create an iterator here to move each object, and stop drawing the ones that go off-screen
 		for item in objectList:
 			item.moveWall(-4, screen)
 			if item.getX > -10:
@@ -180,17 +190,19 @@ while 1:#Main loop
 		pygame.display.update()
 		 # updates the position of the avatar on the screen
 	
-		if flier.getAlive() == False:
+		if flier.getAlive() == False: #if the flier is dead
 			pygame.mixer.music.set_volume(1.0)
 			objectList = []
 			
 			gameState = 5 #goto loss screen 
+		print clock.get_fps()
 			
 	
 	elif gameState == 2: #Instructions
 		screen.fill((40,80,160))
 		mouse = pygame.mouse.get_pos()
 		help.update(screen)
+		controls.update(screen)
 		mainBack.update(screen)
 		key = pygame.key.get_pressed()
 		if key[pygame.K_BACKSPACE] or (mainBack.hover((mouse[0],mouse[1])) == True and pygame.mouse.get_pressed()[0]):
@@ -201,15 +213,18 @@ while 1:#Main loop
 	elif gameState == 3: #Credits
 		screen.fill((40,80,160))
 		mouse = pygame.mouse.get_pos()
+		
 		for item in creditsMenu:
 			item.update(screen)
+			
 		key = pygame.key.get_pressed()
 		if key[pygame.K_BACKSPACE] or (lossBack.hover((mouse[0],mouse[1])) == True and pygame.mouse.get_pressed()[0]):
+			#If back button is clicked, go back to loss screen
 			clickSound.play()
 			gameState = 5
 			screen.fill((40,80,160))
 			
-	elif gameState == 4: #Quit
+	elif gameState == 4: #Quit state
 		pygame.quit()
 		sys.exit()
 		
@@ -219,8 +234,10 @@ while 1:#Main loop
 		for item in lossMenu:
 			if item.hover((mouse[0],mouse[1])) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
 				# If hovering over the item, and a button is clicked, go to the state the button is linked to. 
+				
 				clickSound.play()
 				gameState = item.getState()
+				
 				if gameState == 1:
 					pygame.mixer.music.set_volume(0.4)
 					# Reseting the avatar game, had to call it flier because naming it avatar, along with the avatar file was messy
