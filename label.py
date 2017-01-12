@@ -5,7 +5,7 @@
 import pygame
 
 class MenuLabel():
-	def __init__(self, text, font, bkgColor, fontColor, fontSize, (x,y), state):
+	def __init__(self, text, bkgColor, fontColor, fontSize, (x,y), state):
 		### Storing all the important text information ###
 		self.hoverSound = pygame.mixer.Sound( "Assets/sound/click.wav" )
 		#Text Part#
