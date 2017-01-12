@@ -16,6 +16,7 @@ class Obstacle():
 		self.height = height
 		self.width = width
 		self.obstacle = pygame.Rect((self.x,self.y), (self.width, self.height))
+		self.visited = False
 		
 	def setPosition(self, position):
 		self.position = position
@@ -34,6 +35,12 @@ class Obstacle():
 		
 	def getObstacle(self):
 		return self.obstacle
+
+	def getVisited(self):
+		return self.visited
+
+	def setVisited(self, state):
+		self.visited = state
 				
 	def moveObs(self, speed, surface):
 

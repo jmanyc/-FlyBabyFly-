@@ -111,10 +111,17 @@ class Avatar():
  		for wall in activeWalls:
  			
  			for obst in wall.getWallSections():
- 			
- 				if self.image_c.colliderect(obst.getObstacle()) == True:
- 					print "COLLISION"
- 					pygame.quit()
+ 				if obst.getVisited() == False:
+ 					if self.image_c.colliderect(obst.getObstacle()) == True:
+ 						print "COLLISION"
+ 						if self.color != obst.getColor():
+ 							self.crashing =True
+ 						else:
+ 							obst.setVisited(True)
+ 							return True
+ 						return False
+ 						
+ 					
 
  		
  				
