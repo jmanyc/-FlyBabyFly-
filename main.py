@@ -48,7 +48,7 @@ gameState = 0
 # varName = MenuLable("Text", "Font-Style", BkgColor of Box, Text Color, fontSize, Position, gamestate it points to)
 
 #Main Menu
-title = MenuLabel("Fly Baby, Fly", "Comic Sans MS", (100,100,100),(255,255,51),42,(300,100),100)
+title = MenuLabel("Fly Baby, Fly", "Comic Sans MS", (100,100,100),(255,105,180),42,(300,100),100)
 start = MenuLabel("Start Game", "Comic Sans MS", (100,100,100),(255,255,0),26,(300,200),1)
 instruction = MenuLabel("Instructions", "Comic Sans MS", (100,100,100),(255,153,0),26,(300,280),2)
 options = MenuLabel("Options", "Comic Sans MS", (100,100,100),(0,0,0),26,(300,360),6)

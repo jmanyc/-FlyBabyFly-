@@ -25,7 +25,7 @@ class Avatar():
 		self.y = screenHeight/4
 		
 		### Setting the upper and lower limits so it stays on screen ###
-		self.topLimit = screenHeight*2/16 - self.image.get_height()*2/7
+		self.topLimit = screenHeight*3/32 - self.image.get_height()*2/7
 		self.bottomLimit = screenHeight*15/16 - self.image.get_height()*5/7
 		self.curSpeed = 0 #current speed of the avatar
 		self.gravity = 0.12 #the gravity setting on the avatar, remember this number is added to the speed every tick, so 60 times a second

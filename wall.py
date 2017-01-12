@@ -10,8 +10,8 @@ class Wall(Obstacle):
 	
 	
 	def __init__(self, lastBeamColor, xPos, screenHeight, colors):
-		self.top = screenHeight*2/16
-		self.obstacleHeight = screenHeight *13/16/3 #All 3 or whatever number of obstacles must equal roughly 13/16 of the screen
+		self.top = screenHeight*3/32
+		self.obstacleHeight = screenHeight * 27/32 /3 #All 3 or whatever number of obstacles must equal roughly 13/16 of the screen
 		self.width = xPos/28
 
 		self.colorList = [lastBeamColor]#Creating the list to pick the 3 colors from, with the needed color
