@@ -145,7 +145,7 @@ while 1:#Main loop
 		tempList = []
 		
 		if counter % 200 == 0:
-			myWall = Wall(BLUE, screenWidth, screenHeight,colors)	# create the Wall object
+			myWall = Wall(BLUE, screenWidth, screenHeight, colors)	# create the Wall object
 			#bottomGrass = grass
 			objectList.append(myWall)
 			#grassList.append(bottomGrass)

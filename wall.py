@@ -13,11 +13,7 @@ class Wall(Obstacle):
 		self.top = screenHeight*3/32
 		self.obstacleHeight = screenHeight * 27/32 /3 #All 3 or whatever number of obstacles must equal roughly 13/16 of the screen
 		self.width = xPos/28
-
-		#All 3 or whatever number of obstacles must equal roughly 3/4 of the screen
-		self.obstacleHeight = screenHeight/4
 		
-		self.width = xPos/28
 		#Creating the list to pick the 3 colors from, with the needed color
 		self.colorList = [lastBeamColor]
 		self.colorList.append(random.choice(colors))# randomly pull some colors to look nice
