@@ -12,9 +12,15 @@ class Avatar():
 	def __init__(self, screenWidth, screenHeight):
 		self.infoObject = pygame.display.Info()
 		self.crashSound = pygame.mixer.Sound( "Assets/sound/hit_obstacle.wav" )
+
+
 		### Starts with Red Image ###
 		self.imageScale = (screenWidth/17, screenHeight/10)
 		self.image = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelWhitePlane.png" ).convert_alpha(), self.imageScale)
+
+		#for testing collision
+		self.image_c = self.image.get_rect()
+
 		self.redImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelRedPlane.png" ).convert_alpha(), self.imageScale)
 		self.blueImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelBluePlane.png" ).convert_alpha(), self.imageScale)
 		self.greenImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelGreenPlane.png" ).convert_alpha(), self.imageScale)
@@ -85,19 +91,30 @@ class Avatar():
 	def update(self, surface):
 		### Draws the avatar at the selected area ###
 		surface.blit(self.image,(self.x,self.y))
+		self.image_c = self.image.get_rect()
+		self.image_c.move_ip(self.x,self.y)
+
 		
 	def getPosition(self):
 		return self.x + screenWidth/12 # Talk to austin about this
 		
 	###def setAvatar(self, image):	  Idea for later
 	
-# 	def checkCollision(self, activeRects):
-# 		for rectangle in activeRects:
-# 			if rectangle.leftSide - self.getPosition <= 3:
-# 				print 'COLLIDED'
-# 				self.setColor(rect.getColor)
-# 				
- 	#def checkCollisions(self, sprite1, sprite2):
+ 	def checkCollision(self, activeWalls, activeBeams = None):
+ 		'''
+ 			method for collision detection. Takes in 2 lists: activeObstacles and 
+ 		'''
+ 		for wall in activeWalls:
+ 			
+ 			for obst in wall.getWallSections():
+ 			
+ 				if self.image_c.colliderect(obst.getObstacle()) == True:
+ 					print "COLLISION"
+ 					pygame.quit()
+
+ 		
+ 				
+ 
  		
 		
 				
@@ -105,15 +122,32 @@ class Avatar():
 		
 ##### Test code, copied and edited from source #####
 if __name__ == "__main__":
+
+
+
+
+	RED = (255,0,0)
+	BLUE = (0,0,255)
+	GREEN = (0,255,0)
+	YELLOW = (255,255,0)
+	PURPLE = (255,0,255)
+	CYAN = (0,255,255)
+	MAROON = (128,0,0)
+	OLIVE = (128,128,0)
+	colors = [RED, BLUE, GREEN, YELLOW, PURPLE, CYAN, MAROON, OLIVE] ### For current game, only BLUE RED GREEN
+	###colors = [RED,BLUE,GREEN]
+
+
+
 	pygame.init()
 	screen = pygame.display.set_mode((800, 600))
-	avatar = Avatar()
+	avatar = Avatar(screen.get_width(),screen.get_height())
 	heights = []	# put the heights of the three blocks in a list (in the main loop the section
 	heights.extend([150, 150, 150]) # \ heights will vary while the wall sections remain adjacent)
-	myWall = Wall(Colors.BLUE, [500, 125], [500, 275], [500,425], Colors.RED, Colors.GREEN, Colors.BLUE, heights)	# create the Wall object
-	#myRects = []
-#	myRects.extend([myWall.sectionList])
-	#print len(myRects)
+	myWall = Wall(BLUE, screen.get_width(), screen.get_height(),colors)	# create the Wall object
+	activeWalls = []
+	activeWalls.append(myWall)
+	print len(activeWalls)
 	clock = pygame.time.Clock()
 
 	while 1:#Main loop
@@ -123,7 +157,7 @@ if __name__ == "__main__":
 		
 		screen.fill((255,255,255))# white background on the screen
 		myWall.moveWall(-5, screen)	# move the obstacle leftwards
-		avatar.checkCollision(myRects)
+		avatar.checkCollision(activeWalls)
 
 
 		avatar.update(screen) # updates the position of the avatar on the screen

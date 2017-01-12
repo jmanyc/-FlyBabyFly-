@@ -186,7 +186,7 @@ while 1:#Main loop
 		#Create an iterator here to move each object, and stop drawing the ones that go off-screen
 		for item in objectList:
 			item.moveWall(-4, screen)
-			if item.getX > -10:
+			if item.getX() > -10:
 				tempList.append(item)
 				
 		objectList = tempList

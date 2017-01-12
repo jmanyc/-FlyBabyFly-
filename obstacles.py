@@ -7,7 +7,7 @@ import pygame, os, sys
 
 class Obstacle():
 
-	def __init__(self, position, color, width, height,):
+	def __init__(self, position, color, width, height):
 	
 		self.position = position
 		self.x = self.position[0]
