@@ -34,7 +34,7 @@ class Avatar():
 		self.topLimit = screenHeight*3/32 - self.image.get_height()*2/7
 		self.bottomLimit = screenHeight*15/16 - self.image.get_height()*5/7
 		self.curSpeed = 0 #current speed of the avatar
-		self.gravity = 0.12 #the gravity setting on the avatar, remember this number is added to the speed every tick, so 60 times a second
+		self.gravity = 0.19 #the gravity setting on the avatar, remember this number is added to the speed every tick, so 60 times a second
 		self.alive = True #Used to control the gameState
 		self.color = Colors.RED #Will be used to check collision, and change avatar image to correct color
 		self.crashing = False #Used to animate the crashing of the avatar
@@ -44,7 +44,7 @@ class Avatar():
 		if self.y > self.topLimit and self.crashing == False:
 			key = pygame.key.get_pressed()
 			if key[pygame.K_SPACE] or key[pygame.K_UP] or key[pygame.K_w]:
-				self.curSpeed += self.gravity*2
+				self.curSpeed += self.gravity*2.5
 			### Color of Avatar changed depending on arrow key pressed & image swapped out ###
 			if key[pygame.K_1] :
 				self.color = Colors.RED
@@ -95,10 +95,19 @@ class Avatar():
 	def update(self, surface):
 		### Draws the avatar at the selected area ###
 		surface.blit(self.image,(self.x,self.y))
+		
 		self.image_c = self.image.get_rect()
 		self.image_c.move_ip(self.x,self.y)
 
+	def applyRotation(self):
+		angle = self.curSpeed*3.5
+		orig_rect = self.image.get_rect()
+		rot_image = pygame.transform.rotate(self.image, angle)
+		rot_rect = orig_rect.copy()
+		rot_rect.center = rot_image.get_rect().center
+		self.image = rot_image.subsurface(rot_rect).copy()
 		
+
 	def getPosition(self):
 		return self.x + screenWidth/12 # Talk to austin about this
 		

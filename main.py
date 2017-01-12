@@ -61,7 +61,7 @@ Designer = MenuLabel("Man with Vision (Designer): James Lindberg", "Comic Sans M
 Programmer = MenuLabel("Hackerman (Lead Programmer): Lucas DeGraw", "Comic Sans MS", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 140), 100)
 Artist = MenuLabel("Frida Kahlo + GIMP (Lead Artist): Riley Karp", "Comic Sans MS", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 210), 100)
 Sound = MenuLabel("Mariachi (Lead Sound Design): Jerry Diaz ", "Comic Sans MS", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 280), 100)
-Gamer = MenuLabel("Gamer (Quality Assurance): Austin Nantkees", "Comic Sans MS", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 350), 100)
+Gamer = MenuLabel("Gamer (Quality Assurance): Austin Nantkes", "Comic Sans MS", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 350), 100)
 Knife = MenuLabel("Swiss Army Knife (Multirole): Jon", "Comic Sans MS", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 420), 100)
 DJ = MenuLabel("DJ (Art Assistance): Dean", "Comic Sans MS", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 490), 100)
 Bruce = MenuLabel("Special Thanks to: Bruce (Totally Not CIA) Maxwell","Comic Sans MS",(100,100,100),(0,0,0),26,(screenWidth/2, screenHeight/8 + 560),100)
@@ -146,7 +146,7 @@ while 1:#Main loop
 		counter+=1
 		tempList = []
 		
-		if counter % 100 == 0:
+		if counter % 200 == 0:
 			myWall = Wall(BLUE, screenWidth, screenHeight, colors)	# create the Wall object
 			#bottomGrass = grass
 			activeWalls.append(myWall)
@@ -154,6 +154,7 @@ while 1:#Main loop
 			
 		flier.keyPressed() # handles pressing keys, now if we need to speed up our program work on this
 		flier.applyGravity() # calls the simulated gravity function of avatar
+		flier.applyRotation()
 		#screen.fill((255,255,255))# white background on the screen
 		
 		#Create an iterator here to move each object, and stop drawing the ones that go off-screen
