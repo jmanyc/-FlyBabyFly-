@@ -9,8 +9,9 @@ def enum(**enums):
 Colors = enum(RED = (255,0,0), GREEN = (0,255,0), BLUE = (0,0,255))
 
 class Avatar(): 
-	def __init__(self, screenWidth, screenHeight):
+	def __init__(self, screenWidth, screenHeight, soundToggle):
 		self.infoObject = pygame.display.Info()
+		self.soundToggle = soundToggle
 		self.crashSound = pygame.mixer.Sound( "Assets/sound/hit_obstacle.wav" )
 		### Starts with Red Image ###
 		self.imageScale = (screenWidth/17, screenHeight/10)
@@ -50,7 +51,8 @@ class Avatar():
 
 		else:
 			if self.crashing == False: #As we haven't changed it yet, this way we do it only once and the falling is smooth
-				self.crashSound.play()
+				if self.soundToggle == True:
+					self.crashSound.play()
 				self.curSpeed = 0
 			self.crashing = True
 		
@@ -60,7 +62,8 @@ class Avatar():
 			self.curSpeed -= self.gravity
 			self.y -= self.curSpeed
 		else:
-			self.crashSound.play()
+			if self.soundToggle == True:
+				self.crashSound.play()
 			self.alive = False
 			
 	def setColor(self, color):
