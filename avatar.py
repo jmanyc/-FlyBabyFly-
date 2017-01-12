@@ -104,7 +104,7 @@ class Avatar():
 		
 	###def setAvatar(self, image):	  Idea for later
 	
- 	def checkCollision(self, activeWalls, activeBeams = None):
+ 	def wallCollision(self, activeWalls):
  		'''
  			method for collision detection. Takes in 2 lists: activeObstacles and 
  		'''
@@ -113,13 +113,24 @@ class Avatar():
  			for obst in wall.getWallSections():
  				if obst.getVisited() == False:
  					if self.image_c.colliderect(obst.getObstacle()) == True:
- 						print "COLLISION"
  						if self.color != obst.getColor():
  							self.crashing =True
  						else:
  							obst.setVisited(True)
  							return True
  						return False
+
+
+ 	def beamCollision(self,activeBeams):					
+ 		
+ 		if activeBeams != None:
+ 			for beam in activeBeams:
+ 				if beam.getVisited() == False:
+ 					if self.image_c.colliderect(beam.getBeam()) == True:
+ 						self.color = beam.getColor()
+
+
+
  						
  					
 
@@ -169,7 +180,7 @@ if __name__ == "__main__":
 		
 		screen.fill((255,255,255))# white background on the screen
 		myWall.moveWall(-5, screen)	# move the obstacle leftwards
-		avatar.checkCollision(activeWalls)
+		avatar.wallCollision(activeWalls)
 
 
 		avatar.update(screen) # updates the position of the avatar on the screen

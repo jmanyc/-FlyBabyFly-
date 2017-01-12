@@ -32,6 +32,11 @@ class Beam():
         
 	def draw(self, surface):
 		pygame.draw.rect(surface, self.color, self.beam)
+
+	def getBeam(self):
+		#returns this Beam object's Rect defined in self.beam
+		return self.beam
+
 		
 	def moveBeam(self, speed, surface):
 
@@ -68,7 +73,7 @@ while 1: #Main loop
 	
 	#pygame.display.update([myBeam.beam]) # update the location of the obstacle on the screen
 	pygame.display.update()
-	
+
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			print "terminating"
