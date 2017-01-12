@@ -48,43 +48,43 @@ gameState = 0
 # varName = MenuLable("Text", "Font-Style", BkgColor of Box, Text Color, fontSize, Position, gamestate it points to)
 
 #Main Menu
-title = MenuLabel("Fly Baby, Fly", "Comic Sans MS", (100,100,100),(255,105,180),42,(300,100),100)
-start = MenuLabel("Start Game", "Comic Sans MS", (100,100,100),(255,255,0),26,(300,200),1)
-instruction = MenuLabel("Instructions", "Comic Sans MS", (100,100,100),(255,153,0),26,(300,280),2)
-options = MenuLabel("Options", "Comic Sans MS", (100,100,100),(0,0,0),26,(300,360),6)
-mainQuit = MenuLabel("Quit", "Comic Sans MS", (100,100,100),(0,0,0),26,(300,440),4)
+title = MenuLabel("Fly Baby, Fly", (100,100,100),(255,105,180),42,(300,100),100)
+start = MenuLabel("Start Game", (100,100,100),(255,255,0),26,(300,200),1)
+instruction = MenuLabel("Instructions", (100,100,100),(255,153,0),26,(300,280),2)
+options = MenuLabel("Options", (100,100,100),(0,0,0),26,(300,360),6)
+mainQuit = MenuLabel("Quit", (100,100,100),(0,0,0),26,(300,440),4)
 mainMenu = [start, mainQuit, instruction, options] #Main Menu Labels
 
 #Credits
-Producer = MenuLabel("He's a People Person (Producer): Chris Marcello", "Comic Sans MS", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8), 100)
-Designer = MenuLabel("Man with Vision (Designer): James Lindberg", "Comic Sans MS", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 70), 100)
-Programmer = MenuLabel("Hackerman (Lead Programmer): Lucas DeGraw", "Comic Sans MS", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 140), 100)
-Artist = MenuLabel("Frida Kahlo + GIMP (Lead Artist): Riley Karp", "Comic Sans MS", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 210), 100)
-Sound = MenuLabel("Mariachi (Lead Sound Design): Jerry Diaz ", "Comic Sans MS", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 280), 100)
-Gamer = MenuLabel("Gamer (Quality Assurance): Austin Nantkees", "Comic Sans MS", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 350), 100)
-Knife = MenuLabel("Swiss Army Knife (Multirole): Jon", "Comic Sans MS", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 420), 100)
-DJ = MenuLabel("DJ (Art Assistance): Dean", "Comic Sans MS", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 490), 100)
+Producer = MenuLabel("He's a People Person (Producer): Chris Marcello", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8), 100)
+Designer = MenuLabel("Man with Vision (Designer): James Lindberg", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 70), 100)
+Programmer = MenuLabel("Hackerman (Lead Programmer): Lucas DeGraw", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 140), 100)
+Artist = MenuLabel("Frida Kahlo + GIMP (Lead Artist): Riley Karp", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 210), 100)
+Sound = MenuLabel("Mariachi (Lead Sound Design): Jerry Diaz ", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 280), 100)
+Gamer = MenuLabel("Gamer (Quality Assurance): Austin Nantkees", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 350), 100)
+Knife = MenuLabel("Swiss Army Knife (Multirole): Jon", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 420), 100)
+DJ = MenuLabel("DJ (Art Assistance): Dean", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 490), 100)
 Bruce = MenuLabel("Special Thanks to: Bruce (Totally Not CIA) Maxwell","Comic Sans MS",(100,100,100),(0,0,0),26,(screenWidth/2, screenHeight/8 + 560),100)
 
-lossBack = MenuLabel("Back", "Comic Sans MS", (100,100,100),(0,0,0),24,(screenWidth*8/9,screenHeight/15),5)
+lossBack = MenuLabel("Back", (100,100,100),(0,0,0),24,(screenWidth*8/9,screenHeight/15),5)
 creditsMenu = [Producer, Designer, Programmer, Artist, Sound, Gamer, Knife, DJ, Bruce, lossBack]
 
 #Instructions
-paint = MenuLabel("Paint streams will change your plane's color", "Comic Sans MS", (100,100,100),(0,0,0),24,(screenWidth/2,screenHeight*2/7),100)
-help = MenuLabel("Go through the color block that matches your plane", "Comic Sans MS", (100,100,100),(0,0,0),24,(screenWidth/2,screenHeight*3/7),100)
-controls = MenuLabel("Press Spacebar to increase your upward speed!", "Comic Sans MS", (100,100,100),(0,0,0),24,(screenWidth/2,screenHeight*4/7),100)
-mainBack = MenuLabel("Back", "Comic Sans MS", (100,100,100),(0,0,0),24,(screenWidth*6/7,screenHeight/15),0)
+paint = MenuLabel("Paint streams will change your plane's color", (100,100,100),(0,0,0),24,(screenWidth/2,screenHeight*2/7),100)
+help = MenuLabel("Go through the color block that matches your plane", (100,100,100),(0,0,0),24,(screenWidth/2,screenHeight*3/7),100)
+controls = MenuLabel("Press Spacebar to increase your upward speed!", (100,100,100),(0,0,0),24,(screenWidth/2,screenHeight*4/7),100)
+mainBack = MenuLabel("Back", (100,100,100),(0,0,0),24,(screenWidth*6/7,screenHeight/15),0)
 
 #Options Menu
-musicToggled = MenuLabel("Background Music On/Off", "Comic Sans MS", (100,100,100),(0,0,0),24,(screenWidth/2,screenHeight*2/7),42)
-soundToggled = MenuLabel("Sound Effects On/Off", "Comic Sans MS", (100,100,100),(0,0,0),24,(screenWidth/2,screenHeight*3/7), 43)
+musicToggled = MenuLabel("Background Music On/Off", (100,100,100),(0,0,0),24,(screenWidth/2,screenHeight*2/7),42)
+soundToggled = MenuLabel("Sound Effects On/Off", (100,100,100),(0,0,0),24,(screenWidth/2,screenHeight*3/7), 43)
 optionsList = [mainBack, musicToggled, soundToggled]
 
 #Loss Screen
-credits = MenuLabel("Credits", "Comic Sans MS", (100,100,100),(0,0,0),26,(300,260),3)
-restart = MenuLabel("Retry!", "Comic Sans MS", (100,100,100),(0,0,0),26,(300,100),1)
-main = MenuLabel("Main Menu", "Comic Sans MS", (100,100,100),(0,0,0),26,(300,180),0)
-lossQuit = MenuLabel("Quit", "Comic Sans MS", (100,100,100),(0,0,0),26,(300,340),4)
+credits = MenuLabel("Credits", (100,100,100),(0,0,0),26,(300,260),3)
+restart = MenuLabel("Retry!", (100,100,100),(0,0,0),26,(300,100),1)
+main = MenuLabel("Main Menu", (100,100,100),(0,0,0),26,(300,180),0)
+lossQuit = MenuLabel("Quit", (100,100,100),(0,0,0),26,(300,340),4)
 lossMenu = [restart, credits, lossQuit, main]
 
 ### Initializing Main Loop variables and images ###
