@@ -37,7 +37,7 @@ class Obstacle():
 				
 	def moveObs(self, speed, surface):
 
-		surface.fill((255, 255, 255), self.obstacle)	# fill a surface with the obstacle on a white background
+		#surface.fill((255, 255, 255), self.obstacle)	# fill a surface with the obstacle on a white background
 		#pygame.draw.rect(surface, (255, 255, 255), self.obstacle)
 		self.obstacle.move_ip(speed, 0)	# change the object's internal position
 		self.x += speed

@@ -10,7 +10,9 @@ class Wall(Obstacle):
 	
 	
 	def __init__(self, lastBeamColor, xPos, screenHeight, colors):
-		self.top = screenHeight*3/16
+		self.top = screenHeight*3/32
+		self.obstacleHeight = screenHeight * 27/32 /3 #All 3 or whatever number of obstacles must equal roughly 13/16 of the screen
+		self.width = xPos/28
 
 		#All 3 or whatever number of obstacles must equal roughly 3/4 of the screen
 		self.obstacleHeight = screenHeight/4
@@ -32,12 +34,11 @@ class Wall(Obstacle):
 		self.wallSections = []
 		self.wallSections.extend([self.section1, self.section2, self.section3])
 		
-		
-		
 	def moveWall(self, speed, surface):
 		for section in self.wallSections:
 			section.moveObs(speed, surface)
 			section.draw(surface)
+			
 	def getX(self):
 		#returns the x-position of the top-left corner of the first obstacle in the wallSections list
 		#this is essentially the xposition of the wall's left side

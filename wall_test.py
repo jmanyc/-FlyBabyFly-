@@ -13,13 +13,19 @@ screen = pygame.display.set_mode((800, 600))	# initialize the display surface
 
 # set color options 
 
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
+RED = (255,0,0)
 BLUE = (0,0,255)
+GREEN = (0,255,0)
+YELLOW = (255,255,0)
+PURPLE = (255,0,255)
+CYAN = (0,255,255)
+MAROON = (128,0,0)
+OLIVE = (128,128,0)
+colors = [RED, BLUE, GREEN, YELLOW, PURPLE, CYAN, MAROON, OLIVE] ### For current game, only BLUE RED GREEN
 
 heights = []	# put the heights of the three blocks in a list (in the main loop the section
 heights.extend([150, 150, 150]) # \ heights will vary while the wall sections remain adjacent)
-myWall = Wall(BLUE, [500, 125], [500, 275], [500,425], RED, GREEN, BLUE, heights)	# create the Wall object
+myWall = Wall(BLUE, 800, 600, colors)	# create the Wall object
 
 clock = pygame.time.Clock()	# initialize pygame's internal clock
 screen.fill((255,255,255))	# fill the screen with a white background

@@ -9,8 +9,9 @@ def enum(**enums):
 Colors = enum(RED = (255,0,0), GREEN = (0,255,0), BLUE = (0,0,255))
 
 class Avatar(): 
-	def __init__(self, screenWidth, screenHeight):
+	def __init__(self, screenWidth, screenHeight, soundToggle):
 		self.infoObject = pygame.display.Info()
+		self.soundToggle = soundToggle
 		self.crashSound = pygame.mixer.Sound( "Assets/sound/hit_obstacle.wav" )
 
 
@@ -28,9 +29,10 @@ class Avatar():
 		self.image_c = self.image.get_rect()	#
 		self.x = screenWidth/12 # initial spawn of the image
 		self.y = screenHeight/4
+		
 		### Setting the upper and lower limits so it stays on screen ###
-		self.topLimit = screenHeight*3/16 
-		self.bottomLimit = screenHeight*15/16 - self.image.get_height()
+		self.topLimit = screenHeight*3/32 - self.image.get_height()*2/7
+		self.bottomLimit = screenHeight*15/16 - self.image.get_height()*5/7
 		self.curSpeed = 0 #current speed of the avatar
 		self.gravity = 0.12 #the gravity setting on the avatar, remember this number is added to the speed every tick, so 60 times a second
 		self.alive = True #Used to control the gameState
@@ -56,7 +58,8 @@ class Avatar():
 
 		else:
 			if self.crashing == False: #As we haven't changed it yet, this way we do it only once and the falling is smooth
-				self.crashSound.play()
+				if self.soundToggle == True:
+					self.crashSound.play()
 				self.curSpeed = 0
 			self.crashing = True
 		
@@ -66,7 +69,8 @@ class Avatar():
 			self.curSpeed -= self.gravity
 			self.y -= self.curSpeed
 		else:
-			self.crashSound.play()
+			if self.soundToggle == True:
+				self.crashSound.play()
 			self.alive = False
 			
 	def setColor(self, color):
@@ -141,7 +145,8 @@ if __name__ == "__main__":
 
 	pygame.init()
 	screen = pygame.display.set_mode((800, 600))
-	avatar = Avatar(screen.get_width(),screen.get_height())
+	avatar = Avatar(800,600,True)
+
 	heights = []	# put the heights of the three blocks in a list (in the main loop the section
 	heights.extend([150, 150, 150]) # \ heights will vary while the wall sections remain adjacent)
 	myWall = Wall(BLUE, screen.get_width(), screen.get_height(),colors)	# create the Wall object

@@ -63,11 +63,12 @@ myBeam.draw(screen)	# draw the obstacle to the screen
 print "entering main loop"
 
 while 1: #Main loop
-
+	print clock.get_fps()
 	myBeam.moveBeam(-5, screen)	# move the obstacle leftwards
 	
 	#pygame.display.update([myBeam.beam]) # update the location of the obstacle on the screen
 	pygame.display.update()
+	
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			print "terminating"

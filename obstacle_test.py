@@ -18,20 +18,23 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0,0,255)
 
-myObstacle = Obstacle([500, 500], BLUE, 40, 280, -5)	# create the obstacle object
+myObstacle = Obstacle([500, 500], BLUE, 40, 280)	# create the obstacle object
 
 clock = pygame.time.Clock()	# initialize pygame's internal clock
 screen.fill((255,255,255))	# fill the screen with a white background
 
 
 myObstacle.draw(screen)	# draw the obstacle to the screen
+pygame.display.update()
 print "entering main loop"
 
 while 1: #Main loop
 
 	myObstacle.moveObs(-5, screen)	# move the obstacle leftwards
-	
+	myObstacle.draw(screen)
+
 	pygame.display.update([myObstacle.obstacle]) # update the location of the obstacle on the screen
+#	pygame.display.update()
 	
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
