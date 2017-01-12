@@ -10,20 +10,20 @@ import sys
 import avatar
 from wall import Wall
 from label import MenuLabel
-
+### Initializing all needed Pygame stuff ###
 pygame.mixer.pre_init(44100, -16, 2, 2048)
 pygame.mixer.init()
-#Call the mixer_init and mixer.pre_init before pygame every time
-
 pygame.init()
 pygame.font.init()
 infoObject = pygame.display.Info()
 screenWidth = infoObject.current_w
 screenHeight = infoObject.current_h
-displayFlags = pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE
-screen = pygame.display.set_mode((screenWidth, screenHeight), displayFlags)
+displayFlags = pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE #using hardware acceleration
+screen = pygame.display.set_mode((screenWidth, screenHeight), displayFlags) #Screen size fits all screens
 
 clock = pygame.time.Clock()
+
+### Game Sound ###
 hoverSound = pygame.mixer.Sound( "Assets/sound/click.wav" )
 clickSound = pygame.mixer.Sound( "Assets/sound/pop.wav" )
 pygame.mixer.music.load("Assets/sound/background.mp3")
@@ -31,15 +31,18 @@ pygame.mixer.music.play(-1)
 musicToggle = True
 soundToggle = True
 
+### Gamestate variables ###
 gameState = 0
+'''
+	0 = menu loop
+	1 = go to game
+	2 = Instructions
+	3 = Credits
+	4 = Quit Game
+	5 = Loss Screen
+	6 = Options screen
+'''
 			
-			### 0 = menu loop
-			### 1 = go to game
-			### 2 = Instructions
-			### 3 = Credits
-			### 4 = Quit Game
-			### 5 = Loss Screen
-			### 6 = Options screen
 			
 ### Menu Items/Labels ###
 # varName = MenuLable("Text", "Font-Style", BkgColor of Box, Text Color, fontSize, Position, gamestate it points to)
@@ -84,7 +87,7 @@ main = MenuLabel("Main Menu", "Comic Sans MS", (100,100,100),(0,0,0),26,(300,180
 lossQuit = MenuLabel("Quit", "Comic Sans MS", (100,100,100),(0,0,0),26,(300,340),4)
 lossMenu = [restart, credits, lossQuit, main]
 
-
+### Initializing Main Loop variables and images ###
 squirrel = pygame.image.load( "Assets/img/squirrelPilot.png" ).convert_alpha()
 imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseNoGrass.png" ).convert(),(screenWidth,screenHeight))
 grass = pygame.transform.scale(pygame.image.load("Assets/img/Grass.png").convert_alpha(),(screenWidth/3,screenHeight))
@@ -93,6 +96,7 @@ justClicked = False #Boolean so we can't double click options in the menu
 counter = 0
 objectList = []
 
+#Color list
 RED = (255,0,0)
 BLUE = (0,0,255)
 GREEN = (0,255,0)
@@ -121,6 +125,7 @@ while 1:#Main loop
 				if gameState == 1: #If you add anything to this if statement, add it to the retry menu too
 					pygame.mixer.music.set_volume(0.4)
 					# Reseting the avatar game, had to call it flier because naming it avatar, along with the avatar file was messy
+					counter = 0
 					flier = avatar.Avatar(screenWidth, screenHeight,soundToggle)
 				break
 			
@@ -204,6 +209,7 @@ while 1:#Main loop
 				if gameState == 1:
 					pygame.mixer.music.set_volume(0.4)
 					# Reseting the avatar game, had to call it flier because naming it avatar, along with the avatar file was messy
+					counter = 0
 					flier = avatar.Avatar(screenWidth, screenHeight,soundToggle)
 				justClicked = pygame.mouse.get_pressed()[0]
 				
@@ -217,8 +223,7 @@ while 1:#Main loop
 		for item in optionsList:
 			if item.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
 				# If hovering over the item, and a button is clicked, go to the state the button is linked to. 
-				if soundToggle == True:
-					clickSound.play()
+				
 				clickedState = item.getState()
 				
 				if clickedState == 42: #Music Toggle
@@ -235,7 +240,9 @@ while 1:#Main loop
 						soundToggle = True
 				elif clickedState == 0:
 					gameState = 0
-				break
+				if soundToggle == True:
+					clickSound.play()
+				
 			item.update(screen)
 		justClicked = pygame.mouse.get_pressed()[0]
 		
