@@ -138,9 +138,11 @@ while 1:#Main loop
 		#screen.blit(grass,(0,0))
 		counter+=1
 		tempList = []
+		
 		if counter % 200 == 0:
 			myWall = Wall(BLUE, screenWidth, screenHeight,colors)	# create the Wall object
 			objectList.append(myWall)
+			
 		flier.keyPressed() # handles pressing keys, now if we need to speed up our program work on this
 		flier.applyGravity() # calls the simulated gravity function of avatar
 		#screen.fill((255,255,255))# white background on the screen
@@ -151,6 +153,7 @@ while 1:#Main loop
 			if item.getX() > -screenWidth/28:
 				tempList.append(item)
 				### If performance becomes an issue, check into forcing all update at once, instead of staggered
+				
 		objectList = tempList
 		
 		flier.update(screen)

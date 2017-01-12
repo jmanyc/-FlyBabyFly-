@@ -23,6 +23,7 @@ class Avatar():
 		self.image_c = self.image.get_rect()	#
 		self.x = screenWidth/12 # initial spawn of the image
 		self.y = screenHeight/4
+		
 		### Setting the upper and lower limits so it stays on screen ###
 		self.topLimit = screenHeight*2/16 - self.image.get_height()*2/7
 		self.bottomLimit = screenHeight*15/16 - self.image.get_height()*5/7
