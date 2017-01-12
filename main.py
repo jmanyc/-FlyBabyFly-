@@ -91,6 +91,7 @@ lossMenu = [restart, credits, lossQuit, main]
 squirrel = pygame.image.load( "Assets/img/squirrelPilot.png" ).convert_alpha()
 imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseNoGrass.png" ).convert(),(screenWidth,screenHeight))
 grass = pygame.transform.scale(pygame.image.load("Assets/img/Grass.png").convert_alpha(),(screenWidth/3,screenHeight))
+### Check if it's the right grass file ###
 
 justClicked = False #Boolean so we can't double click options in the menu
 counter = 0
@@ -118,10 +119,12 @@ while 1:#Main loop
 		title.update(screen)
 		for item in mainMenu:
 			if item.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
+			
 				# If hovering over the item, and a button is clicked, go to the state the button is linked to.
 				if soundToggle == True:
 					clickSound.play()
 				gameState = item.getState()
+				
 				if gameState == 1: #If you add anything to this if statement, add it to the retry menu too
 					pygame.mixer.music.set_volume(0.4)
 					# Reseting the avatar game, had to call it flier because naming it avatar, along with the avatar file was messy
@@ -134,6 +137,7 @@ while 1:#Main loop
 			
 	
 	elif gameState == 1: #The actual game looping part
+		pygame.mouse.set_visible(False)
 		screen.blit(imageBkg,(0,0))
 		#screen.blit(grass,(0,0))
 		counter+=1
@@ -141,19 +145,23 @@ while 1:#Main loop
 		
 		if counter % 200 == 0:
 			myWall = Wall(BLUE, screenWidth, screenHeight,colors)	# create the Wall object
+			bottomGrass = grass
 			objectList.append(myWall)
+			grassList.append(bottomList)
 			
 		flier.keyPressed() # handles pressing keys, now if we need to speed up our program work on this
 		flier.applyGravity() # calls the simulated gravity function of avatar
 		#screen.fill((255,255,255))# white background on the screen
 		
 		#Create an iterator here to move each object, and stop drawing the ones that go off-screen
-		for item in objectList:
+		for item in objectList:# This will just be a wall list, since it calls moveWall.
 			item.moveWall(-4, screen)
 			if item.getX() > -screenWidth/28:
 				tempList.append(item)
 				### If performance becomes an issue, check into forcing all update at once, instead of staggered
-				
+		
+		for item in grassList:
+			item.move_ip(-4,0)
 		objectList = tempList
 		
 		flier.update(screen)
@@ -161,9 +169,9 @@ while 1:#Main loop
 		if flier.getAlive() == False: #if the flier is dead
 			pygame.mixer.music.set_volume(1.0)
 			objectList = []
-			
+			pygame.mouse.set_visible(True)
 			gameState = 5 #goto loss screen 
-		print clock.get_fps() #Prints out the fps during the game for testing
+		#print clock.get_fps() #Prints out the fps during the game for testing
 			
 	
 	elif gameState == 2: #Instructions
