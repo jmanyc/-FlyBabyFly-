@@ -18,7 +18,7 @@ class Avatar():
 		### Starts with Red Image ###
 		self.imageScale = (screenWidth/17, screenHeight/10)
 		self.image = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelWhitePlane.png" ).convert_alpha(), self.imageScale)
-
+		self.tempImage = self.image
 		#for testing collision
 		self.image_c = self.image.get_rect()
 
@@ -55,7 +55,7 @@ class Avatar():
 			if key[pygame.K_3] :
 				self.color = Colors.BLUE
 				self.image = self.blueImage
-
+			self.tempImage = self.image
 		else:
 			if self.crashing == False: #As we haven't changed it yet, this way we do it only once and the falling is smooth
 				if self.soundToggle == True:
@@ -95,7 +95,7 @@ class Avatar():
 	def update(self, surface):
 		### Draws the avatar at the selected area ###
 		surface.blit(self.image,(self.x,self.y))
-		
+		self.image = self.tempImage
 		self.image_c = self.image.get_rect()
 		self.image_c.move_ip(self.x,self.y)
 

@@ -65,7 +65,7 @@ Gamer = MenuLabel("Gamer (Quality Assurance): Austin Nantkes", (100,100,100),(0,
 Knife = MenuLabel("Swiss Army Knife (Multirole): Jon", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 420), 100)
 DJ = MenuLabel("DJ (Art Assistance): Dean", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 490), 100)
 
-Bruce = MenuLabel("Special Thanks to: Bruce (Totally Not CIA) Maxwell","Comic Sans MS",(100,100,100),(0,0,0),26,(screenWidth/2, screenHeight/8 + 560),100)
+Bruce = MenuLabel("Special Thanks to: Bruce (Totally Not CIA) Maxwell",(100,100,100),(0,0,0),26,(screenWidth/2, screenHeight/8 + 560),100)
 
 lossBack = MenuLabel("Back", (100,100,100),(0,0,0),24,(screenWidth*8/9,screenHeight/15),5)
 creditsMenu = [Producer, Designer, Programmer, Artist, Sound, Gamer, Knife, DJ, Bruce, lossBack]
@@ -90,7 +90,7 @@ lossMenu = [restart, credits, lossQuit, main]
 
 ### Initializing Main Loop variables and images ###
 squirrel = pygame.image.load( "Assets/img/squirrelPilot.png" ).convert_alpha()
-imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseNoGrass.png" ).convert(),(screenWidth,screenHeight))
+imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseWGrass.png" ).convert(),(screenWidth,screenHeight))
 grass = pygame.transform.scale(pygame.image.load("Assets/img/Grass.png").convert_alpha(),(screenWidth/3,screenHeight))
 ### Check if it's the right grass file ###
 
@@ -146,7 +146,6 @@ while 1:#Main loop
 		#screen.blit(grass,(0,0))
 		counter+=1
 		tempList = []
-		
 		if counter % 200 == 0:
 			myWall = Wall(BLUE, screenWidth, screenHeight, colors)	# create the Wall object
 			#bottomGrass = grass
