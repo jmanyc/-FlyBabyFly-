@@ -96,6 +96,7 @@ grass = pygame.transform.scale(pygame.image.load("Assets/img/Grass.png").convert
 justClicked = False #Boolean so we can't double click options in the menu
 counter = 0
 objectList = []
+grassList = []
 
 #Color list
 RED = (255,0,0)
@@ -147,7 +148,7 @@ while 1:#Main loop
 			myWall = Wall(BLUE, screenWidth, screenHeight,colors)	# create the Wall object
 			bottomGrass = grass
 			objectList.append(myWall)
-			grassList.append(bottomList)
+			grassList.append(bottomGrass)
 			
 		flier.keyPressed() # handles pressing keys, now if we need to speed up our program work on this
 		flier.applyGravity() # calls the simulated gravity function of avatar
@@ -160,8 +161,8 @@ while 1:#Main loop
 				tempList.append(item)
 				### If performance becomes an issue, check into forcing all update at once, instead of staggered
 		
-		for item in grassList:
-			item.move_ip(-4,0)
+		#for item in grassList:
+			#item.move_ip(-4,0)
 		objectList = tempList
 		
 		flier.update(screen)
@@ -255,6 +256,13 @@ while 1:#Main loop
 					clickSound.play()
 				
 			item.update(screen)
+		if musicToggle == True:
+			musicToggled.isHover = True
+			musicToggled.update(screen)
+		if soundToggle == True:
+			soundToggled.isHover = True
+			soundToggled.update(screen)
+			
 		justClicked = pygame.mouse.get_pressed()[0]
 		
 	for event in pygame.event.get(): ##### Find out why removing this crashes the program #####
