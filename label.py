@@ -10,11 +10,11 @@ class MenuLabel():
 		self.hoverSound = pygame.mixer.Sound( "Assets/sound/click.wav" )
 		#Text Part#
 		self.fontSize = fontSize
-		self.font = font
-		self.cFont = pygame.font.SysFont( self.font, self.fontSize, bold=True )
+		self.cFont = pygame.font.Font("Assets/font/dizzyedge.otf",25)
+		#self.cFont = pygame.font.SysFont( self.font, self.fontSize, bold=True )
 		
 		self.text = text
-		self.cText = self.cFont.render( self.text, True, fontColor )
+		self.cText = self.cFont.render( self.text, True, fontColor)
 		
 		#Height and width of the text
 		self.width = self.cText.get_rect().width

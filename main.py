@@ -49,8 +49,8 @@ gameState = 0
 
 #Main Menu
 title = MenuLabel("Fly Baby, Fly", "Comic Sans MS", (100,100,100),(255,255,51),42,(300,100),100)
-start = MenuLabel("Start Game", "Comic Sans MS", (100,100,100),(0,0,0),26,(300,200),1)
-instruction = MenuLabel("Instructions", "Comic Sans MS", (100,100,100),(0,0,0),26,(300,280),2)
+start = MenuLabel("Start Game", "Comic Sans MS", (100,100,100),(255,255,0),26,(300,200),1)
+instruction = MenuLabel("Instructions", "Comic Sans MS", (100,100,100),(255,153,0),26,(300,280),2)
 options = MenuLabel("Options", "Comic Sans MS", (100,100,100),(0,0,0),26,(300,360),6)
 mainQuit = MenuLabel("Quit", "Comic Sans MS", (100,100,100),(0,0,0),26,(300,440),4)
 mainMenu = [start, mainQuit, instruction, options] #Main Menu Labels
@@ -146,9 +146,9 @@ while 1:#Main loop
 		
 		if counter % 200 == 0:
 			myWall = Wall(BLUE, screenWidth, screenHeight,colors)	# create the Wall object
-			bottomGrass = grass
+			#bottomGrass = grass
 			objectList.append(myWall)
-			grassList.append(bottomGrass)
+			#grassList.append(bottomGrass)
 			
 		flier.keyPressed() # handles pressing keys, now if we need to speed up our program work on this
 		flier.applyGravity() # calls the simulated gravity function of avatar
@@ -254,7 +254,7 @@ while 1:#Main loop
 					gameState = 0
 				if soundToggle == True:
 					clickSound.play()
-				
+			item.isHover = False
 			item.update(screen)
 		if musicToggle == True:
 			musicToggled.isHover = True
