@@ -167,7 +167,7 @@ while 1:#Main loop
 		#for item in grassList:
 			#item.move_ip(-4,0)
 		activeWalls = tempList
-		if flier.checkCollision(activeWalls) == True:
+		if flier.wallCollision(activeWalls) == True:
 			score += 1
 		flier.update(screen)
 	
