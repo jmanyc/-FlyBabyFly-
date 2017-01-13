@@ -124,6 +124,7 @@ class Avatar():
  					if self.image_c.colliderect(obst.getObstacle()) == True:
  						if self.color != obst.getColor():
  							self.crashing =True
+							#self.crashSound.play()
  						else:
  							obst.setVisited(True)
  							return True

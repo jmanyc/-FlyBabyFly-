@@ -27,6 +27,7 @@ clock = pygame.time.Clock()
 hoverSound = pygame.mixer.Sound( "Assets/sound/click.wav" )
 clickSound = pygame.mixer.Sound( "Assets/sound/pop.wav" )
 pygame.mixer.music.load("Assets/sound/background.mp3")
+
 pygame.mixer.music.play(-1)
 musicToggle = True
 soundToggle = True
@@ -49,10 +50,10 @@ gameState = 0
 
 #Main Menu
 title = MenuLabel("Fly Baby, Fly", (100,100,100),(255,105,180),42,(300,100),100)
-start = MenuLabel("Start Game", (100,100,100),(255,255,0),26,(300,200),1)
+start = MenuLabel("Start Game", (100,100,100),(255,153,0),26,(300,200),1)
 instruction = MenuLabel("Instructions", (100,100,100),(255,153,0),26,(300,280),2)
-options = MenuLabel("Options", (100,100,100),(0,0,0),26,(300,360),6)
-mainQuit = MenuLabel("Quit", (100,100,100),(0,0,0),26,(300,440),4)
+options = MenuLabel("Options", (100,100,100),(255,153,0),26,(300,360),6)
+mainQuit = MenuLabel("Quit", (100,100,100),(255,153,0),26,(300,440),4)
 mainMenu = [start, mainQuit, instruction, options] #Main Menu Labels
 
 #Credits
@@ -71,14 +72,14 @@ lossBack = MenuLabel("Back", (100,100,100),(0,0,0),24,(screenWidth*8/9,screenHei
 creditsMenu = [Producer, Designer, Programmer, Artist, Sound, Gamer, Knife, DJ, Bruce, lossBack]
 
 #Instructions
-paint = MenuLabel("Paint streams will change your plane's color", (100,100,100),(0,0,0),24,(screenWidth/2,screenHeight*2/7),100)
-help = MenuLabel("Go through the color block that matches your plane", (100,100,100),(0,0,0),24,(screenWidth/2,screenHeight*3/7),100)
-controls = MenuLabel("Press Spacebar to increase your upward speed!", (100,100,100),(0,0,0),24,(screenWidth/2,screenHeight*4/7),100)
+paint = MenuLabel("Paint streams will change your plane's color", (100,100,100),(255,105,180),24,(screenWidth/2,screenHeight*2/7),100)
+help = MenuLabel("Go through the color block that matches your plane", (100,100,100),(255,105,180),24,(screenWidth/2,screenHeight*3/7),100)
+controls = MenuLabel("Press Spacebar to increase your upward speed!", (100,100,100),(255,105,180),24,(screenWidth/2,screenHeight*4/7),100)
 mainBack = MenuLabel("Back", (100,100,100),(0,0,0),24,(screenWidth*6/7,screenHeight/15),0)
 
 #Options Menu
-musicToggled = MenuLabel("Background Music On/Off", (100,100,100),(0,0,0),24,(screenWidth/2,screenHeight*2/7),42)
-soundToggled = MenuLabel("Sound Effects On/Off", (100,100,100),(0,0,0),24,(screenWidth/2,screenHeight*3/7), 43)
+musicToggled = MenuLabel("Background Music On/Off", (100,100,100),(191, 255, 0),24,(screenWidth/2,screenHeight*2/7),42)
+soundToggled = MenuLabel("Sound Effects On/Off", (100,100,100),(191, 255, 0),24,(screenWidth/2,screenHeight*3/7), 43)
 optionsList = [mainBack, musicToggled, soundToggled]
 
 #Loss Screen
@@ -155,7 +156,6 @@ while 1:#Main loop
 		flier.keyPressed() # handles pressing keys, now if we need to speed up our program work on this
 		flier.applyGravity() # calls the simulated gravity function of avatar
 		flier.applyRotation()
-		#screen.fill((255,255,255))# white background on the screen
 		
 		#Create an iterator here to move each object, and stop drawing the ones that go off-screen
 		for item in activeWalls:# This will just be a wall list, since it calls moveWall.
