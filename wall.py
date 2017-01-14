@@ -9,26 +9,19 @@ from obstacles import Obstacle
 class Wall(Obstacle):
 	
 	
-	def __init__(self, lastBeamColor, xPos, screenHeight, colors):
+	def __init__(self, lastBeamColor, xPos, screenHeight, colors, numObs):
 		self.top = screenHeight*3/32
-		self.obstacleHeight = screenHeight * 27/32 /3 #All 3 or whatever number of obstacles must equal roughly 13/16 of the screen
+		self.obstacleHeight = screenHeight * 27/32 /numObs #All 3 or whatever number of obstacles must equal roughly 13/16 of the screen
 		self.width = xPos/28
 		
-		#Creating the list to pick the 3 colors from, with the needed color
-		self.colorList = [lastBeamColor]
-		self.colorList.append(random.choice(colors))# randomly pull some colors to look nice
-		self.colorList.append(random.choice(colors))
+		self.colorList = [lastBeamColor] #Contains all the colors that are going to be in the wall
+		self.wallSections = [] #Contains obstacles
+		for x in range(1, numObs): #Minus one, because we pass in the needed color already
+			self.colorList.append(random.choice(colors))
 		random.shuffle(self.colorList) # Now we shuffle the list and then assign them to the following obstacles
-
-
-		#here we define each of the three wall sections
-		self.section1 = Obstacle((xPos, self.top), self.colorList[0], self.width, self.obstacleHeight)
-		self.section2 = Obstacle((xPos, self.top + self.obstacleHeight), self.colorList[1], self.width, self.obstacleHeight)
-		self.section3 = Obstacle((xPos, self.top + self.obstacleHeight * 2), self.colorList[2], self.width, self.obstacleHeight)
-		
-		#wallSections is the list that stores each of the sections defined above (the sections are Obstacle objects)
-		self.wallSections = []
-		self.wallSections.extend([self.section1, self.section2, self.section3])
+		for x in range(0, numObs):
+			self.section = Obstacle((xPos, self.top + self.obstacleHeight * x), self.colorList[x], self.width, self.obstacleHeight)
+			self.wallSections.append(self.section)
 		
 	def moveWall(self, speed, surface):
 		for section in self.wallSections:

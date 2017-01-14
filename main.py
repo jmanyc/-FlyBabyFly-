@@ -8,8 +8,10 @@
 import pygame
 import sys
 import avatar
+import HighScoreReader
 from wall import Wall
 from label import MenuLabel
+
 ### Initializing all needed Pygame stuff ###
 pygame.mixer.pre_init(44100, -16, 2, 2048)
 pygame.mixer.init()
@@ -18,7 +20,7 @@ pygame.font.init()
 infoObject = pygame.display.Info()
 screenWidth = infoObject.current_w
 screenHeight = infoObject.current_h
-displayFlags = pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE #using hardware acceleration
+displayFlags = pygame.FULLSCREEN# | pygame.DOUBLEBUF | pygame.HWSURFACE #using hardware acceleration
 screen = pygame.display.set_mode((screenWidth, screenHeight), displayFlags) #Screen size fits all screens
 
 clock = pygame.time.Clock()
@@ -89,10 +91,13 @@ main = MenuLabel("Main Menu", (100,100,100),(0,0,0),26,(300,180),0)
 lossQuit = MenuLabel("Quit", (100,100,100),(0,0,0),26,(300,340),4)
 lossMenu = [restart, credits, lossQuit, main]
 
+#In-Game
+scoreLabel = MenuLabel("Score: 0", (100,100,100),(0, 0, 0),24,(screenWidth/9,screenHeight/9),100)
+
 ### Initializing Main Loop variables and images ###
 squirrel = pygame.image.load( "Assets/img/squirrelPilot.png" ).convert_alpha()
 imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseWGrass.png" ).convert(),(screenWidth,screenHeight))
-grass = pygame.transform.scale(pygame.image.load("Assets/img/Grass.png").convert_alpha(),(screenWidth/3,screenHeight))
+#grass = pygame.transform.scale(pygame.image.load("Assets/img/Grass.png").convert_alpha(),(screenWidth/3,screenHeight))
 ### Check if it's the right grass file ###
 
 justClicked = False #Boolean so we can't double click options in the menu
@@ -100,7 +105,7 @@ counter = 0
 score = 0
 activeWalls = []
 grassList = []
-
+scoreLabels = []
 #Color list
 RED = (255,0,0)
 BLUE = (0,0,255)
@@ -113,7 +118,23 @@ OLIVE = (128,128,0)
 colors = [RED, BLUE, GREEN, YELLOW, PURPLE, CYAN, MAROON, OLIVE] ### For current game, only BLUE RED GREEN
 ###colors = [RED,BLUE,GREEN]
 
+def updateScreen(screen, rect, refresh):
+	print "Haha, this isn't done yet, and hopefully won't have to be"
+'''
+	Crop out the background at the rect
+	blit it over the current rect
+	move the rect
+	append it to refresh
+	
+	Later run refresh through update
+'''
 
+def updateFlier(flier):
+	flier.keyPressed() # handles pressing keys, now if we need to speed up our program work on this
+	flier.applyGravity() # calls the simulated gravity function of avatar
+	flier.applyRotation() # Applys rotation to the image
+	
+	
 while 1:#Main loop
 	if gameState == 0: #Start Menu
 		# handle every event since the last frame.
@@ -130,11 +151,12 @@ while 1:#Main loop
 				gameState = item.getState()
 				
 				if gameState == 1: #If you add anything to this if statement, add it to the retry menu too
-					pygame.mixer.music.set_volume(0.4)
-					# Reseting the avatar game, had to call it flier because naming it avatar, along with the avatar file was messy
-					counter = 0
+					### Call this to restart the game and scores ###
 					score = 0
-					flier = avatar.Avatar(screenWidth, screenHeight,soundToggle)
+					scoreLabel.updateText("Score: "+str(score))
+					pygame.mixer.music.set_volume(0.4)
+					counter = 0
+					flier = avatar.Avatar(screenWidth, screenHeight, soundToggle)
 				break
 			
 			item.update(screen)
@@ -148,14 +170,12 @@ while 1:#Main loop
 		counter+=1
 		tempList = []
 		if counter % 200 == 0:
-			myWall = Wall(BLUE, screenWidth, screenHeight, colors)	# create the Wall object
+			myWall = Wall(BLUE, screenWidth, screenHeight, colors, 2)	# create the Wall object with a certain number of obstacles
 			#bottomGrass = grass
 			activeWalls.append(myWall)
 			#grassList.append(bottomGrass)
 			
-		flier.keyPressed() # handles pressing keys, now if we need to speed up our program work on this
-		flier.applyGravity() # calls the simulated gravity function of avatar
-		flier.applyRotation()
+		updateFlier(flier)
 		
 		#Create an iterator here to move each object, and stop drawing the ones that go off-screen
 		for item in activeWalls:# This will just be a wall list, since it calls moveWall.
@@ -169,6 +189,9 @@ while 1:#Main loop
 		activeWalls = tempList
 		if flier.wallCollision(activeWalls) == True:
 			score += 1
+			scoreLabel.updateText("Score: "+str(score))
+			
+		scoreLabel.update(screen)
 		flier.update(screen)
 	
 		if flier.getAlive() == False: #if the flier is dead
@@ -177,6 +200,10 @@ while 1:#Main loop
 			activeWalls = []
 			pygame.mouse.set_visible(True)
 			gameState = 5 #goto loss screen 
+			highScores = HighScoreReader.getHighScores(score)
+			for x in range(0,len(highScores)):
+				loadedScore = MenuLabel("Score: " +str(highScores[x]), (100,100,100),(0, 0, 0),24,(screenWidth*3/4,screenHeight/15*x + screenHeight/5),100)
+				scoreLabels.append(loadedScore)
 		#print clock.get_fps() #Prints out the fps during the game for testing
 			
 	
@@ -214,8 +241,19 @@ while 1:#Main loop
 		sys.exit()
 		
 	elif gameState == 5: #Loss Screen
-		
+		key = pygame.key.get_pressed()
+		if key[pygame.K_SPACE] == True:
+			gameState = 1
+			### Call this to restart the game and scores ###
+			score = 0
+			scoreLabel.updateText("Score: "+str(score))
+			pygame.mixer.music.set_volume(0.4)
+			counter = 0
+			flier = avatar.Avatar(screenWidth, screenHeight, soundToggle)
 		mouse = pygame.mouse.get_pos() # Position of the mouse, gets refreshed every tick
+		for item in scoreLabels:
+			item.update(screen)
+			
 		for item in lossMenu:
 			if item.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
 				# If hovering over the item, and a button is clicked, go to the state the button is linked to. 
@@ -224,11 +262,12 @@ while 1:#Main loop
 				gameState = item.getState()
 				
 				if gameState == 1:
-					pygame.mixer.music.set_volume(0.4)
-					# Reseting the avatar game, had to call it flier because naming it avatar, along with the avatar file was messy
-					counter = 0
+					### Call this to restart the game and scores ###
 					score = 0
-					flier = avatar.Avatar(screenWidth, screenHeight,soundToggle)
+					scoreLabel.updateText("Score: "+str(score))
+					pygame.mixer.music.set_volume(0.4)
+					counter = 0
+					flier = avatar.Avatar(screenWidth, screenHeight, soundToggle)
 				justClicked = pygame.mouse.get_pressed()[0]
 				
 				break

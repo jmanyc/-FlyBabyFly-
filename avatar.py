@@ -6,37 +6,38 @@ import pygame
 from wall import Wall
 def enum(**enums):
 		return type('Enum', (), enums)
-Colors = enum(RED = (255,0,0), GREEN = (0,255,0), BLUE = (0,0,255))
+Colors = enum(RED = (255,0,0), GREEN = (0,255,0), BLUE = (0,0,255), WHITE = (255,255,255))
 
 class Avatar(): 
 	def __init__(self, screenWidth, screenHeight, soundToggle):
+		
 		self.infoObject = pygame.display.Info()
 		self.soundToggle = soundToggle
 		self.crashSound = pygame.mixer.Sound( "Assets/sound/hit_obstacle.wav" )
-
-
-		### Starts with Red Image ###
+		self.hitGround = pygame.mixer.Sound( "Assets/sound/hit_ground.wav" )
+		self.x = screenWidth/12 # initial spawn of the image
+		self.y = screenHeight/4
+		
+		### Starts with white Image ###
 		self.imageScale = (screenWidth/17, screenHeight/10)
 		self.image = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelWhitePlane.png" ).convert_alpha(), self.imageScale)
 		self.tempImage = self.image
 		#for testing collision
 		self.image_c = self.image.get_rect()
 
+		#Preloading the different colors of the squirrel
 		self.redImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelRedPlane.png" ).convert_alpha(), self.imageScale)
 		self.blueImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelBluePlane.png" ).convert_alpha(), self.imageScale)
 		self.greenImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelGreenPlane.png" ).convert_alpha(), self.imageScale)
 		
-		self.image_c = self.image.get_rect()	#
-		self.x = screenWidth/12 # initial spawn of the image
-		self.y = screenHeight/4
 		
 		### Setting the upper and lower limits so it stays on screen ###
-		self.topLimit = screenHeight*3/32 - self.image.get_height()*2/7
+		self.topLimit = screenHeight*3/32 - self.image.get_height()*2/7 #Adjusting for squirrel hitbox
 		self.bottomLimit = screenHeight*15/16 - self.image.get_height()*5/7
 		self.curSpeed = 0 #current speed of the avatar
 		self.gravity = 0.19 #the gravity setting on the avatar, remember this number is added to the speed every tick, so 60 times a second
 		self.alive = True #Used to control the gameState
-		self.color = Colors.RED #Will be used to check collision, and change avatar image to correct color
+		self.color = Colors.WHITE #Will be used to check collision, and change avatar image to correct color
 		self.crashing = False #Used to animate the crashing of the avatar
 
 	def keyPressed(self):
@@ -57,7 +58,7 @@ class Avatar():
 				self.image = self.blueImage
 			self.tempImage = self.image
 		else:
-			if self.crashing == False: #As we haven't changed it yet, this way we do it only once and the falling is smooth
+			if self.crashing == False: #The squirrel bonks his head on the gutter and falls
 				if self.soundToggle == True:
 					self.crashSound.play()
 				self.curSpeed = 0
@@ -69,8 +70,9 @@ class Avatar():
 			self.curSpeed -= self.gravity
 			self.y -= self.curSpeed
 		else:
-			if self.soundToggle == True:
-				self.crashSound.play()
+			if self.soundToggle == True:#If the squirrel hits the ground
+				#dust animation
+				self.hitGround.play()
 			self.alive = False
 			
 	def setColor(self, color):
@@ -102,10 +104,10 @@ class Avatar():
 	def applyRotation(self):
 		angle = self.curSpeed*3.5
 		orig_rect = self.image.get_rect()
-		rot_image = pygame.transform.rotate(self.image, angle)
-		rot_rect = orig_rect.copy()
-		rot_rect.center = rot_image.get_rect().center
-		self.image = rot_image.subsurface(rot_rect).copy()
+		rotated_image = pygame.transform.rotate(self.image, angle)
+		rotated_rect = orig_rect.copy()
+		rotated_rect.center = rotated_image.get_rect().center #Makes sure our new image is centered after rotation
+		self.image = rotated_image.subsurface(rotated_rect).copy()
 		
 
 	def getPosition(self):
@@ -113,31 +115,32 @@ class Avatar():
 		
 	###def setAvatar(self, image):	  Idea for later
 	
- 	def wallCollision(self, activeWalls):
- 		'''
- 			method for collision detection. Takes in 2 lists: activeObstacles and 
- 		'''
- 		for wall in activeWalls:
- 			
- 			for obst in wall.getWallSections():
- 				if obst.getVisited() == False:
- 					if self.image_c.colliderect(obst.getObstacle()) == True:
- 						if self.color != obst.getColor():
- 							self.crashing =True
+	def wallCollision(self, activeWalls):
+		for wall in activeWalls:
+			for obst in wall.getWallSections():
+				if obst.getVisited() == False:
+					if self.image_c.colliderect(obst.getObstacle()) == True:
+						if self.color != obst.getColor():
+							self.crashing =True
 							#self.crashSound.play()
- 						else:
- 							obst.setVisited(True)
- 							return True
- 						return False
+						else:
+							obst.setVisited(True)
+							return True
+						return False
 
 
- 	def beamCollision(self,activeBeams):					
- 		
- 		if activeBeams != None:
- 			for beam in activeBeams:
- 				if beam.getVisited() == False:
- 					if self.image_c.colliderect(beam.getBeam()) == True:
+	def beamCollision(self,activeBeams):					
+		if activeBeams != None:
+			for beam in activeBeams:
+				if beam.getVisited() == False:
+					if self.image_c.colliderect(beam.getBeam()) == True:
  						self.color = beam.getColor()
+						if self.color == (255,0,0): #Red
+							self.image = self.redImage
+						elif self.color == (0,0,255): #Blue
+							self.image = self.blueImage
+						elif self.color == (0,255,0): #Green
+							self.image = self.greenImage
 
 
 

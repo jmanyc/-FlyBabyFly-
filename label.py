@@ -11,10 +11,10 @@ class MenuLabel():
 		#Text Part#
 		self.fontSize = fontSize
 		self.cFont = pygame.font.Font("Assets/font/dizzyedge.otf",fontSize)
-		#self.cFont = pygame.font.SysFont( self.font, self.fontSize, bold=True )
+		self.fontColor = fontColor
 		
 		self.text = text
-		self.cText = self.cFont.render( self.text, True, fontColor)
+		self.cText = self.cFont.render( self.text, True, self.fontColor)
 		
 		#Height and width of the text
 		self.width = self.cText.get_rect().width
@@ -45,6 +45,11 @@ class MenuLabel():
 		self.hoverOnce = False
 		self.bkgColor = self.tempColor
 		return False
+		
+	def updateText(self, text):
+		self.cText = self.cFont.render( text, True, self.fontColor)
+		self.width = self.cText.get_rect().width
+		self.height = self.cText.get_rect().height
 		
 	def getState(self):
 		### Returns the gameState the button points to ###
