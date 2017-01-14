@@ -9,6 +9,7 @@ import pygame
 import sys
 import avatar
 import HighScoreReader
+import quoteReader
 from wall import Wall
 from label import MenuLabel
 
@@ -93,6 +94,7 @@ lossMenu = [restart, credits, lossQuit, main]
 
 #In-Game
 scoreLabel = MenuLabel("Score: 0", (100,100,100),(0, 0, 0),24,(screenWidth/9,screenHeight/9),100)
+quoteLabel = MenuLabel(quoteReader.getQuote(), (100,100,100),(0, 0, 0),24,(screenWidth/2,screenHeight*11/12),100)
 
 ### Initializing Main Loop variables and images ###
 squirrel = pygame.image.load( "Assets/img/squirrelPilot.png" ).convert_alpha()
@@ -141,7 +143,9 @@ while 1:#Main loop
 		screen.fill((40,80,160))
 		mouse = pygame.mouse.get_pos() # Position of the mouse, gets refreshed every tick
 		screen.blit(squirrel,(500,50))
+		quoteLabel.update(screen)
 		title.update(screen)
+		
 		for item in mainMenu:
 			if item.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
 			
@@ -195,8 +199,8 @@ while 1:#Main loop
 		flier.update(screen)
 	
 		if flier.getAlive() == False: #if the flier is dead
-			print score
 			pygame.mixer.music.set_volume(1.0)
+			quoteLabel.updateText(quoteReader.getQuote())
 			activeWalls = []
 			pygame.mouse.set_visible(True)
 			gameState = 5 #goto loss screen 
@@ -255,12 +259,12 @@ while 1:#Main loop
 			item.update(screen)
 			
 		for item in lossMenu:
+			quoteLabel.update(screen)
 			if item.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
 				# If hovering over the item, and a button is clicked, go to the state the button is linked to. 
 				if soundToggle == True:
 					clickSound.play()
 				gameState = item.getState()
-				
 				if gameState == 1:
 					### Call this to restart the game and scores ###
 					score = 0
@@ -268,6 +272,8 @@ while 1:#Main loop
 					pygame.mixer.music.set_volume(0.4)
 					counter = 0
 					flier = avatar.Avatar(screenWidth, screenHeight, soundToggle)
+				elif gameState == 0:
+					quoteLabel.updateText(quoteReader.getQuote())
 				justClicked = pygame.mouse.get_pressed()[0]
 				
 				break

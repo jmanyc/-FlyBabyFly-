@@ -23,6 +23,7 @@ class MenuLabel():
 		#Color of the rectangle, and dealing with hover/state
 		self.bkgColor = bkgColor
 		self.tempColor = bkgColor #Backup color for when we change it on hover
+		self.initialX = x
 		self.x = x - self.width/2
 		self.y = y
 		self.hoverOnce = False
@@ -50,6 +51,7 @@ class MenuLabel():
 		self.cText = self.cFont.render( text, True, self.fontColor)
 		self.width = self.cText.get_rect().width
 		self.height = self.cText.get_rect().height
+		self.x = self.initialX - self.width/2
 		
 	def getState(self):
 		### Returns the gameState the button points to ###
