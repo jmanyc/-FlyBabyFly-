@@ -17,7 +17,10 @@ class Wall(Obstacle):
 		self.colorList = [lastBeamColor] #Contains all the colors that are going to be in the wall
 		self.wallSections = [] #Contains obstacles
 		for x in range(1, numObs): #Minus one, because we pass in the needed color already
-			self.colorList.append(random.choice(colors))
+			tempColor = random.choice(colors)
+			while tempColor == lastBeamColor:
+				tempColor = random.choice(colors)
+			self.colorList.append(tempColor)
 		random.shuffle(self.colorList) # Now we shuffle the list and then assign them to the following obstacles
 		for x in range(0, numObs):
 			self.section = Obstacle((xPos, self.top + self.obstacleHeight * x), self.colorList[x], self.width, self.obstacleHeight)

@@ -30,6 +30,9 @@ clock = pygame.time.Clock()
 ### Game Sound ###
 hoverSound = pygame.mixer.Sound( "Assets/sound/click.wav" )
 clickSound = pygame.mixer.Sound( "Assets/sound/pop.wav" )
+pointSound = pygame.mixer.Sound( "Assets/sound/blip.wav" )
+crashSound = pygame.mixer.Sound( "Assets/sound/hit_obstacle.wav" )
+paintSound = pygame.mixer.Sound( "Assets/sound/through_paint.wav" )
 pygame.mixer.music.load("Assets/sound/background.mp3")
 
 pygame.mixer.music.play(-1)
@@ -104,6 +107,7 @@ imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseWGrass.png
 ### Check if it's the right grass file ###
 
 justClicked = False #Boolean so we can't double click options in the menu
+isPassing = False #Boolean so score isn't counted twice, nor sound played twice
 counter = 0
 score = 0
 activeWalls = []
@@ -179,14 +183,17 @@ while 1:#Main loop
 		#screen.blit(grass,(0,0))
 		counter+=1
 		tempList = []
+		
 		if counter % 200 == 0:
 			myWall = Wall(BLUE, screenWidth, screenHeight, colors, 3)	# create the Wall object with a certain number of obstacles
 			#bottomGrass = grass
 			activeWalls.append(myWall)
 			#grassList.append(bottomGrass)
+			
 		if counter % 240 == 0: #Add a special counter that makes sure they don't spawn on each other
 			myBeam = Beam(screenWidth, BLUE, screenWidth, screenHeight)
 			activeBeams.append(myBeam)
+			
 		updateFlier(flier) #Calls movement, gravity and rotation of avatar
 		
 		
@@ -203,14 +210,20 @@ while 1:#Main loop
 		tempList = []
 		for item in activeBeams:
 			item.moveBeam(-4, screen)
-			if item.getPosition() > -screenWidth/15:
+			if item.getPosition() > -screenWidth/4:
 				tempList.append(item)
 				
 		activeBeams = tempList
 		
-		if flier.wallCollision(activeWalls) == True:
-			score += 1
-			scoreLabel.updateText("Score: "+str(score))
+		if flier.wallCollision(activeWalls) == True: #If passing through the wall is true
+			if isPassing == False:
+				pointSound.play()
+				score += 1
+				scoreLabel.updateText("Score: "+str(score))
+				isPassing = True #So score is calculated once per wall
+		else:
+			#crashSound.play()
+			isPassing = False
 			
 		scoreLabel.update(screen)
 		flier.update(screen)
@@ -222,7 +235,7 @@ while 1:#Main loop
 			activeBeams = []
 			pygame.mouse.set_visible(True)
 			gameState = 5 #goto loss screen 
-			highScores = HighScoreReader.getHighScores(score)
+			highScores = HighScoreReader.getHighScores(score) #inputs the current score, then returns a list of all scores cut off at top 10
 			for x in range(0,len(highScores)):
 				loadedScore = MenuLabel("Score: " +str(highScores[x]), (100,100,100),(0, 0, 0),24,(screenWidth*3/4,screenHeight/15*x + screenHeight/5),100)
 				scoreLabels.append(loadedScore)

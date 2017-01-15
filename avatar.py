@@ -116,17 +116,19 @@ class Avatar():
 	###def setAvatar(self, image):	  Idea for later
 	
 	def wallCollision(self, activeWalls):
+	### Returns true for correct collision, false for incorrect ###
 		for wall in activeWalls:
 			for obst in wall.getWallSections():
 				if obst.getVisited() == False:
 					if self.image_c.colliderect(obst.getObstacle()) == True:
+						obst.setVisited(True)
 						if self.color != obst.getColor():
-							self.crashing =True
-							#self.crashSound.play()
+							self.crashing = True
+							self.crashSound.play()
+							return False
 						else:
-							obst.setVisited(True)
 							return True
-						return False
+
 
 
 	def beamCollision(self,activeBeams):					
