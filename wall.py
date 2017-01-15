@@ -29,6 +29,7 @@ class Wall(Obstacle):
 	def moveWall(self, speed, surface):
 		for section in self.wallSections:
 			section.moveObs(speed, surface)
+		for section in self.wallSections:
 			section.draw(surface)
 			
 	def getX(self):

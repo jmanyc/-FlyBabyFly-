@@ -17,7 +17,7 @@ class Beam():
 		self.screenWidth = screenWidth
 		
 		self.imageScale = (screenWidth/6, screenHeight) # This needs tweaking, should be 5.5
-		
+		self.visited = False
 		if self.color == (255,0,0): #Red
 			self.image = pygame.transform.scale(pygame.image.load( "Assets/img/RedPaint.png" ).convert_alpha(), self.imageScale)
 		elif self.color == (0,0,255): #Blue
@@ -26,6 +26,11 @@ class Beam():
 			self.image = pygame.transform.scale(pygame.image.load( "Assets/img/GreenPaint.png" ).convert_alpha(), self.imageScale)
 		self.beam = self.image.get_rect()
 		
+	def getVisited(self):
+		return self.visited
+		
+	def setVisited(self, bool):
+		self.visited = bool
 		
 	def getPosition(self):
 		return self.x
@@ -36,8 +41,7 @@ class Beam():
 	def getColor(self):
 		return self.color
         
-	def draw(self, surface):
-		#pygame.draw.rect(surface, self.color, self.beam)
+	def draw(self, surface):		
 		surface.blit(self.image,(self.x,self.y))
 
 	def getBeam(self):
@@ -46,7 +50,8 @@ class Beam():
 
 		
 	def moveBeam(self, speed, surface):
-		self.beam.move_ip(speed, 0)	# change the object's internal position
+		self.beam = self.image.get_rect()
+		self.beam.move_ip(self.x, 0)	# change the object's internal position
 		self.x += speed
 		self.draw(surface)    # redraw the obstacle at its new position on the display
 		

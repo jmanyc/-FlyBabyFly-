@@ -10,6 +10,7 @@ import sys
 import avatar
 import HighScoreReader
 import quoteReader
+import random
 from beams import Beam
 from wall import Wall
 from label import MenuLabel
@@ -32,7 +33,7 @@ hoverSound = pygame.mixer.Sound( "Assets/sound/click.wav" )
 clickSound = pygame.mixer.Sound( "Assets/sound/pop.wav" )
 pointSound = pygame.mixer.Sound( "Assets/sound/blip.wav" )
 crashSound = pygame.mixer.Sound( "Assets/sound/hit_obstacle.wav" )
-paintSound = pygame.mixer.Sound( "Assets/sound/through_paint.wav" )
+
 pygame.mixer.music.load("Assets/sound/background.mp3")
 
 pygame.mixer.music.play(-1)
@@ -108,8 +109,12 @@ imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseWGrass.png
 
 justClicked = False #Boolean so we can't double click options in the menu
 isPassing = False #Boolean so score isn't counted twice, nor sound played twice
+
 counter = 0
 score = 0
+nextWall = random.randint(130, 160)
+nextBeam = random.randint(170, 200)
+
 activeWalls = []
 activeBeams = []
 grassList = []
@@ -124,7 +129,7 @@ CYAN = (0,255,255)
 MAROON = (128,0,0)
 OLIVE = (128,128,0)
 colors = [RED, BLUE, GREEN, YELLOW, PURPLE, CYAN, MAROON, OLIVE] ### For current game, only BLUE RED GREEN
-###colors = [RED,BLUE,GREEN]
+baseColors = [RED,BLUE,GREEN]
 
 def updateScreen(screen, rect, refresh):
 	print "Haha, this isn't done yet, and hopefully won't have to be"
@@ -181,18 +186,32 @@ while 1:#Main loop
 		pygame.mouse.set_visible(False)
 		screen.blit(imageBkg,(0,0))
 		#screen.blit(grass,(0,0))
-		counter+=1
-		tempList = []
+		counter += 1
 		
-		if counter % 200 == 0:
-			myWall = Wall(BLUE, screenWidth, screenHeight, colors, 3)	# create the Wall object with a certain number of obstacles
+		
+		tempList = []
+		if counter == nextBeam:
+			if abs(nextBeam - nextWall) > 40: #So they don't spawn on top of each other
+				difColor = random.choice(baseColors)
+				while difColor == flier.getColor():
+					difColor = random.choice(baseColors)
+				myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight)
+				activeBeams.append(myBeam)
+			nextBeam = random.randint(170, 200) + counter
+			
+		if counter == nextWall:
+			if len(activeBeams)!= 0:
+				myWall = Wall(activeBeams[len(activeBeams)-1].getColor(), screenWidth, screenHeight, colors, 3)	# create the Wall object with a certain number of obstacles
+				#Last beam in the list is the closest one to the wall being created
+			else:
+				myWall = Wall(flier.getColor(), screenWidth, screenHeight, colors, 3)
+				
+			nextWall = random.randint(130, 160) + counter
 			#bottomGrass = grass
 			activeWalls.append(myWall)
 			#grassList.append(bottomGrass)
 			
-		if counter % 240 == 0: #Add a special counter that makes sure they don't spawn on each other
-			myBeam = Beam(screenWidth, BLUE, screenWidth, screenHeight)
-			activeBeams.append(myBeam)
+		
 			
 		updateFlier(flier) #Calls movement, gravity and rotation of avatar
 		
@@ -208,6 +227,8 @@ while 1:#Main loop
 			#item.move_ip(-4,0)
 		activeWalls = tempList
 		tempList = []
+		
+		
 		for item in activeBeams:
 			item.moveBeam(-4, screen)
 			if item.getPosition() > -screenWidth/4:
@@ -215,14 +236,15 @@ while 1:#Main loop
 				
 		activeBeams = tempList
 		
-		if flier.wallCollision(activeWalls) == True: #If passing through the wall is true
+		flier.beamCollision(activeBeams, soundToggle)
+		
+		if flier.wallCollision(activeWalls, soundToggle) == True: #If passing through the wall is true
 			if isPassing == False:
-				pointSound.play()
+				playSound(pointSound, soundToggle)
 				score += 1
 				scoreLabel.updateText("Score: "+str(score))
 				isPassing = True #So score is calculated once per wall
 		else:
-			#crashSound.play()
 			isPassing = False
 			
 		scoreLabel.update(screen)
@@ -233,6 +255,8 @@ while 1:#Main loop
 			quoteLabel.updateText(quoteReader.getQuote())
 			activeWalls = []
 			activeBeams = []
+			nextWall = random.randint(130, 160)
+			nextBeam = random.randint(170, 200)
 			pygame.mouse.set_visible(True)
 			gameState = 5 #goto loss screen 
 			highScores = HighScoreReader.getHighScores(score) #inputs the current score, then returns a list of all scores cut off at top 10

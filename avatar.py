@@ -15,6 +15,7 @@ class Avatar():
 		self.soundToggle = soundToggle
 		self.crashSound = pygame.mixer.Sound( "Assets/sound/hit_obstacle.wav" )
 		self.hitGround = pygame.mixer.Sound( "Assets/sound/hit_ground.wav" )
+		self.paintSound = pygame.mixer.Sound( "Assets/sound/through_paint.wav" )
 		self.x = screenWidth/12 # initial spawn of the image
 		self.y = screenHeight/4
 		
@@ -35,7 +36,7 @@ class Avatar():
 		self.topLimit = screenHeight*3/32 - self.image.get_height()*2/7 #Adjusting for squirrel hitbox
 		self.bottomLimit = screenHeight*15/16 - self.image.get_height()*5/7
 		self.curSpeed = 0 #current speed of the avatar
-		self.gravity = 0.19 #the gravity setting on the avatar, remember this number is added to the speed every tick, so 60 times a second
+		self.gravity = 0.09 #the gravity setting on the avatar, remember this number is added to the speed every tick, so 60 times a second
 		self.alive = True #Used to control the gameState
 		self.color = Colors.WHITE #Will be used to check collision, and change avatar image to correct color
 		self.crashing = False #Used to animate the crashing of the avatar
@@ -115,7 +116,7 @@ class Avatar():
 		
 	###def setAvatar(self, image):	  Idea for later
 	
-	def wallCollision(self, activeWalls):
+	def wallCollision(self, activeWalls, soundToggle):
 	### Returns true for correct collision, false for incorrect ###
 		for wall in activeWalls:
 			for obst in wall.getWallSections():
@@ -124,26 +125,29 @@ class Avatar():
 						obst.setVisited(True)
 						if self.color != obst.getColor():
 							self.crashing = True
-							self.crashSound.play()
+							if soundToggle == True:
+								self.crashSound.play()
 							return False
 						else:
 							return True
 
 
 
-	def beamCollision(self,activeBeams):					
-		if activeBeams != None:
-			for beam in activeBeams:
-				if beam.getVisited() == False:
-					if self.image_c.colliderect(beam.getBeam()) == True:
- 						self.color = beam.getColor()
-						if self.color == (255,0,0): #Red
-							self.image = self.redImage
-						elif self.color == (0,0,255): #Blue
-							self.image = self.blueImage
-						elif self.color == (0,255,0): #Green
-							self.image = self.greenImage
-
+	def beamCollision(self,activeBeams, soundToggle):					
+		for beam in activeBeams:
+			if beam.getVisited() == False:
+				if self.image_c.colliderect(beam.getBeam()) == True:
+					self.color = beam.getColor()
+					if soundToggle == True:
+						self.paintSound.play()
+					beam.setVisited(True)
+					if self.color == (255,0,0): #Red
+						self.image = self.redImage
+					elif self.color == (0,0,255): #Blue
+						self.image = self.blueImage
+					elif self.color == (0,255,0): #Green
+						self.image = self.greenImage
+					self.tempImage = self.image
 
 
  						
