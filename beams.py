@@ -7,22 +7,28 @@ import pygame, os, sys
 
 class Beam():
 
-	def __init__(self, position, color, width, height, speed):
-	
-		self.position = position
-		self.x = self.position[0]
-		self.y = self.position[1]
-		self.color = color
-		self.speed = speed
-		self.height = height
-		self.width = width
-		self.beam = pygame.Rect((self.x-self.width/2,self.y-self.height/2), (self.width, self.height))
+	def __init__(self, position, color, screenWidth, screenHeight): #Work on this
 		
-	def setPosition(self, position):
-		self.position = position
+		self.x = position
+		self.y = 0
+		self.color = color
+
+		self.screenHeight = screenHeight
+		self.screenWidth = screenWidth
+		
+		self.imageScale = (screenWidth/6, screenHeight) # This needs tweaking, should be 5.5
+		
+		if self.color == (255,0,0): #Red
+			self.image = pygame.transform.scale(pygame.image.load( "Assets/img/RedPaint.png" ).convert_alpha(), self.imageScale)
+		elif self.color == (0,0,255): #Blue
+			self.image = pygame.transform.scale(pygame.image.load( "Assets/img/BluePaint.png" ).convert_alpha(), self.imageScale)
+		elif self.color == (0,255,0): #Green
+			self.image = pygame.transform.scale(pygame.image.load( "Assets/img/GreenPaint.png" ).convert_alpha(), self.imageScale)
+		self.beam = self.image.get_rect()
+		
 		
 	def getPosition(self):
-		return self.position
+		return self.x
 		
 	def setColor(self, color):
 		self.color = color
@@ -31,7 +37,8 @@ class Beam():
 		return self.color
         
 	def draw(self, surface):
-		pygame.draw.rect(surface, self.color, self.beam)
+		#pygame.draw.rect(surface, self.color, self.beam)
+		surface.blit(self.image,(self.x,self.y))
 
 	def getBeam(self):
 		#returns this Beam object's Rect defined in self.beam
@@ -39,15 +46,13 @@ class Beam():
 
 		
 	def moveBeam(self, speed, surface):
-
-		surface.fill((255, 255, 255), self.beam)	# fill a surface with the obstacle on a white background
-		self.beam.move_ip(self.speed, 0)	# change the object's internal position
-
+		self.beam.move_ip(speed, 0)	# change the object's internal position
+		self.x += speed
 		self.draw(surface)    # redraw the obstacle at its new position on the display
 		
 		
 # ------------- Test code ----------------------------------------------------------------
-		
+'''
 pygame.init()
 screen = pygame.display.set_mode((800, 600))
 
@@ -80,3 +85,4 @@ while 1: #Main loop
 			sys.exit()
 			break
 	clock.tick(60) # 60 fps
+'''

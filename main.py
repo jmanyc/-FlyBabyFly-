@@ -10,6 +10,7 @@ import sys
 import avatar
 import HighScoreReader
 import quoteReader
+from beams import Beam
 from wall import Wall
 from label import MenuLabel
 
@@ -106,6 +107,7 @@ justClicked = False #Boolean so we can't double click options in the menu
 counter = 0
 score = 0
 activeWalls = []
+activeBeams = []
 grassList = []
 scoreLabels = []
 #Color list
@@ -135,7 +137,12 @@ def updateFlier(flier):
 	flier.keyPressed() # handles pressing keys, now if we need to speed up our program work on this
 	flier.applyGravity() # calls the simulated gravity function of avatar
 	flier.applyRotation() # Applys rotation to the image
-	
+
+def playSound(sound, toggle):
+	### Made this to reduce the size of main.py ###
+	### Plays a sound if the toggle is on ###
+	if toggle == True:
+		sound.play()
 	
 while 1:#Main loop
 	if gameState == 0: #Start Menu
@@ -150,8 +157,7 @@ while 1:#Main loop
 			if item.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
 			
 				# If hovering over the item, and a button is clicked, go to the state the button is linked to.
-				if soundToggle == True:
-					clickSound.play()
+				playSound(clickSound,soundToggle)
 				gameState = item.getState()
 				
 				if gameState == 1: #If you add anything to this if statement, add it to the retry menu too
@@ -174,15 +180,18 @@ while 1:#Main loop
 		counter+=1
 		tempList = []
 		if counter % 200 == 0:
-			myWall = Wall(BLUE, screenWidth, screenHeight, colors, 2)	# create the Wall object with a certain number of obstacles
+			myWall = Wall(BLUE, screenWidth, screenHeight, colors, 3)	# create the Wall object with a certain number of obstacles
 			#bottomGrass = grass
 			activeWalls.append(myWall)
 			#grassList.append(bottomGrass)
-			
-		updateFlier(flier)
+		if counter % 240 == 0: #Add a special counter that makes sure they don't spawn on each other
+			myBeam = Beam(screenWidth, BLUE, screenWidth, screenHeight)
+			activeBeams.append(myBeam)
+		updateFlier(flier) #Calls movement, gravity and rotation of avatar
 		
-		#Create an iterator here to move each object, and stop drawing the ones that go off-screen
-		for item in activeWalls:# This will just be a wall list, since it calls moveWall.
+		
+		### Iteration of objects on screen ###
+		for item in activeWalls:#Create an iterator here to move each object, and stop drawing the ones that go off-screen
 			item.moveWall(-4, screen)
 			if item.getX() > -screenWidth/28:
 				tempList.append(item)
@@ -191,6 +200,14 @@ while 1:#Main loop
 		#for item in grassList:
 			#item.move_ip(-4,0)
 		activeWalls = tempList
+		tempList = []
+		for item in activeBeams:
+			item.moveBeam(-4, screen)
+			if item.getPosition() > -screenWidth/15:
+				tempList.append(item)
+				
+		activeBeams = tempList
+		
 		if flier.wallCollision(activeWalls) == True:
 			score += 1
 			scoreLabel.updateText("Score: "+str(score))
@@ -202,6 +219,7 @@ while 1:#Main loop
 			pygame.mixer.music.set_volume(1.0)
 			quoteLabel.updateText(quoteReader.getQuote())
 			activeWalls = []
+			activeBeams = []
 			pygame.mouse.set_visible(True)
 			gameState = 5 #goto loss screen 
 			highScores = HighScoreReader.getHighScores(score)
@@ -220,8 +238,7 @@ while 1:#Main loop
 		paint.update(screen)
 		key = pygame.key.get_pressed()
 		if key[pygame.K_BACKSPACE] or (mainBack.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0]):
-			if soundToggle == True:
-				clickSound.play()
+			playSound(clickSound,soundToggle)
 			gameState = 0
 			
 			
@@ -235,8 +252,7 @@ while 1:#Main loop
 		key = pygame.key.get_pressed()
 		if key[pygame.K_BACKSPACE] or (lossBack.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0]):
 			#If back button is clicked, go back to loss screen
-			if soundToggle == True:
-				clickSound.play()
+			playSound(clickSound,soundToggle)
 			gameState = 5
 			screen.fill((40,80,160))
 			
@@ -262,8 +278,7 @@ while 1:#Main loop
 			quoteLabel.update(screen)
 			if item.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
 				# If hovering over the item, and a button is clicked, go to the state the button is linked to. 
-				if soundToggle == True:
-					clickSound.play()
+				playSound(clickSound,soundToggle)
 				gameState = item.getState()
 				if gameState == 1:
 					### Call this to restart the game and scores ###
@@ -303,8 +318,7 @@ while 1:#Main loop
 						soundToggle = True
 				elif clickedState == 0:
 					gameState = 0
-				if soundToggle == True:
-					clickSound.play()
+				playSound(clickSound,soundToggle)
 			item.isHover = False
 			item.update(screen)
 		if musicToggle == True:
