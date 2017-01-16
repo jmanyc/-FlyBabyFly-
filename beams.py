@@ -24,6 +24,8 @@ class Beam():
 			self.image = pygame.transform.scale(pygame.image.load( "Assets/img/BluePaint.png" ).convert_alpha(), self.imageScale)
 		elif self.color == (0,255,0): #Green
 			self.image = pygame.transform.scale(pygame.image.load( "Assets/img/GreenPaint.png" ).convert_alpha(), self.imageScale)
+		elif self.color == (255,0,255): #Purple
+			self.image = pygame.transform.scale(pygame.image.load( "Assets/img/PurplePaint.png" ).convert_alpha(), self.imageScale)
 		self.beam = self.image.get_rect()
 		
 	def getVisited(self):

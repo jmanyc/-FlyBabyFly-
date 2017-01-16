@@ -30,7 +30,7 @@ class Avatar():
 		self.redImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelRedPlane.png" ).convert_alpha(), self.imageScale)
 		self.blueImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelBluePlane.png" ).convert_alpha(), self.imageScale)
 		self.greenImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelGreenPlane.png" ).convert_alpha(), self.imageScale)
-		
+		self.purpleImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelPurplePlane.png" ).convert_alpha(), self.imageScale)
 		
 		### Setting the upper and lower limits so it stays on screen ###
 		self.topLimit = screenHeight*3/32 - self.image.get_height()*2/7 #Adjusting for squirrel hitbox
@@ -148,6 +148,8 @@ class Avatar():
 						self.image = self.blueImage
 					elif self.color == (0,255,0): #Green
 						self.image = self.greenImage
+					elif self.color == (255,0,255): #Green
+						self.image = self.purpleImage
 					self.tempImage = self.image
 					self.applyRotation()
 

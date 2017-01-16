@@ -103,7 +103,7 @@ quoteLabel = MenuLabel(quoteReader.getQuote(), (100,100,100),(0, 0, 0),24,(scree
 
 ### Initializing Main Loop variables and images ###
 squirrel = pygame.image.load( "Assets/img/squirrelPilot.png" ).convert_alpha()
-imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseNoGrass.png" ).convert(),(screenWidth,screenHeight))
+imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/GrayHouse.png" ).convert(),(screenWidth,screenHeight))
 testGrass = Grass(screenWidth, screenHeight, -4)
 
 justClicked = False #Boolean so we can't double click options in the menu
@@ -111,6 +111,7 @@ isPassing = False #Boolean so score isn't counted twice, nor sound played twice
 
 counter = 0
 score = 0
+wallSpeed = -4
 nextWall = random.randint(130, 160)
 nextBeam = random.randint(170, 200)
 
@@ -128,7 +129,7 @@ CYAN = (0,255,255)
 MAROON = (128,0,0)
 OLIVE = (128,128,0)
 colors = [RED, BLUE, GREEN, YELLOW, PURPLE, CYAN, MAROON, OLIVE] ### For current game, only BLUE RED GREEN
-baseColors = [RED,BLUE,GREEN]
+baseColors = [RED,BLUE,GREEN,PURPLE]
 
 def updateScreen(screen, rect, refresh):
 	print "Haha, this isn't done yet, and hopefully won't have to be"
@@ -201,7 +202,9 @@ while 1:#Main loop
 		pygame.mouse.set_visible(False)
 		
 		screen.blit(imageBkg,(0,0))
-		
+		if score == 5:
+			wallSpeed = -8
+
 		#screen.blit(grass,(0,0))
 		counter += 1
 		testGrass.updateGrass(screen)
@@ -235,7 +238,7 @@ while 1:#Main loop
 		
 		### Iteration of objects on screen ###
 		for item in activeWalls:#Create an iterator here to move each object, and stop drawing the ones that go off-screen
-			item.moveWall(-4, screen)
+			item.moveWall(wallSpeed, screen)
 			if item.getX() > -screenWidth/28:
 				tempList.append(item)
 				### If performance becomes an issue, check into forcing all update at once, instead of staggered
@@ -247,7 +250,7 @@ while 1:#Main loop
 		
 		
 		for item in activeBeams:
-			item.moveBeam(-4, screen)
+			item.moveBeam(wallSpeed, screen)
 			if item.getPosition() > -screenWidth/4:
 				tempList.append(item)
 				
@@ -275,6 +278,7 @@ while 1:#Main loop
 			nextWall = random.randint(130, 160)
 			nextBeam = random.randint(170, 200)
 			pygame.mouse.set_visible(True)
+			wallSpeed = -4
 			gameState = 5 #goto loss screen 
 			highScores = HighScoreReader.getHighScores(score) #inputs the current score, then returns a list of all scores cut off at top 10
 			for x in range(0,len(highScores)):
