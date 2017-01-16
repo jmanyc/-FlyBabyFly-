@@ -16,7 +16,7 @@ class Beam():
 		self.screenHeight = screenHeight
 		self.screenWidth = screenWidth
 		
-		self.imageScale = (screenWidth/6, screenHeight) # This needs tweaking, should be 5.5
+		self.imageScale = (screenHeight/5, screenHeight*15/16) # This needs tweaking, should be 5.5
 		self.visited = False
 		if self.color == (255,0,0): #Red
 			self.image = pygame.transform.scale(pygame.image.load( "Assets/img/RedPaint.png" ).convert_alpha(), self.imageScale)

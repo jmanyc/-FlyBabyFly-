@@ -163,7 +163,7 @@ while 1:#Main loop
 		
 		for item in mainMenu:
 			if item.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
-			
+				
 				# If hovering over the item, and a button is clicked, go to the state the button is linked to.
 				playSound(clickSound,soundToggle)
 				gameState = item.getState()
@@ -183,7 +183,9 @@ while 1:#Main loop
 	
 	elif gameState == 1: #The actual game looping part
 		pygame.mouse.set_visible(False)
+		
 		screen.blit(imageBkg,(0,0))
+		
 		#screen.blit(grass,(0,0))
 		counter += 1
 		testGrass.updateGrass(screen)
@@ -371,7 +373,6 @@ while 1:#Main loop
 				pygame.quit() # quit the screen
 				sys.exit()
 				break
-				
+		
 	pygame.display.update() # update the screen
-
 	clock.tick(60) # 60 fps
