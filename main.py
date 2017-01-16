@@ -14,7 +14,7 @@ import random
 from beams import Beam
 from wall import Wall
 from label import MenuLabel
-
+from grass import Grass
 ### Initializing all needed Pygame stuff ###
 pygame.mixer.pre_init(44100, -16, 2, 2048)
 pygame.mixer.init()
@@ -103,9 +103,8 @@ quoteLabel = MenuLabel(quoteReader.getQuote(), (100,100,100),(0, 0, 0),24,(scree
 
 ### Initializing Main Loop variables and images ###
 squirrel = pygame.image.load( "Assets/img/squirrelPilot.png" ).convert_alpha()
-imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseWGrass.png" ).convert(),(screenWidth,screenHeight))
-#grass = pygame.transform.scale(pygame.image.load("Assets/img/Grass.png").convert_alpha(),(screenWidth/3,screenHeight))
-### Check if it's the right grass file ###
+imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseNoGrass.png" ).convert(),(screenWidth,screenHeight))
+testGrass = Grass(screenWidth, screenHeight, -4)
 
 justClicked = False #Boolean so we can't double click options in the menu
 isPassing = False #Boolean so score isn't counted twice, nor sound played twice
@@ -145,7 +144,7 @@ def updateScreen(screen, rect, refresh):
 def updateFlier(flier):
 	flier.keyPressed() # handles pressing keys, now if we need to speed up our program work on this
 	flier.applyGravity() # calls the simulated gravity function of avatar
-	flier.applyRotation() # Applys rotation to the image
+	flier.applyRotation() # Applies rotation to the image
 
 def playSound(sound, toggle):
 	### Made this to reduce the size of main.py ###
@@ -187,7 +186,7 @@ while 1:#Main loop
 		screen.blit(imageBkg,(0,0))
 		#screen.blit(grass,(0,0))
 		counter += 1
-		
+		testGrass.updateGrass(screen)
 		
 		tempList = []
 		if counter == nextBeam:
@@ -263,7 +262,7 @@ while 1:#Main loop
 			for x in range(0,len(highScores)):
 				loadedScore = MenuLabel("Score: " +str(highScores[x]), (100,100,100),(0, 0, 0),24,(screenWidth*3/4,screenHeight/15*x + screenHeight/5),100)
 				scoreLabels.append(loadedScore)
-		#print clock.get_fps() #Prints out the fps during the game for testing
+		print clock.get_fps() #Prints out the fps during the game for testing
 			
 	
 	elif gameState == 2: #Instructions
