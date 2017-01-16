@@ -13,7 +13,7 @@ import quoteReader
 import random
 from beams import Beam
 from wall import Wall
-from label import MenuLabel
+from label import *
 from grass import Grass
 ### Initializing all needed Pygame stuff ###
 pygame.mixer.pre_init(44100, -16, 2, 2048)
@@ -154,43 +154,7 @@ def playSound(sound, toggle):
 	
 	
 	
-def State2Update(screen):	# main consolidation
-		help.update(screen)
-		controls.update(screen)
-		mainBack.update(screen)
-		paint.update(screen)
-	
-def updateSoundOptions(musicToggle, soundToggle, gameState, optionsList):	# main consolidation
-	for item in optionsList:
-		if item.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
-			# If hovering over the item, and a button is clicked, go to the state the button is linked to. 
-			clickedState = item.getState()
-			
-			if clickedState == 42: #Music Toggle
-				if musicToggle == True:
-					pygame.mixer.music.pause()
-					musicToggle = False
-				else:
-					pygame.mixer.music.unpause()
-					musicToggle = True
-			elif clickedState == 43: #Sound Toggle
-				if soundToggle == True:
-					soundToggle = False
-				else:
-					soundToggle = True
-			elif clickedState == 0:
-				gameState = 0
-			playSound(clickSound,soundToggle)
-		item.isHover = False
-		item.update(screen)
-	if musicToggle == True:
-		musicToggled.isHover = True
-		musicToggled.update(screen)
-	if soundToggle == True:
-		soundToggled.isHover = True
-		soundToggled.update(screen)
-		
-	return [musicToggle, soundToggle, gameState]
+
 	
 def checkMainItems(mainMenu, gameState, flier):	# main consolidation
 	for item in mainMenu:
@@ -291,7 +255,7 @@ while 1:#Main loop
 		
 		flier.beamCollision(activeBeams, soundToggle)
 		
-		if flier.wallCollision(activeWalls, soundToggle) == True: #If passing through the wall is true
+		if flier.wallCollision(activeWalls[:1], soundToggle) == True: #If passing through the wall is true
 			if isPassing == False:
 				playSound(pointSound, soundToggle)
 				score += 1
