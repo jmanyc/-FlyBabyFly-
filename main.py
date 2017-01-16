@@ -152,13 +152,15 @@ def playSound(sound, toggle):
 	if toggle == True:
 		sound.play()
 	
-def State2Update(screen):
+	
+	
+def State2Update(screen):	# main consolidation
 		help.update(screen)
 		controls.update(screen)
 		mainBack.update(screen)
 		paint.update(screen)
 	
-def updateSoundOptions(musicToggle, soundToggle, gameState, optionsList):
+def updateSoundOptions(musicToggle, soundToggle, gameState, optionsList):	# main consolidation
 	for item in optionsList:
 		if item.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
 			# If hovering over the item, and a button is clicked, go to the state the button is linked to. 
@@ -190,7 +192,7 @@ def updateSoundOptions(musicToggle, soundToggle, gameState, optionsList):
 		
 	return [musicToggle, soundToggle, gameState]
 	
-def checkMainItems(mainMenu, gameState, flier):
+def checkMainItems(mainMenu, gameState, flier):	# main consolidation
 	for item in mainMenu:
 			if item.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
 			
@@ -209,6 +211,14 @@ def checkMainItems(mainMenu, gameState, flier):
 			
 			item.update(screen)
 	return [gameState, flier]
+	
+def restartGame(counter, flier):	# main consolidation
+	score = 0
+	scoreLabel.updateText("Score: "+str(score))
+	pygame.mixer.music.set_volume(0.4)
+	counter = 0
+	flier = avatar.Avatar(screenWidth, screenHeight, soundToggle)
+	return counter, flier
 	
 while 1:#Main loop
 	if gameState == 0: #Start Menu
@@ -357,11 +367,8 @@ while 1:#Main loop
 				gameState = item.getState()
 				if gameState == 1:
 					### Call this to restart the game and scores ###
-					score = 0
-					scoreLabel.updateText("Score: "+str(score))
-					pygame.mixer.music.set_volume(0.4)
-					counter = 0
-					flier = avatar.Avatar(screenWidth, screenHeight, soundToggle)
+					counter, flier = restartGame(counter, flier = None)	# relocated code to restartGame function
+
 				elif gameState == 0:
 					quoteLabel.updateText(quoteReader.getQuote())
 				justClicked = pygame.mouse.get_pressed()[0]
