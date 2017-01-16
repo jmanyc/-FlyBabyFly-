@@ -15,7 +15,8 @@ from beams import Beam
 from wall import Wall
 from label import *
 from grass import Grass
-import mainfuncs
+import mainfuncs as m
+
 ### Initializing all needed Pygame stuff ###
 pygame.mixer.pre_init(44100, -16, 2, 2048)
 pygame.mixer.init()
@@ -148,7 +149,7 @@ baseColors = [RED,BLUE,GREEN,PURPLE]
 # 	flier.applyGravity() # calls the simulated gravity function of avatar
 # 	flier.applyRotation() # Applies rotation to the image
 # 
-# def playSound(sound, toggle):
+# def m.playSound(sound, toggle):
 # 	### Made this to reduce the size of main.py ###
 # 	### Plays a sound if the toggle is on ###
 # 	if toggle == True:
@@ -184,7 +185,7 @@ baseColors = [RED,BLUE,GREEN,PURPLE]
 # 					soundToggle = True
 # 			elif clickedState == 0:
 # 				gameState = 0
-# 			playSound(clickSound,soundToggle)
+# 			m.playSound(clickSound,soundToggle)
 # 		item.isHover = False
 # 		item.update(screen)
 # 	if musicToggle == True:
@@ -203,7 +204,7 @@ baseColors = [RED,BLUE,GREEN,PURPLE]
 # 			if item.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
 # 				
 # 				# If hovering over the item, and a button is clicked, go to the state the button is linked to.
-# 				playSound(clickSound,soundToggle)
+# 				m.playSound(clickSound,soundToggle)
 # 				gameState = item.getState()
 # 				
 # 				if gameState == 1: #If you add anything to this if statement, add it to the retry menu too
@@ -228,6 +229,7 @@ baseColors = [RED,BLUE,GREEN,PURPLE]
 # 	counter = 0
 # 	flier = avatar.Avatar(screenWidth, screenHeight, soundToggle)
 # 	return counter, flier
+avatarParams = [screenWidth, screenHeight, soundToggle]
 	
 while 1:#Main loop
 	if gameState == 0: #Start Menu
@@ -237,7 +239,7 @@ while 1:#Main loop
 		screen.blit(squirrel,(500,50))
 		quoteLabel.update(screen)
 		title.update(screen)
-		gameState, flier = checkMainItems(mainMenu, gameState, flier = None)	# relocated code to checkMainItems function
+		gameState, flier, score, counter = m.mainButtonsClicked(mainMenu, gameState, mouse, soundToggle, screen, justClicked, clickSound, score, counter, scoreLabel, screenWidth, screenHeight, flier = None)	# relocated code to checkMainItems function
 
 		justClicked = pygame.mouse.get_pressed()[0]
 			
@@ -277,7 +279,7 @@ while 1:#Main loop
 			
 		
 			
-		updateFlier(flier) #Calls movement, gravity and rotation of avatar
+		m.updateFlier(flier) #Calls movement, gravity and rotation of avatar
 		
 		
 		### Iteration of objects on screen ###
@@ -304,7 +306,7 @@ while 1:#Main loop
 		
 		if flier.wallCollision(activeWalls[:1], soundToggle) == True: #If passing through the wall is true
 			if isPassing == False:
-				playSound(pointSound, soundToggle)
+				m.playSound(pointSound, soundToggle)
 				score += 1
 				scoreLabel.updateText("Score: "+str(score))
 				isPassing = True #So score is calculated once per wall
@@ -334,10 +336,10 @@ while 1:#Main loop
 	elif gameState == 2: #Instructions
 		screen.fill((40,80,160))
 		mouse = pygame.mouse.get_pos()
-		State2Update(screen)	# relocated code to State2Update function
+		m.State2Update(screen)	# relocated code to State2Update function
 		key = pygame.key.get_pressed()
 		if key[pygame.K_BACKSPACE] or (mainBack.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0]):
-			playSound(clickSound,soundToggle)
+			m.playSound(clickSound,soundToggle)
 			gameState = 0
 			
 			
@@ -351,7 +353,7 @@ while 1:#Main loop
 		key = pygame.key.get_pressed()
 		if key[pygame.K_BACKSPACE] or (lossBack.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0]):
 			#If back button is clicked, go back to loss screen
-			playSound(clickSound,soundToggle)
+			m.playSound(clickSound,soundToggle)
 			gameState = 5
 			screen.fill((40,80,160))
 			
@@ -377,11 +379,11 @@ while 1:#Main loop
 			quoteLabel.update(screen)
 			if item.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
 				# If hovering over the item, and a button is clicked, go to the state the button is linked to. 
-				playSound(clickSound,soundToggle)
+				m.playSound(clickSound,soundToggle)
 				gameState = item.getState()
 				if gameState == 1:
 					### Call this to restart the game and scores ###
-					counter, flier = restartGame(counter, flier = None)	# relocated code to restartGame function
+					counter, flier = m.restartGame(counter, score, scoreLabel, screenWidth, screenHeight, soundToggle, flier = None)	# relocated code to restartGame function
 
 				elif gameState == 0:
 					quoteLabel.updateText(quoteReader.getQuote())
@@ -394,7 +396,7 @@ while 1:#Main loop
 	if gameState == 6: #Options menu
 		screen.fill((40,80,160))
 		mouse = pygame.mouse.get_pos()
-		musicToggle, soundToggle, gameState = updateSoundOptions(musicToggle, soundToggle, gameState, optionsList)
+		musicToggle, soundToggle, gameState = m.updateSoundOptions(musicToggle, soundToggle, gameState, optionsList)
 		# relocated code to updateSoundOptions function
 		
 		justClicked = pygame.mouse.get_pressed()[0]

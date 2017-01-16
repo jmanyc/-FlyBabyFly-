@@ -78,9 +78,10 @@ def updateSoundOptions(musicToggle, soundToggle, gameState, optionsList):	# main
 		
 	return [musicToggle, soundToggle, gameState]
 	
-# 
+# If the user is at the main menu, mainButtonsClicked is called to check if the mouse is
+# \ hovering over a button and clicks it. If so, it routes the user to the appropriate screen.
 	
-def checkMainItems(mainMenu, gameState, flier):	# main consolidation
+def mainButtonsClicked(mainMenu, gameState, mouse, soundToggle, screen, justClicked, clickSound, score, counter, scoreLabel, screenWidth, screenHeight, flier):	# main consolidation
 	for item in mainMenu:
 			if item.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
 				
@@ -98,12 +99,12 @@ def checkMainItems(mainMenu, gameState, flier):	# main consolidation
 				break
 			
 			item.update(screen)
-	return [gameState, flier]
+	return [gameState, flier, score, counter]
 	
 # If you're at the loss screen and click Retry to play the game again (as checked in the 
-# \ main loop), then restartGame is called to restart the game for the user. 
+# \ main loop), then restartGame is called to restart the game for the user (line 286 in main).
 	
-def restartGame(counter, flier):	# main consolidation
+def restartGame(counter, score, scoreLabel, screenWidth, screenHeight, soundToggle, flier):	# main consolidation
 	score = 0
 	scoreLabel.updateText("Score: "+str(score))
 	pygame.mixer.music.set_volume(0.4)
