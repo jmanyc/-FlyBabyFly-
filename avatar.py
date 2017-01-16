@@ -149,7 +149,7 @@ class Avatar():
 					elif self.color == (0,255,0): #Green
 						self.image = self.greenImage
 					self.tempImage = self.image
-
+					self.applyRotation()
 
  						
  					
