@@ -152,16 +152,46 @@ def playSound(sound, toggle):
 	if toggle == True:
 		sound.play()
 	
-while 1:#Main loop
-	if gameState == 0: #Start Menu
-		# handle every event since the last frame.
-		screen.fill((40,80,160))
-		mouse = pygame.mouse.get_pos() # Position of the mouse, gets refreshed every tick
-		screen.blit(squirrel,(500,50))
-		quoteLabel.update(screen)
-		title.update(screen)
+def State2Update(screen):
+		help.update(screen)
+		controls.update(screen)
+		mainBack.update(screen)
+		paint.update(screen)
+	
+def updateSoundOptions(musicToggle, soundToggle, gameState, optionsList):
+	for item in optionsList:
+		if item.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
+			# If hovering over the item, and a button is clicked, go to the state the button is linked to. 
+			clickedState = item.getState()
+			
+			if clickedState == 42: #Music Toggle
+				if musicToggle == True:
+					pygame.mixer.music.pause()
+					musicToggle = False
+				else:
+					pygame.mixer.music.unpause()
+					musicToggle = True
+			elif clickedState == 43: #Sound Toggle
+				if soundToggle == True:
+					soundToggle = False
+				else:
+					soundToggle = True
+			elif clickedState == 0:
+				gameState = 0
+			playSound(clickSound,soundToggle)
+		item.isHover = False
+		item.update(screen)
+	if musicToggle == True:
+		musicToggled.isHover = True
+		musicToggled.update(screen)
+	if soundToggle == True:
+		soundToggled.isHover = True
+		soundToggled.update(screen)
 		
-		for item in mainMenu:
+	return [musicToggle, soundToggle, gameState]
+	
+def checkMainItems(mainMenu, gameState, flier):
+	for item in mainMenu:
 			if item.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
 			
 				# If hovering over the item, and a button is clicked, go to the state the button is linked to.
@@ -178,6 +208,18 @@ while 1:#Main loop
 				break
 			
 			item.update(screen)
+	return [gameState, flier]
+	
+while 1:#Main loop
+	if gameState == 0: #Start Menu
+		# handle every event since the last frame.
+		screen.fill((40,80,160))
+		mouse = pygame.mouse.get_pos() # Position of the mouse, gets refreshed every tick
+		screen.blit(squirrel,(500,50))
+		quoteLabel.update(screen)
+		title.update(screen)
+		gameState, flier = checkMainItems(mainMenu, gameState, flier = None)	# relocated code to checkMainItems function
+
 		justClicked = pygame.mouse.get_pressed()[0]
 			
 	
@@ -268,10 +310,7 @@ while 1:#Main loop
 	elif gameState == 2: #Instructions
 		screen.fill((40,80,160))
 		mouse = pygame.mouse.get_pos()
-		help.update(screen)
-		controls.update(screen)
-		mainBack.update(screen)
-		paint.update(screen)
+		State2Update(screen)	# relocated code to State2Update function
 		key = pygame.key.get_pressed()
 		if key[pygame.K_BACKSPACE] or (mainBack.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0]):
 			playSound(clickSound,soundToggle)
@@ -334,36 +373,9 @@ while 1:#Main loop
 	if gameState == 6: #Options menu
 		screen.fill((40,80,160))
 		mouse = pygame.mouse.get_pos()
-		for item in optionsList:
-			if item.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
-				# If hovering over the item, and a button is clicked, go to the state the button is linked to. 
-				
-				clickedState = item.getState()
-				
-				if clickedState == 42: #Music Toggle
-					if musicToggle == True:
-						pygame.mixer.music.pause()
-						musicToggle = False
-					else:
-						pygame.mixer.music.unpause()
-						musicToggle = True
-				elif clickedState == 43: #Sound Toggle
-					if soundToggle == True:
-						soundToggle = False
-					else:
-						soundToggle = True
-				elif clickedState == 0:
-					gameState = 0
-				playSound(clickSound,soundToggle)
-			item.isHover = False
-			item.update(screen)
-		if musicToggle == True:
-			musicToggled.isHover = True
-			musicToggled.update(screen)
-		if soundToggle == True:
-			soundToggled.isHover = True
-			soundToggled.update(screen)
-			
+		musicToggle, soundToggle, gameState = updateSoundOptions(musicToggle, soundToggle, gameState, optionsList)
+		# relocated code to updateSoundOptions function
+		
 		justClicked = pygame.mouse.get_pressed()[0]
 		
 	for event in pygame.event.get(): ##### Find out why removing this crashes the program #####
