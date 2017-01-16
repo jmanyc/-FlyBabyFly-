@@ -262,7 +262,7 @@ while 1:#Main loop
 			for x in range(0,len(highScores)):
 				loadedScore = MenuLabel("Score: " +str(highScores[x]), (100,100,100),(0, 0, 0),24,(screenWidth*3/4,screenHeight/15*x + screenHeight/5),100)
 				scoreLabels.append(loadedScore)
-		print clock.get_fps() #Prints out the fps during the game for testing
+		#print clock.get_fps() #Prints out the fps during the game for testing
 			
 	
 	elif gameState == 2: #Instructions

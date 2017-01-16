@@ -15,7 +15,7 @@ class Avatar():
 		self.soundToggle = soundToggle
 		self.crashSound = pygame.mixer.Sound( "Assets/sound/hit_obstacle.wav" )
 		self.hitGround = pygame.mixer.Sound( "Assets/sound/hit_ground.wav" )
-		self.paintSound = pygame.mixer.Sound( "Assets/sound/through_paint.wav" )
+		self.paintSound = pygame.mixer.Sound( "Assets/sound/hit_obstacle.wav" )
 		self.x = screenWidth/12 # initial spawn of the image
 		self.y = screenHeight/4
 		
