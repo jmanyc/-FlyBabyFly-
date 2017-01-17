@@ -85,6 +85,7 @@ paint = MenuLabel("Paint streams will change your plane's color", (100,100,100),
 help = MenuLabel("Go through the color block that matches your plane", (100,100,100),(255,105,180),24,(screenWidth/2,screenHeight*3/7),100)
 controls = MenuLabel("Press Spacebar to increase your upward speed!", (100,100,100),(255,105,180),24,(screenWidth/2,screenHeight*4/7),100)
 mainBack = MenuLabel("Back", (100,100,100),(0,0,0),24,(screenWidth*6/7,screenHeight/15),0)
+instructions = [paint, help, controls, mainBack]
 
 #Options Menu
 musicToggled = MenuLabel("Background Music On/Off", (100,100,100),(191, 255, 0),24,(screenWidth/2,screenHeight*2/7),42)
@@ -133,7 +134,8 @@ colors = [RED, BLUE, GREEN, YELLOW, PURPLE, CYAN, MAROON, OLIVE] ### For current
 baseColors = [RED,BLUE,GREEN,PURPLE]
 
 avatarParams = [screenWidth, screenHeight, soundToggle]
-	
+m.importLists(avatarParams, creditsMenu, optionsList, lossMenu, instructions)	# call mainfunc's importLists function to return local lists
+																				# of those from main in mainfunc
 while 1:#Main loop
 	if gameState == 0: #Start Menu
 		# handle every event since the last frame.
@@ -142,7 +144,7 @@ while 1:#Main loop
 		screen.blit(squirrel,(500,50))
 		quoteLabel.update(screen)
 		title.update(screen)
-		gameState, flier, score, counter = m.mainButtonsClicked(mainMenu, gameState, mouse, soundToggle, screen, justClicked, clickSound, score, counter, scoreLabel, screenWidth, screenHeight, flier = None)	# relocated code to checkMainItems function
+		gameState, flier, score, counter = m.mainButtonsClicked(mainMenu, gameState, mouse, screen, justClicked, clickSound, score, counter, scoreLabel, avatarParams, flier = None)	# relocated code to mainButtonsClicked function
 
 		justClicked = pygame.mouse.get_pressed()[0]
 			
@@ -232,7 +234,7 @@ while 1:#Main loop
 	elif gameState == 2: #Instructions
 		screen.fill((40,80,160))
 		mouse = pygame.mouse.get_pos()
-		m.State2Update(screen)	# relocated code to State2Update function
+		m.State2Update(screen, instructions)	# relocated code to State2Update function
 		key = pygame.key.get_pressed()
 		if key[pygame.K_BACKSPACE] or (mainBack.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0]):
 			m.playSound(clickSound,soundToggle)
@@ -291,7 +293,7 @@ while 1:#Main loop
 	if gameState == 6: #Options menu
 		screen.fill((40,80,160))
 		mouse = pygame.mouse.get_pos()
-		musicToggle, soundToggle, gameState = m.updateSoundOptions(musicToggle, soundToggle, gameState, optionsList, mouse, screen, musicToggled, soundToggled, justClicked, clickSound)
+		musicToggle, soundToggle, gameState = m.updateSoundOptions(musicToggle, soundToggle, gameState, optionsList, mouse, screen, avatarParams, musicToggled, soundToggled, justClicked, clickSound)
 		# relocated code to updateSoundOptions function
 		
 		justClicked = pygame.mouse.get_pressed()[0]

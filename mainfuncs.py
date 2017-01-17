@@ -17,6 +17,12 @@ from grass import Grass
 ### All of these functions are called in the main loop; they manage transition of game 
 # \ states and update the appropriate buttons, objects and sounds within the game.
 
+# importLists is called in main to return local lists of those from main here in mainfunc
+
+def importLists(avatarParams, creditsMenu, optionsList, lossMenu, instructions):
+	return avatarParams, creditsMenu, optionsList, lossMenu, instructions
+	
+# 
 
 def updateScreen(screen, rect, refresh):
 	print "Haha, this isn't done yet, and hopefully won't have to be"
@@ -44,20 +50,22 @@ def playSound(sound, toggle):
 # \ four buttons' update methods; their update methods check if the mouse is hovering over
 # \ them and has been clicked, and route the 
 	
-def State2Update(screen):	# main consolidation
-		help.update(screen)
-		controls.update(screen)
-		mainBack.update(screen)
-		paint.update(screen)
+def State2Update(screen, instructions):	# main consolidation
 	
+	help, controls, mainBack, paint = instructions
+	help.update(screen)		
+	controls.update(screen)		
+	mainBack.update(screen)
+	paint.update(screen)
+
 # If the user is on the sound options screen, if the mouse is hovering over one of the 
 # \ three buttons and clicks on it, then it toggles the appropriate option (background
 # \ music or sound effects) or returns to the main screen. It returns the updated sound
 # \ settings as well as the current game state.
 	
-def updateSoundOptions(musicToggle, soundToggle, gameState, optionsList, mouse, screen, musicToggled, soundToggled, justClicked, clickSound):	# main consolidation
+def updateSoundOptions(musicToggle, soundToggle, gameState, optionsList, mouse, screen, avatarParams, musicToggled, soundToggled, justClicked, clickSound):	# main consolidation
 	for item in optionsList:
-		if item.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
+		if item.hover((mouse[0],mouse[1]),avatarParams[2]) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
 			# If hovering over the item, and a button is clicked, go to the state the button is linked to. 
 			clickedState = item.getState()
 			
@@ -90,12 +98,12 @@ def updateSoundOptions(musicToggle, soundToggle, gameState, optionsList, mouse, 
 # If the user is at the main menu, mainButtonsClicked is called to check if the mouse is
 # \ hovering over a button and clicks it. If so, it routes the user to the appropriate screen.
 	
-def mainButtonsClicked(mainMenu, gameState, mouse, soundToggle, screen, justClicked, clickSound, score, counter, scoreLabel, screenWidth, screenHeight, flier):	# main consolidation
+def mainButtonsClicked(mainMenu, gameState, mouse, screen, justClicked, clickSound, score, counter, scoreLabel, avatarParams, flier):	# main consolidation
 	for item in mainMenu:
-			if item.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
+			if item.hover((mouse[0],mouse[1]),avatarParams[2]) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
 				
 				# If hovering over the item, and a button is clicked, go to the state the button is linked to.
-				playSound(clickSound,soundToggle)
+				playSound(clickSound,avatarParams[2])
 				gameState = item.getState()
 				
 				if gameState == 1: #If you add anything to this if statement, add it to the retry menu too
@@ -104,7 +112,7 @@ def mainButtonsClicked(mainMenu, gameState, mouse, soundToggle, screen, justClic
 					scoreLabel.updateText("Score: "+str(score))
 					pygame.mixer.music.set_volume(0.4)
 					counter = 0
-					flier = avatar.Avatar(screenWidth, screenHeight, soundToggle)
+					flier = avatar.Avatar(avatarParams[0], avatarParams[1], avatarParams[2])
 				break
 			
 			item.update(screen)
