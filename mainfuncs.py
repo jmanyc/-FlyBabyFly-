@@ -62,45 +62,45 @@ def State2Update(screen, instructions):	# main consolidation
 # \ three buttons and clicks on it, then it toggles the appropriate option (background
 # \ music or sound effects) or returns to the main screen. It returns the updated sound
 # \ settings as well as the current game state.
-	
-def updateSoundOptions(musicToggle, soundToggle, gameState, optionsList, mouse, screen, avatarParams, musicToggled, soundToggled, justClicked, clickSound):	# main consolidation
+	#bools = [musicToggle, musicToggled, soundToggled,justClicked]
+def updateSoundOptions(bools, gameState, optionsList, mouse, screen, avatarParams, clickSound):	# main consolidation
 	for item in optionsList:
-		if item.hover((mouse[0],mouse[1]),avatarParams[2]) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
+		if item.hover((mouse[0],mouse[1]),avatarParams[2]) == True and pygame.mouse.get_pressed()[0] and bools[3] == False:
 			# If hovering over the item, and a button is clicked, go to the state the button is linked to. 
 			clickedState = item.getState()
 			
 			if clickedState == 42: #Music Toggle
-				if musicToggle == True:
+				if bools[0] == True:
 					pygame.mixer.music.pause()
-					musicToggle = False
+					bools[0] = False
 				else:
 					pygame.mixer.music.unpause()
-					musicToggle = True
+					bools[0] = True
 			elif clickedState == 43: #Sound Toggle
-				if soundToggle == True:
-					soundToggle = False
+				if avatarParams[2] == True:
+					avatarParams[2] = False
 				else:
-					soundToggle = True
+					avatarParams[2] = True
 			elif clickedState == 0:
 				gameState = 0
-			playSound(clickSound,soundToggle)
+			playSound(clickSound,avatarParams[2])
 		item.isHover = False
 		item.update(screen)
-	if musicToggle == True:
-		musicToggled.isHover = True
-		musicToggled.update(screen)
-	if soundToggle == True:
-		soundToggled.isHover = True
-		soundToggled.update(screen)
+	if bools[0] == True:
+		bools[1].isHover = True
+		bools[1].update(screen)
+	if avatarParams[2] == True:
+		bools[2].isHover = True
+		bools[2].update(screen)
 		
-	return [musicToggle, soundToggle, gameState]
+	return [bools[0], avatarParams[2], gameState]
 	
 # If the user is at the main menu, mainButtonsClicked is called to check if the mouse is
 # \ hovering over a button and clicks it. If so, it routes the user to the appropriate screen.
-				    	#mainMenu, gameState, mouse, screen, justClicked, clickSound, score, counter, scoreLabel, avatarParams, flier
-def mainButtonsClicked(mainMenu, gameState, mouse, screen, justClicked, clickSound, score, counter, scoreLabel, avatarParams, flier):	# main consolidation
+				    	#mainMenu, gameState, mouse, screen, bools[3], clickSound, score, counter, scoreLabel, avatarParams, flier
+def mainButtonsClicked(gameState, flier, score, counter, bools, mainMenu, mouse, screen, clickSound, scoreLabel, avatarParams):	# main consolidation
 	for item in mainMenu:
-			if item.hover((mouse[0],mouse[1]),avatarParams[2]) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
+			if item.hover((mouse[0],mouse[1]),avatarParams[2]) == True and pygame.mouse.get_pressed()[0] and bools[3] == False:
 				
 				# If hovering over the item, and a button is clicked, go to the state the button is linked to.
 				playSound(clickSound,avatarParams[2])

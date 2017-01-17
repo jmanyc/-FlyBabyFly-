@@ -141,6 +141,7 @@ greenPaint = pygame.transform.scale(pygame.image.load( "Assets/img/GreenPaint.pn
 purplePaint = pygame.transform.scale(pygame.image.load( "Assets/img/PurplePaint.png" ).convert_alpha(), imageScale)
 
 avatarParams = [screenWidth, screenHeight, soundToggle]
+#bools = [musicToggle, musicToggled, soundToggled, justClicked]
 m.importLists(avatarParams, creditsMenu, optionsList, lossMenu, instructions)	# call mainfunc's importLists function to return local lists
 																				# of those from main in mainfunc
 flier = avatar.Avatar(avatarParams[0], avatarParams[1], avatarParams[2])
@@ -152,7 +153,9 @@ while 1:#Main loop
 		screen.blit(squirrel,(500,50))
 		quoteLabel.update(screen)
 		title.update(screen)	# relocated code to mainButtonsClicked function
-		gameState, flier, score, counter = m.mainButtonsClicked(mainMenu, gameState, mouse, screen, justClicked, clickSound, score, counter, scoreLabel, avatarParams, flier)	# relocated code to checkMainItems function
+		bools = [musicToggle, musicToggled, soundToggled, justClicked]
+
+		gameState, flier, score, counter = m.mainButtonsClicked(gameState, flier, score, counter, bools, mainMenu, mouse, screen, clickSound, scoreLabel, avatarParams)	# relocated code to checkMainItems function
 
 
 		justClicked = pygame.mouse.get_pressed()[0]
@@ -310,7 +313,8 @@ while 1:#Main loop
 	if gameState == 6: #Options menu
 		screen.fill((40,80,160))
 		mouse = pygame.mouse.get_pos()
-		musicToggle, soundToggle, gameState = m.updateSoundOptions(musicToggle, soundToggle, gameState, optionsList, mouse, screen, avatarParams, musicToggled, soundToggled, justClicked, clickSound)
+		bools = [musicToggle, musicToggled, soundToggled, justClicked]
+		musicToggle, soundToggle, gameState = m.updateSoundOptions(bools, gameState, optionsList, mouse, screen, avatarParams, clickSound)
 		# relocated code to updateSoundOptions function
 		
 		justClicked = pygame.mouse.get_pressed()[0]
