@@ -241,6 +241,11 @@ while 1:#Main loop
 		scoreLabel.update(screen)
 		flier.update(screen)
 		blist.append(flier)
+		screen.blit(imageBkg,(0,0))
+		for item in blist:
+			item.blita(screen)
+		blist = []
+		
 		if flier.getAlive() == False: #if the flier is dead
 			pygame.mixer.music.set_volume(1.0)
 			quoteLabel.updateText(quoteReader.getQuote())
@@ -256,13 +261,6 @@ while 1:#Main loop
 			for x in range(0,len(highScores)):
 				loadedScore = MenuLabel("Score: " +str(highScores[x]), (100,100,100),(0, 0, 0),24,(screenWidth*3/4,screenHeight/15*x + screenHeight/5),100)
 				scoreLabels.append(loadedScore)
-				
-				
-			
-			screen.blit(imageBkg,(0,0))
-			for item in blist:
-				item.blita(screen)
-			blist = []
 			
 		print clock.get_fps() #Prints out the fps during the game for testing
 	
@@ -344,5 +342,5 @@ while 1:#Main loop
 		
 	pygame.display.update() # update the screen
 
-	clock.tick(65) # 60 fps
+	clock.tick(60) # 60 fps
 
