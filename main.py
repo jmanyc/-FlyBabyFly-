@@ -122,6 +122,8 @@ activeWalls = []
 activeBeams = []
 grassList = []
 scoreLabels = []
+blist = []
+
 #Color list
 RED = (255,0,0)
 BLUE = (0,0,255)
@@ -143,6 +145,7 @@ purplePaint = pygame.transform.scale(pygame.image.load( "Assets/img/PurplePaint.
 
 #m.importLists(avatarParams, creditsMenu, optionsList, lossMenu, instructions)	# call mainfunc's importLists function to return local lists
 avatarParams = [screenWidth, screenHeight, soundToggle]
+
 flier = avatar.Avatar(avatarParams[0], avatarParams[1], avatarParams[2])
 while 1:#Main loop
 	if gameState == 0: #Start Menu
@@ -164,7 +167,7 @@ while 1:#Main loop
 	elif gameState == 1: #The actual game looping part
 		pygame.mouse.set_visible(False)
 		
-		screen.blit(imageBkg,(0,0))
+		#screen.blit(imageBkg,(0,0))
 
 		#screen.blit(grass,(0,0))
 		counter += 1
@@ -211,6 +214,7 @@ while 1:#Main loop
 			item.moveWall(wallSpeed, screen)
 			if item.getX() > -screenWidth/28:
 				tempList.append(item)
+				blist.append(item)
 				### If performance becomes an issue, check into forcing all update at once, instead of staggered
 
 		activeWalls = list(tempList)
@@ -220,6 +224,7 @@ while 1:#Main loop
 			item.moveBeam(wallSpeed, screen)
 			if item.getPosition() > -screenWidth/5:
 				tempList.append(item)
+				blist.append(item)
 				
 		activeBeams = list(tempList)
 		flier.beamCollision(activeBeams[:1], soundToggle)
@@ -235,7 +240,7 @@ while 1:#Main loop
 			
 		scoreLabel.update(screen)
 		flier.update(screen)
-	
+		blist.append(flier)
 		if flier.getAlive() == False: #if the flier is dead
 			pygame.mixer.music.set_volume(1.0)
 			quoteLabel.updateText(quoteReader.getQuote())
@@ -251,6 +256,14 @@ while 1:#Main loop
 			for x in range(0,len(highScores)):
 				loadedScore = MenuLabel("Score: " +str(highScores[x]), (100,100,100),(0, 0, 0),24,(screenWidth*3/4,screenHeight/15*x + screenHeight/5),100)
 				scoreLabels.append(loadedScore)
+				
+				
+			
+			screen.blit(imageBkg,(0,0))
+			for item in blist:
+				item.blita(screen)
+			blist = []
+			
 		print clock.get_fps() #Prints out the fps during the game for testing
 	
 	elif gameState == 2: #Instructions
@@ -317,6 +330,7 @@ while 1:#Main loop
 		avatarParams = [screenWidth, screenHeight, soundToggle]
 		mouse = pygame.mouse.get_pos()
 		bools = [musicToggle, musicToggled, soundToggled, justClicked]
+		avatarParams = [screenWidth, screenHeight, soundToggle]
 		musicToggle, soundToggle, gameState = m.updateSoundOptions(bools, gameState, optionsList, mouse, screen, avatarParams, clickSound)
 		# relocated code to updateSoundOptions function
 		
@@ -329,4 +343,6 @@ while 1:#Main loop
 				break
 		
 	pygame.display.update() # update the screen
+
 	clock.tick(65) # 60 fps
+

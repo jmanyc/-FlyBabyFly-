@@ -29,7 +29,7 @@ class Obstacle():
 		
 	def getColor(self):
 		return self.color
-	
+		
 	def draw(self, surface):
 		pygame.draw.rect(surface, self.color, self.obstacle)
 		

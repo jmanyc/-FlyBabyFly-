@@ -31,8 +31,8 @@ class Wall(Obstacle):
 	def moveWall(self, speed, surface):
 		for section in self.wallSections:
 			section.moveObs(speed, surface)
-		for section in self.wallSections:
-			section.draw(surface)
+		#for section in self.wallSections:
+			#section.draw(surface)
 			
 	def getX(self):
 		#returns the x-position of the top-left corner of the first obstacle in the wallSections list
@@ -42,5 +42,7 @@ class Wall(Obstacle):
 	def getWallSections(self):
 		#returns the list of Obstacle objects that make up this Wall object
 		return self.wallSections
-
-			
+		
+	def blita(self, surface): 
+		for section in self.wallSections:
+			section.draw(surface)
