@@ -5,14 +5,9 @@
 
 import pygame, os, sys
 
-redPaint = pygame.transform.scale(pygame.image.load( "Assets/img/RedPaint.png" ).convert_alpha(), self.imageScale)
-bluePaint = pygame.transform.scale(pygame.image.load( "Assets/img/BluePaint.png" ).convert_alpha(), self.imageScale)
-greenPaint = pygame.transform.scale(pygame.image.load( "Assets/img/GreenPaint.png" ).convert_alpha(), self.imageScale)
-purplePaint = pygame.transform.scale(pygame.image.load( "Assets/img/PurplePaint.png" ).convert_alpha(), self.imageScale)
-
 class Beam():
 
-	def __init__(self, position, color, screenWidth, screenHeight): #Work on this
+	def __init__(self, position, color, screenWidth, screenHeight, image): #Work on this
 		
 		self.x = position
 		self.y = 0
@@ -21,16 +16,17 @@ class Beam():
 		self.screenHeight = screenHeight
 		self.screenWidth = screenWidth
 		
-		self.imageScale = (screenHeight/5, screenHeight*15/16) # This needs tweaking, should be 5.5
+		# This needs tweaking, should be 5.5
 		self.visited = False
 		if self.color == (255,0,0): #Red
-			self.image = redPaint
+			self.image = image
 		elif self.color == (0,0,255): #Blue
-			self.image = bluePaint
+			self.image = image
 		elif self.color == (0,255,0): #Green
-			self.image = greenPaint
+			self.image = image
 		elif self.color == (255,0,255): #Purple
-			self.image = purplePaint
+			self.image = image
+			
 		self.beam = self.image.get_rect()
 		
 	def getVisited(self):

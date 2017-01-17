@@ -10,7 +10,7 @@ import avatar
 import HighScoreReader
 import quoteReader
 import random
-from beams import Beam
+from beams import *
 from wall import Wall
 from label import *
 from grass import Grass
@@ -134,6 +134,12 @@ OLIVE = (128,128,0)
 colors = [RED, BLUE, GREEN, YELLOW, PURPLE, CYAN, MAROON, OLIVE] ### For current game, only BLUE RED GREEN
 baseColors = [RED,BLUE,GREEN,PURPLE]
 
+imageScale = (screenHeight/5, screenHeight*15/16)
+redPaint = pygame.transform.scale(pygame.image.load( "Assets/img/RedPaint.png" ).convert_alpha(), imageScale)
+bluePaint = pygame.transform.scale(pygame.image.load( "Assets/img/BluePaint.png" ).convert_alpha(), imageScale)
+greenPaint = pygame.transform.scale(pygame.image.load( "Assets/img/GreenPaint.png" ).convert_alpha(), imageScale)
+purplePaint = pygame.transform.scale(pygame.image.load( "Assets/img/PurplePaint.png" ).convert_alpha(), imageScale)
+
 avatarParams = [screenWidth, screenHeight, soundToggle]
 m.importLists(avatarParams, creditsMenu, optionsList, lossMenu, instructions)	# call mainfunc's importLists function to return local lists
 																				# of those from main in mainfunc
@@ -169,7 +175,15 @@ while 1:#Main loop
 				difColor = random.choice(baseColors)
 				while difColor == flier.getColor():
 					difColor = random.choice(baseColors)
-				myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight)
+					
+				if difColor == RED:
+					myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, redPaint)
+				elif difColor == GREEN:
+					myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, greenPaint)
+				elif difColor == BLUE:
+					myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, bluePaint)
+				elif difColor == PURPLE:
+					myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, purplePaint)
 				activeBeams.append(myBeam)
 			nextBeam = random.randint(170, 200) + counter
 			
