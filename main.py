@@ -146,7 +146,7 @@ while 1:#Main loop
 		screen.blit(squirrel,(500,50))
 		quoteLabel.update(screen)
 		title.update(screen)	# relocated code to mainButtonsClicked function
-		gameState, flier, score, counter = m.mainButtonsClicked(mainMenu, gameState, mouse, avatarParams, screen, justClicked, clickSound, score, counter, scoreLabel, flier)	# relocated code to checkMainItems function
+		gameState, flier, score, counter = m.mainButtonsClicked(mainMenu, gameState, mouse, screen, justClicked, clickSound, score, counter, scoreLabel, avatarParams, flier)	# relocated code to checkMainItems function
 
 
 		justClicked = pygame.mouse.get_pressed()[0]
