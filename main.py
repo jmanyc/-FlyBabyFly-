@@ -142,7 +142,7 @@ purplePaint = pygame.transform.scale(pygame.image.load( "Assets/img/PurplePaint.
 
 avatarParams = [screenWidth, screenHeight, soundToggle]
 #bools = [musicToggle, musicToggled, soundToggled, justClicked]
-m.importLists(avatarParams, creditsMenu, optionsList, lossMenu, instructions)	# call mainfunc's importLists function to return local lists
+#m.importLists(avatarParams, creditsMenu, optionsList, lossMenu, instructions)	# call mainfunc's importLists function to return local lists
 																				# of those from main in mainfunc
 flier = avatar.Avatar(avatarParams[0], avatarParams[1], avatarParams[2])
 while 1:#Main loop
@@ -154,7 +154,7 @@ while 1:#Main loop
 		quoteLabel.update(screen)
 		title.update(screen)	# relocated code to mainButtonsClicked function
 		bools = [musicToggle, musicToggled, soundToggled, justClicked]
-
+		avatarParams = [screenWidth, screenHeight, soundToggle]
 		gameState, flier, score, counter = m.mainButtonsClicked(gameState, flier, score, counter, bools, mainMenu, mouse, screen, clickSound, scoreLabel, avatarParams)	# relocated code to checkMainItems function
 
 
@@ -249,7 +249,7 @@ while 1:#Main loop
 			for x in range(0,len(highScores)):
 				loadedScore = MenuLabel("Score: " +str(highScores[x]), (100,100,100),(0, 0, 0),24,(screenWidth*3/4,screenHeight/15*x + screenHeight/5),100)
 				scoreLabels.append(loadedScore)
-		#print clock.get_fps() #Prints out the fps during the game for testing
+		print clock.get_fps() #Prints out the fps during the game for testing
 	
 	elif gameState == 2: #Instructions
 		screen.fill((40,80,160))
@@ -314,6 +314,7 @@ while 1:#Main loop
 		screen.fill((40,80,160))
 		mouse = pygame.mouse.get_pos()
 		bools = [musicToggle, musicToggled, soundToggled, justClicked]
+		avatarParams = [screenWidth, screenHeight, soundToggle]
 		musicToggle, soundToggle, gameState = m.updateSoundOptions(bools, gameState, optionsList, mouse, screen, avatarParams, clickSound)
 		# relocated code to updateSoundOptions function
 		
@@ -326,4 +327,4 @@ while 1:#Main loop
 				break
 		
 	pygame.display.update() # update the screen
-	clock.tick(60) # 60 fps
+	clock.tick(65) # 60 fps
