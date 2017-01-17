@@ -98,7 +98,7 @@ def updateSoundOptions(musicToggle, soundToggle, gameState, optionsList, mouse, 
 # If the user is at the main menu, mainButtonsClicked is called to check if the mouse is
 # \ hovering over a button and clicks it. If so, it routes the user to the appropriate screen.
 	
-def mainButtonsClicked(mainMenu, gameState, mouse, screen, justClicked, clickSound, score, counter, scoreLabel, avatarParams, flier):	# main consolidation
+def mainButtonsClicked(mainMenu, gameState, mouse, avatarParams, screen, justClicked, clickSound, score, counter, scoreLabel, avatarParams, flier):	# main consolidation
 	for item in mainMenu:
 			if item.hover((mouse[0],mouse[1]),avatarParams[2]) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
 				
@@ -113,6 +113,7 @@ def mainButtonsClicked(mainMenu, gameState, mouse, screen, justClicked, clickSou
 					pygame.mixer.music.set_volume(0.4)
 					counter = 0
 					flier = avatar.Avatar(avatarParams[0], avatarParams[1], avatarParams[2])
+					flier.restart()
 				break
 			
 			item.update(screen)
@@ -126,5 +127,5 @@ def restartGame(counter, score, scoreLabel, screenWidth, screenHeight, soundTogg
 	scoreLabel.updateText("Score: "+str(score))
 	pygame.mixer.music.set_volume(0.4)
 	counter = 0
-	flier = avatar.Avatar(screenWidth, screenHeight, soundToggle)
+	flier.restart()
 	return counter, flier
