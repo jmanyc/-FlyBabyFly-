@@ -106,7 +106,7 @@ class Avatar():
 		self.image = self.tempImage
 		self.image_c = self.image.get_rect()
 		self.image_c.move_ip(self.x,self.y)
-		self.image_c.inflate_ip(self.image.get_width()*-2/7,self.image.get_height()*-2/7)
+		self.image_c.inflate_ip(self.image.get_width()*-2/7,self.image.get_height()*-3/7)
 
 	def applyRotation(self):
 		angle = self.curSpeed*3.5

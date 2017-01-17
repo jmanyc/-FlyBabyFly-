@@ -7,7 +7,7 @@ import pygame, os, sys
 
 class Obstacle():
 
-	def __init__(self, position, color, width, height):
+	def __init__(self, position, color, width, height, image):
 	
 		self.position = position
 		self.x = self.position[0]
@@ -15,8 +15,21 @@ class Obstacle():
 		self.color = color
 		self.height = height
 		self.width = width
-		self.obstacle = pygame.Rect((self.x,self.y), (self.width, self.height))
+		
 		self.visited = False
+		if self.color == (255,0,0): #Red
+			self.image = image[0]
+		elif self.color == (0,0,255): #Blue
+			self.image = image[1]
+		elif self.color == (0,255,0): #Green
+			self.image = image[2]
+		elif self.color == (255,0,255): #Purple
+			self.image = image[0] #NOT IMPLEMENTED YET
+		elif self.color == (0,0,0): #white
+			self.image = image[3]
+		
+		self.obstacle = image[0].get_rect()
+		self.obstacle.move_ip(self.x,self.y)
 		
 	def setPosition(self, position):
 		self.position = position
@@ -31,7 +44,8 @@ class Obstacle():
 		return self.color
 		
 	def draw(self, surface):
-		pygame.draw.rect(surface, self.color, self.obstacle)
+		surface.blit(self.image,(self.x,self.y))
+		#pygame.draw.rect(surface, self.color, self.obstacle)
 		
 	def getObstacle(self):
 		return self.obstacle

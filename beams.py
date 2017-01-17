@@ -18,14 +18,8 @@ class Beam():
 		
 		# This needs tweaking, should be 5.5
 		self.visited = False
-		if self.color == (255,0,0): #Red
-			self.image = image
-		elif self.color == (0,0,255): #Blue
-			self.image = image
-		elif self.color == (0,255,0): #Green
-			self.image = image
-		elif self.color == (255,0,255): #Purple
-			self.image = image
+		
+		self.image = image
 			
 		self.beam = self.image.get_rect()
 		self.beam.move_ip(self.x, self.y)

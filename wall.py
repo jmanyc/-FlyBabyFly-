@@ -16,6 +16,13 @@ class Wall(Obstacle):
 		self.colors = list(colors)
 		self.colorList = [lastBeamColor] #Contains all the colors that are going to be in the wall
 		self.wallSections = [] #Contains obstacles
+		self.imageScale = (self.width, self.obstacleHeight)
+		self.redObs = pygame.transform.scale(pygame.image.load( "Assets/img/RedObstacle.png" ).convert(), self.imageScale)
+		self.blueObs = pygame.transform.scale(pygame.image.load( "Assets/img/BlueObstacle.png" ).convert(), self.imageScale)
+		self.greenObs = pygame.transform.scale(pygame.image.load( "Assets/img/GreenObstacle.png" ).convert(), self.imageScale)
+		self.whiteObs = pygame.transform.scale(pygame.image.load( "Assets/img/WhiteObstacle.png" ).convert(), self.imageScale)
+		self.purpleObs = pygame.transform.scale(pygame.image.load( "Assets/img/PurpleObstacle.png" ).convert(), self.imageScale)
+		self.preLoaded = [self.redObs, self.blueObs, self.greenObs, self.whiteObs]
 		for x in range(1, numObs): #Minus one, because we pass in the needed color already
 			tempColor = random.choice(self.colors)
 			while tempColor == lastBeamColor:
@@ -25,7 +32,7 @@ class Wall(Obstacle):
 		random.shuffle(self.colorList) # Now we shuffle the list and then assign them to the following obstacles
 		
 		for x in range(0, numObs):
-			self.section = Obstacle((xPos, self.top + self.obstacleHeight * x), self.colorList[x], self.width, self.obstacleHeight)
+			self.section = Obstacle((xPos, self.top + self.obstacleHeight * x), self.colorList[x], self.width, self.obstacleHeight, self.preLoaded)
 			self.wallSections.append(self.section)
 		
 	def moveWall(self, speed, surface):
