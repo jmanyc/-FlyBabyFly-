@@ -9,7 +9,7 @@ from obstacles import Obstacle
 class Wall(Obstacle):
 	
 	
-	def __init__(self, lastBeamColor, xPos, screenHeight, colors, numObs):
+	def __init__(self, lastBeamColor, xPos, screenHeight, colors, numObs, preLoaded):
 		self.top = screenHeight*3/32
 		self.obstacleHeight = screenHeight * 27/32 /numObs #All 3 or whatever number of obstacles must equal roughly 13/16 of the screen
 		self.width = xPos/28
@@ -17,12 +17,8 @@ class Wall(Obstacle):
 		self.colorList = [lastBeamColor] #Contains all the colors that are going to be in the wall
 		self.wallSections = [] #Contains obstacles
 		self.imageScale = (self.width, self.obstacleHeight)
-		self.redObs = pygame.transform.scale(pygame.image.load( "Assets/img/RedObstacle.png" ).convert(), self.imageScale)
-		self.blueObs = pygame.transform.scale(pygame.image.load( "Assets/img/BlueObstacle.png" ).convert(), self.imageScale)
-		self.greenObs = pygame.transform.scale(pygame.image.load( "Assets/img/GreenObstacle.png" ).convert(), self.imageScale)
-		self.whiteObs = pygame.transform.scale(pygame.image.load( "Assets/img/WhiteObstacle.png" ).convert(), self.imageScale)
-		self.purpleObs = pygame.transform.scale(pygame.image.load( "Assets/img/PurpleObstacle.png" ).convert(), self.imageScale)
-		self.preLoaded = [self.redObs, self.blueObs, self.greenObs, self.whiteObs]
+		
+		self.preLoaded = preLoaded
 		for x in range(1, numObs): #Minus one, because we pass in the needed color already
 			tempColor = random.choice(self.colors)
 			while tempColor == lastBeamColor:

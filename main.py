@@ -105,7 +105,18 @@ quoteLabel = MenuLabel(quoteReader.getQuote(), (100,100,100),(0, 0, 0),24,(scree
 
 ### Initializing Main Loop variables and images ###
 squirrel = pygame.image.load( "Assets/img/squirrelPilot.png" ).convert_alpha()
-imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/GrayHouse.png" ).convert(),(screenWidth,screenHeight))
+imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseWGrass.png" ).convert(),(screenWidth,screenHeight))
+
+#So we preload these images at 3 per wall, later if we want more we'll convert these to new values
+imageScale = (screenWidth/28, screenHeight * 27/32 /3)
+redObs = pygame.transform.scale(pygame.image.load( "Assets/img/RedObstacle.png" ).convert(), imageScale)
+blueObs = pygame.transform.scale(pygame.image.load( "Assets/img/BlueObstacle.png" ).convert(), imageScale)
+greenObs = pygame.transform.scale(pygame.image.load( "Assets/img/GreenObstacle.png" ).convert(), imageScale)
+whiteObs = pygame.transform.scale(pygame.image.load( "Assets/img/WhiteObstacle.png" ).convert(), imageScale)
+purpleObs = pygame.transform.scale(pygame.image.load( "Assets/img/PurpleObstacle.png" ).convert(), imageScale)
+preLoaded = [redObs, blueObs, greenObs, whiteObs, purpleObs]
+
+
 testGrass = Grass(screenWidth, screenHeight, -4)
 
 justClicked = False #Boolean so we can't double click options in the menu
@@ -123,6 +134,8 @@ activeBeams = []
 grassList = []
 scoreLabels = []
 
+fpsTest = []
+fpsSum = 0
 
 #Color list
 RED = (255,0,0)
@@ -197,10 +210,10 @@ while 1:#Main loop
 			
 		if counter == nextWall:
 			if activeBeams != []:
-				myWall = Wall(activeBeams[-1].getColor(), screenWidth, screenHeight, baseColors, 3)	# create the Wall object with a certain number of obstacles
+				myWall = Wall(activeBeams[-1].getColor(), screenWidth, screenHeight, baseColors, 3, preLoaded)	# create the Wall object with a certain number of obstacles
 				#Last beam in the list is the closest one to the wall being created
 			else:
-				myWall = Wall(flier.getColor(), screenWidth, screenHeight, baseColors, 3)
+				myWall = Wall(flier.getColor(), screenWidth, screenHeight, baseColors, 3, preLoaded)
 				
 			nextWall = random.randint(130, 160) + counter
 			#bottomGrass = grass
@@ -250,12 +263,21 @@ while 1:#Main loop
 			gameState = 5 #goto loss screen 
 			highScores = HighScoreReader.getHighScores(score) #inputs the current score, then returns a list of all scores cut off at top 10
 			flier.restart()
+			
+			for x in fpsTest:
+				fpsSum+=x
+				
+			print fpsSum/len(fpsTest)
+			fpsTest = []
+			fpsSum = 0
 			for x in range(0,len(highScores)):
 				loadedScore = MenuLabel("Score: " +str(highScores[x]), (100,100,100),(0, 0, 0),24,(screenWidth*3/4,screenHeight/15*x + screenHeight/5),100)
 				scoreLabels.append(loadedScore)
 			
-		print clock.get_fps() #Prints out the fps during the game for testing
-	
+			
+			
+		fpsTest.append( clock.get_fps() ) #Prints out the fps during the game for testing
+		#print clock.get_fps()
 	elif gameState == 2: #Instructions
 		screen.fill((40,80,160))
 		mouse = pygame.mouse.get_pos()
@@ -334,4 +356,4 @@ while 1:#Main loop
 		
 	pygame.display.update() # update the screen
 
-	clock.tick(60) # 60 fps
+	clock.tick(65) # 60 fps
