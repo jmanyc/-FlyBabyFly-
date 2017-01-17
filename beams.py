@@ -28,6 +28,7 @@ class Beam():
 			self.image = image
 			
 		self.beam = self.image.get_rect()
+		self.beam.move_ip(self.x, self.y)
 		
 	def getVisited(self):
 		return self.visited
@@ -53,8 +54,7 @@ class Beam():
 
 		
 	def moveBeam(self, speed, surface):
-		self.beam = self.image.get_rect()
-		self.beam.move_ip(self.x, 0)	# change the object's internal position
+		self.beam.move_ip(speed, 0)	# change the object's internal position
 		self.x += speed
 		self.draw(surface)    # redraw the obstacle at its new position on the display
 		
