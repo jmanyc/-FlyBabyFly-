@@ -14,6 +14,10 @@ from wall import Wall
 from label import *
 from grass import Grass
 
+### All of these functions are called in the main loop; they manage transition of game 
+# \ states and update the appropriate buttons, objects and sounds within the game.
+
+
 def updateScreen(screen, rect, refresh):
 	print "Haha, this isn't done yet, and hopefully won't have to be"
 '''
@@ -45,6 +49,11 @@ def State2Update(screen):	# main consolidation
 		controls.update(screen)
 		mainBack.update(screen)
 		paint.update(screen)
+	
+# If the user is on the sound options screen, if the mouse is hovering over one of the 
+# \ three buttons and clicks on it, then it toggles the appropriate option (background
+# \ music or sound effects) or returns to the main screen. It returns the updated sound
+# \ settings as well as the current game state.
 	
 def updateSoundOptions(musicToggle, soundToggle, gameState, optionsList):	# main consolidation
 	for item in optionsList:
