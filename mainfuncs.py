@@ -104,7 +104,7 @@ def mainButtonsClicked(mainMenu, gameState, mouse, soundToggle, screen, justClic
 					scoreLabel.updateText("Score: "+str(score))
 					pygame.mixer.music.set_volume(0.4)
 					counter = 0
-					flier = avatar.Avatar(screenWidth, screenHeight, soundToggle)
+					flier.restart()
 				break
 			
 			item.update(screen)
@@ -118,5 +118,5 @@ def restartGame(counter, score, scoreLabel, screenWidth, screenHeight, soundTogg
 	scoreLabel.updateText("Score: "+str(score))
 	pygame.mixer.music.set_volume(0.4)
 	counter = 0
-	flier = avatar.Avatar(screenWidth, screenHeight, soundToggle)
+	flier.restart()
 	return counter, flier

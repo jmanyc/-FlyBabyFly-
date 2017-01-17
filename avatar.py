@@ -11,13 +11,13 @@ Colors = enum(RED = (255,0,0), GREEN = (0,255,0), BLUE = (0,0,255), WHITE = (255
 class Avatar(): 
 	def __init__(self, screenWidth, screenHeight, soundToggle):
 		
-		self.infoObject = pygame.display.Info()
 		self.soundToggle = soundToggle
 		self.crashSound = pygame.mixer.Sound( "Assets/sound/hit_obstacle.wav" )
 		self.hitGround = pygame.mixer.Sound( "Assets/sound/hit_ground.wav" )
 		self.paintSound = pygame.mixer.Sound( "Assets/sound/hit_obstacle.wav" )
 		self.x = screenWidth/12 # initial spawn of the image
 		self.y = screenHeight/4
+		self.startingPos = (self.x,self.y)
 		
 		### Starts with white Image ###
 		self.imageScale = (screenWidth/17, screenHeight/10)
@@ -27,6 +27,7 @@ class Avatar():
 		self.image_c = self.image.get_rect()
 
 		#Preloading the different colors of the squirrel
+		self.whiteImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelWhitePlane.png" ).convert_alpha(), self.imageScale)
 		self.redImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelRedPlane.png" ).convert_alpha(), self.imageScale)
 		self.blueImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelBluePlane.png" ).convert_alpha(), self.imageScale)
 		self.greenImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelGreenPlane.png" ).convert_alpha(), self.imageScale)
@@ -47,23 +48,22 @@ class Avatar():
 			key = pygame.key.get_pressed()
 			if key[pygame.K_SPACE] or key[pygame.K_UP] or key[pygame.K_w]:
 				self.curSpeed += self.gravity*2.5
-			### Color of Avatar changed depending on arrow key pressed & image swapped out ###
-			if key[pygame.K_1] :
-				self.color = Colors.RED
-				self.image = self.redImage
-			if key[pygame.K_2] :
-				self.color = Colors.GREEN
-				self.image = self.greenImage
-			if key[pygame.K_3] :
-				self.color = Colors.BLUE
-				self.image = self.blueImage
-			self.tempImage = self.image
 		else:
 			if self.crashing == False: #The squirrel bonks his head on the gutter and falls
 				if self.soundToggle == True:
 					self.crashSound.play()
-				self.curSpeed = 0
-			self.crashing = True
+				self.crash()
+				
+	def restart(self):
+		self.x = self.startingPos[0]
+		self.y = self.startingPos[1]
+		self.alive = True #Used to control the gameState
+		self.color = Colors.WHITE #Will be used to check collision, and change avatar image to correct color
+		self.crashing = False #Used to animate the crashing of the avatar
+		self.image = self.whiteImage
+	def crash(self):
+		self.curSpeed = 0
+		self.crashing = True
 		
 	def applyGravity(self):
 		### This line of code should be run in the main loop as every tick it moves the position of the avatar ###
@@ -73,6 +73,7 @@ class Avatar():
 		else:
 			if self.soundToggle == True:#If the squirrel hits the ground
 				#dust animation
+				self.crash()
 				self.hitGround.play()
 			self.alive = False
 			
@@ -126,7 +127,8 @@ class Avatar():
 						obst.setVisited(True)
 						if self.color != obst.getColor():
 							self.crashing = True
-							if soundToggle == True:
+							self.crash()
+							if self.soundToggle == True:
 								self.crashSound.play()
 							return False
 						else:

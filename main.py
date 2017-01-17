@@ -24,7 +24,7 @@ pygame.font.init()
 infoObject = pygame.display.Info()
 screenWidth = infoObject.current_w
 screenHeight = infoObject.current_h
-displayFlags = pygame.FULLSCREEN# | pygame.DOUBLEBUF | pygame.HWSURFACE #using hardware acceleration
+displayFlags = pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE #using hardware acceleration
 screen = pygame.display.set_mode((screenWidth, screenHeight), displayFlags) #Screen size fits all screens
 
 clock = pygame.time.Clock()
@@ -109,6 +109,7 @@ testGrass = Grass(screenWidth, screenHeight, -4)
 
 justClicked = False #Boolean so we can't double click options in the menu
 isPassing = False #Boolean so score isn't counted twice, nor sound played twice
+spacePress = False #So game doesn't restart if you're holding down space and die
 
 counter = 0
 score = 0
@@ -133,7 +134,7 @@ colors = [RED, BLUE, GREEN, YELLOW, PURPLE, CYAN, MAROON, OLIVE] ### For current
 baseColors = [RED,BLUE,GREEN,PURPLE]
 
 avatarParams = [screenWidth, screenHeight, soundToggle]
-	
+flier = avatar.Avatar(avatarParams[0], avatarParams[1], avatarParams[2])
 while 1:#Main loop
 	if gameState == 0: #Start Menu
 		# handle every event since the last frame.
@@ -142,7 +143,7 @@ while 1:#Main loop
 		screen.blit(squirrel,(500,50))
 		quoteLabel.update(screen)
 		title.update(screen)
-		gameState, flier, score, counter = m.mainButtonsClicked(mainMenu, gameState, mouse, soundToggle, screen, justClicked, clickSound, score, counter, scoreLabel, screenWidth, screenHeight, flier = None)	# relocated code to checkMainItems function
+		gameState, flier, score, counter = m.mainButtonsClicked(mainMenu, gameState, mouse, soundToggle, screen, justClicked, clickSound, score, counter, scoreLabel, screenWidth, screenHeight, flier)	# relocated code to checkMainItems function
 
 		justClicked = pygame.mouse.get_pressed()[0]
 			
@@ -189,7 +190,7 @@ while 1:#Main loop
 				tempList.append(item)
 				### If performance becomes an issue, check into forcing all update at once, instead of staggered
 
-		activeWalls = tempList
+		activeWalls = list(tempList)
 		tempList = []
 		
 		for item in activeBeams:
@@ -197,7 +198,7 @@ while 1:#Main loop
 			if item.getPosition() > -screenWidth/4:
 				tempList.append(item)
 				
-		activeBeams = tempList
+		activeBeams = list(tempList)
 		
 		flier.beamCollision(activeBeams, soundToggle)
 		
@@ -278,7 +279,7 @@ while 1:#Main loop
 				gameState = item.getState()
 				if gameState == 1:
 					### Call this to restart the game and scores ###
-					counter, flier = m.restartGame(counter, score, scoreLabel, screenWidth, screenHeight, soundToggle, flier = None)	# relocated code to restartGame function
+					counter, flier = m.restartGame(counter, score, scoreLabel, screenWidth, screenHeight, soundToggle, flier)	# relocated code to restartGame function
 
 				elif gameState == 0:
 					quoteLabel.updateText(quoteReader.getQuote())
