@@ -283,7 +283,7 @@ while 1:#Main loop
 				gameState = item.getState()
 				if gameState == 1:
 					### Call this to restart the game and scores ###
-					counter, flier = m.restartGame(counter, score, scoreLabel, screenWidth, screenHeight, soundToggle, flier)	# relocated code to restartGame function
+					counter, flier = m.restartGame(counter, score, scoreLabel, flier)	# relocated code to restartGame function
 
 				elif gameState == 0:
 					quoteLabel.updateText(quoteReader.getQuote())

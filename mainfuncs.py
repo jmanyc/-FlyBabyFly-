@@ -97,7 +97,7 @@ def updateSoundOptions(musicToggle, soundToggle, gameState, optionsList, mouse, 
 	
 # If the user is at the main menu, mainButtonsClicked is called to check if the mouse is
 # \ hovering over a button and clicks it. If so, it routes the user to the appropriate screen.
-				    	mainMenu, gameState, mouse, screen, justClicked, clickSound, score, counter, scoreLabel, avatarParams, flier
+				    	#mainMenu, gameState, mouse, screen, justClicked, clickSound, score, counter, scoreLabel, avatarParams, flier
 def mainButtonsClicked(mainMenu, gameState, mouse, screen, justClicked, clickSound, score, counter, scoreLabel, avatarParams, flier):	# main consolidation
 	for item in mainMenu:
 			if item.hover((mouse[0],mouse[1]),avatarParams[2]) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
