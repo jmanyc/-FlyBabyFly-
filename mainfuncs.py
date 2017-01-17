@@ -55,7 +55,7 @@ def State2Update(screen):	# main consolidation
 # \ music or sound effects) or returns to the main screen. It returns the updated sound
 # \ settings as well as the current game state.
 	
-def updateSoundOptions(musicToggle, soundToggle, gameState, optionsList):	# main consolidation
+def updateSoundOptions(musicToggle, soundToggle, gameState, optionsList, mouse, screen, musicToggled, soundToggled, justClicked, clickSound):	# main consolidation
 	for item in optionsList:
 		if item.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
 			# If hovering over the item, and a button is clicked, go to the state the button is linked to. 

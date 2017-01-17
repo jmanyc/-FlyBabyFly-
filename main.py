@@ -249,7 +249,7 @@ while 1:#Main loop
 		
 		screen.blit(imageBkg,(0,0))
 		if score == 5:
-			wallSpeed = -8
+			wallSpeed = -4
 
 		#screen.blit(grass,(0,0))
 		counter += 1
@@ -396,7 +396,7 @@ while 1:#Main loop
 	if gameState == 6: #Options menu
 		screen.fill((40,80,160))
 		mouse = pygame.mouse.get_pos()
-		musicToggle, soundToggle, gameState = m.updateSoundOptions(musicToggle, soundToggle, gameState, optionsList)
+		musicToggle, soundToggle, gameState = m.updateSoundOptions(musicToggle, soundToggle, gameState, optionsList, mouse, screen, musicToggled, soundToggled, justClicked, clickSound)
 		# relocated code to updateSoundOptions function
 		
 		justClicked = pygame.mouse.get_pressed()[0]
