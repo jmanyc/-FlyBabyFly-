@@ -15,7 +15,7 @@ class Obstacle():
 		self.color = color
 		self.height = height
 		self.width = width
-		
+		self.image = image[0]
 		self.visited = False
 		if self.color == (255,0,0): #Red
 			self.image = image[0]
@@ -28,7 +28,7 @@ class Obstacle():
 		elif self.color == (0,0,0): #white
 			self.image = image[3]
 		
-		self.obstacle = image[0].get_rect()
+		self.obstacle = self.image.get_rect()
 		self.obstacle.move_ip(self.x,self.y)
 		
 	def setPosition(self, position):
