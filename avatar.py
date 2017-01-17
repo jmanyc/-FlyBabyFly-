@@ -99,13 +99,10 @@ class Avatar():
 	def setAlive(self, bool):### Note to team, make sure if we add restarts to set avatar alive again ###
 		### Sets the alive state of the avatar ###
 		self.alive = bool
-		
-	def blita(self, surface):
-		surface.blit(self.image,(self.x,self.y))
-		
+
 	def update(self, surface):
 		### Draws the avatar at the selected area ###
-		#surface.blit(self.image,(self.x,self.y))
+		surface.blit(self.image,(self.x,self.y))
 		self.image = self.tempImage
 		self.image_c = self.image.get_rect()
 		self.image_c.move_ip(self.x,self.y)

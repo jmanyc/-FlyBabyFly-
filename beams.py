@@ -44,10 +44,7 @@ class Beam():
 		
 	def getColor(self):
 		return self.color
-		
-	def blita(self, surface):    
-		surface.blit(self.image,(self.x,self.y))
-		
+
 	def draw(self, surface):		
 		surface.blit(self.image,(self.x,self.y))
 
@@ -59,7 +56,7 @@ class Beam():
 	def moveBeam(self, speed, surface):
 		self.beam.move_ip(speed, 0)	# change the object's internal position
 		self.x += speed
-		#self.draw(surface)    # redraw the obstacle at its new position on the display
+		self.draw(surface)    # redraw the obstacle at its new position on the display
 		
 		
 # ------------- Test code ----------------------------------------------------------------

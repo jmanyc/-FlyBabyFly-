@@ -122,7 +122,7 @@ activeWalls = []
 activeBeams = []
 grassList = []
 scoreLabels = []
-blist = []
+
 
 #Color list
 RED = (255,0,0)
@@ -167,7 +167,7 @@ while 1:#Main loop
 	elif gameState == 1: #The actual game looping part
 		pygame.mouse.set_visible(False)
 		
-		#screen.blit(imageBkg,(0,0))
+		screen.blit(imageBkg,(0,0))
 
 		#screen.blit(grass,(0,0))
 		counter += 1
@@ -214,7 +214,6 @@ while 1:#Main loop
 			item.moveWall(wallSpeed, screen)
 			if item.getX() > -screenWidth/28:
 				tempList.append(item)
-				blist.append(item)
 				### If performance becomes an issue, check into forcing all update at once, instead of staggered
 
 		activeWalls = list(tempList)
@@ -224,7 +223,6 @@ while 1:#Main loop
 			item.moveBeam(wallSpeed, screen)
 			if item.getPosition() > -screenWidth/5:
 				tempList.append(item)
-				blist.append(item)
 				
 		activeBeams = list(tempList)
 		flier.beamCollision(activeBeams[:1], soundToggle)
@@ -240,12 +238,6 @@ while 1:#Main loop
 			
 		scoreLabel.update(screen)
 		flier.update(screen)
-		blist.append(flier)
-		screen.blit(imageBkg,(0,0))
-		for item in blist:
-			item.blita(screen)
-		blist = []
-		
 		if flier.getAlive() == False: #if the flier is dead
 			pygame.mixer.music.set_volume(1.0)
 			quoteLabel.updateText(quoteReader.getQuote())
@@ -343,4 +335,3 @@ while 1:#Main loop
 	pygame.display.update() # update the screen
 
 	clock.tick(60) # 60 fps
-
