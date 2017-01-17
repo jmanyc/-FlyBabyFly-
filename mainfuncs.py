@@ -113,7 +113,6 @@ def mainButtonsClicked(gameState, flier, score, counter, bools, mainMenu, mouse,
 					pygame.mixer.music.set_volume(0.4)
 					counter = 0
 					flier = avatar.Avatar(avatarParams[0], avatarParams[1], avatarParams[2])
-					flier.restart()
 				break
 			
 			item.update(screen)
@@ -127,5 +126,4 @@ def restartGame(counter, score, scoreLabel, flier):	# main consolidation
 	scoreLabel.updateText("Score: "+str(score))
 	pygame.mixer.music.set_volume(0.4)
 	counter = 0
-	flier.restart()
 	return counter, flier

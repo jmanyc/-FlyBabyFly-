@@ -132,7 +132,7 @@ CYAN = (0,255,255)
 MAROON = (128,0,0)
 OLIVE = (128,128,0)
 colors = [RED, BLUE, GREEN, YELLOW, PURPLE, CYAN, MAROON, OLIVE] ### For current game, only BLUE RED GREEN
-baseColors = [RED,BLUE,GREEN,PURPLE]
+baseColors = [RED,BLUE,GREEN]
 
 imageScale = (screenHeight/5, screenHeight*15/16)
 redPaint = pygame.transform.scale(pygame.image.load( "Assets/img/RedPaint.png" ).convert_alpha(), imageScale)
@@ -165,12 +165,10 @@ while 1:#Main loop
 		pygame.mouse.set_visible(False)
 		
 		screen.blit(imageBkg,(0,0))
-		if score == 5:
-			wallSpeed = -4
 
 		#screen.blit(grass,(0,0))
 		counter += 1
-		testGrass.updateGrass(screen)
+		#testGrass.updateGrass(screen)
 		
 		tempList = []
 		if counter == nextBeam:
@@ -187,15 +185,19 @@ while 1:#Main loop
 					myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, bluePaint)
 				elif difColor == PURPLE:
 					myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, purplePaint)
-				activeBeams.append(myBeam)
+				if activeBeams != []:
+					if myBeam.getColor() != activeBeams[-1].getColor():
+						activeBeams.append(myBeam)
+				else:
+					activeBeams.append(myBeam)
 			nextBeam = random.randint(170, 200) + counter
 			
 		if counter == nextWall:
-			if len(activeBeams)!= 0:
-				myWall = Wall(activeBeams[len(activeBeams)-1].getColor(), screenWidth, screenHeight, colors, 3)	# create the Wall object with a certain number of obstacles
+			if activeBeams != []:
+				myWall = Wall(activeBeams[-1].getColor(), screenWidth, screenHeight, baseColors, 3)	# create the Wall object with a certain number of obstacles
 				#Last beam in the list is the closest one to the wall being created
 			else:
-				myWall = Wall(flier.getColor(), screenWidth, screenHeight, colors, 3)
+				myWall = Wall(flier.getColor(), screenWidth, screenHeight, baseColors, 3)
 				
 			nextWall = random.randint(130, 160) + counter
 			#bottomGrass = grass
@@ -216,12 +218,11 @@ while 1:#Main loop
 		
 		for item in activeBeams:
 			item.moveBeam(wallSpeed, screen)
-			if item.getPosition() > -screenWidth/4:
+			if item.getPosition() > -screenWidth/5:
 				tempList.append(item)
 				
 		activeBeams = list(tempList)
-		
-		flier.beamCollision(activeBeams, soundToggle)
+		flier.beamCollision(activeBeams[:1], soundToggle)
 		
 		if flier.wallCollision(activeWalls[:1], soundToggle) == True: #If passing through the wall is true
 			if isPassing == False:
@@ -246,6 +247,7 @@ while 1:#Main loop
 			wallSpeed = -4
 			gameState = 5 #goto loss screen 
 			highScores = HighScoreReader.getHighScores(score) #inputs the current score, then returns a list of all scores cut off at top 10
+			flier.restart()
 			for x in range(0,len(highScores)):
 				loadedScore = MenuLabel("Score: " +str(highScores[x]), (100,100,100),(0, 0, 0),24,(screenWidth*3/4,screenHeight/15*x + screenHeight/5),100)
 				scoreLabels.append(loadedScore)
@@ -327,4 +329,5 @@ while 1:#Main loop
 				break
 		
 	pygame.display.update() # update the screen
+
 	clock.tick(65) # 60 fps

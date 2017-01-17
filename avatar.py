@@ -21,10 +21,7 @@ class Avatar():
 		
 		### Starts with white Image ###
 		self.imageScale = (screenWidth/17, screenHeight/10)
-		self.image = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelWhitePlane.png" ).convert_alpha(), self.imageScale)
-		self.tempImage = self.image
-		#for testing collision
-		self.image_c = self.image.get_rect()
+		
 
 		#Preloading the different colors of the squirrel
 		self.whiteImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelWhitePlane.png" ).convert_alpha(), self.imageScale)
@@ -32,6 +29,11 @@ class Avatar():
 		self.blueImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelBluePlane.png" ).convert_alpha(), self.imageScale)
 		self.greenImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelGreenPlane.png" ).convert_alpha(), self.imageScale)
 		self.purpleImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelPurplePlane.png" ).convert_alpha(), self.imageScale)
+		
+		self.image = self.whiteImage
+		self.tempImage = self.image
+		#for testing collision
+		self.image_c = self.image.get_rect()
 		
 		### Setting the upper and lower limits so it stays on screen ###
 		self.topLimit = screenHeight*3/32 - self.image.get_height()*2/7 #Adjusting for squirrel hitbox
@@ -61,6 +63,8 @@ class Avatar():
 		self.color = Colors.WHITE #Will be used to check collision, and change avatar image to correct color
 		self.crashing = False #Used to animate the crashing of the avatar
 		self.image = self.whiteImage
+		self.tempImage = self.image
+		
 	def crash(self):
 		self.curSpeed = 0
 		self.crashing = True
