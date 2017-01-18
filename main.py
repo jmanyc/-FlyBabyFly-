@@ -26,6 +26,7 @@ clock = pygame.time.Clock()
 
 mainBackground = pygame.transform.scale(pygame.image.load( "Assets/img/StartScreenFinal.png" ).convert(),(screenWidth,screenHeight))
 screen.blit(mainBackground,(0,0))
+pygame.display.update()
 
 ### Game Sound ###
 hoverSound = pygame.mixer.Sound( "Assets/sound/click.wav" )
@@ -167,7 +168,7 @@ host = '137.146.141.168';
 port = 8888;
 
 def serverConnect(s, host, port, score):
-	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	s.settimeout(0.1)
 	try:
 		s.connect((host , port))
 		data = str(score)
