@@ -126,7 +126,7 @@ lowResolution = MenuLabel("Slow Game Mode", (100,100,100),(191, 255, 0),24,(scre
 resInfo = MenuLabel("Turn on Slow Game Mode and restart game if it runs poorly", (100,100,100),(191, 255, 0),20,(screenWidth/2,screenHeight*5/7),100)
 musicToggled = MenuLabel("Background Music On/Off", (100,100,100),(191, 255, 0),24,(screenWidth/2,screenHeight*2/7),42)
 soundToggled = MenuLabel("Sound Effects On/Off", (100,100,100),(191, 255, 0),24,(screenWidth/2,screenHeight*3/7), 43)
-optionsList = [mainBack, musicToggled, soundToggled,lowResolution,resInfo]
+optionsList = [mainBack, musicToggled, soundToggled,lowResolution]
 
 #Loss Screen
 credits = MenuLabel("Credits", (100,100,100),(0,0,0),26,(300,260),3)
@@ -251,7 +251,7 @@ while 1:#Main loop
 		
 		tempList = []
 		if counter == nextBeam:
-			if abs(nextBeam - nextWall) > 40: #So they don't spawn on top of each other
+			if abs(nextBeam - nextWall) > 45: #So they don't spawn on top of each other
 				difColor = random.choice(baseColors)
 				while difColor == flier.getColor():
 					difColor = random.choice(baseColors)
@@ -269,7 +269,8 @@ while 1:#Main loop
 					if myBeam.getColor() != activeBeams[-1].getColor() and myBeam.getColor() != flier.getColor():
 						activeBeams.append(myBeam)
 				else:
-					activeBeams.append(myBeam)
+					if myBeam.getColor() != flier.getColor():
+						activeBeams.append(myBeam)
 			nextBeam = random.randint(170, 200) + counter
 			
 		if counter == nextWall:
@@ -448,7 +449,7 @@ while 1:#Main loop
 		avatarParams = [screenWidth, screenHeight, soundToggle]
 		musicToggle, soundToggle, gameState, lowRes = m.updateSoundOptions(bools, gameState, optionsList, mouse, screen, avatarParams, clickSound)
 		# relocated code to updateSoundOptions function
-		
+		resInfo.update(screen)
 		justClicked = pygame.mouse.get_pressed()[0]
 	
 	if gameState == 7:
