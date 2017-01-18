@@ -263,25 +263,26 @@ while 1:#Main loop
 			gameState = 5 #goto loss screen
 			
 			##### Server highscore code, only works when austin has server up #####
-			'''
+			
 			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-			host = 'localhost';
+			host = '137.146.141.168';
 			port = 8888;
+			try:
+				s.connect((host , port))
 
-			s.connect((host , port))
+				#Send some data to remote server
+				message = str(score)
+				s.sendall(message)
 
-			#Send some data to remote server
-			message = str(score)
-			s.sendall(message)
+				reply = s.recv(4096)
+				s.close()
+				highScores = reply.split()
+			except socket.error:
+				print 'Failed to connect to server'
+				highScores = HighScoreReader.getHighScores(score) #inputs the current score, then returns a list of all scores cut off at top 10
 
-			reply = s.recv(4096)
-			s.close()
-			highScores = reply.split()
-			'''
-			
 			#Comment out highScores if using the server, we should use 2 lists, local highscore and global
-			highScores = HighScoreReader.getHighScores(score) #inputs the current score, then returns a list of all scores cut off at top 10
-			
+						
 			flier.restart()
 			
 			for x in fpsTest:
