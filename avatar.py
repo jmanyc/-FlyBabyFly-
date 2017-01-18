@@ -4,7 +4,7 @@
 # 1/5/17
 import pygame
 from wall import Wall
-from powerups import PowerUp
+from powerups import Powerup
 
 def enum(**enums):
 		return type('Enum', (), enums)
