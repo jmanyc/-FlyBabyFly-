@@ -166,6 +166,20 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = '137.146.141.168';
 port = 8888;
 
+def serverConnect(s, host, port, score):
+	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	try:
+		s.connect((host , port))
+		data = str(score)
+		s.sendall(data)
+		reply = s.recv(4096)
+		s.close()
+		highScores = reply.split()
+	except socket.error:
+		print 'Failed to connect to server'
+		highScores = HighScoreReader.getHighScores(score)
+	return highScores
+
 while 1:#Main loop
 	if gameState == 0: #Start Menu
 		# handle every event since the last frame.
@@ -176,11 +190,13 @@ while 1:#Main loop
 		
 		bools = [musicToggle, musicToggled, soundToggled, justClicked]
 		avatarParams = [screenWidth, screenHeight, soundToggle]
-		gameState, flier, score, counter = m.mainButtonsClicked(gameState, flier, score, counter, bools, mainMenu, mouse, screen, clickSound, scoreLabel, avatarParams)	# relocated code to checkMainItems function
+		gameState, score, counter = m.mainButtonsClicked(gameState, score, counter, bools, mainMenu, mouse, screen, clickSound, scoreLabel, avatarParams)	# relocated code to checkMainItems function
 
 
 		justClicked = pygame.mouse.get_pressed()[0]
 			
+# -----------------------------------------------------------------------------------------
+
 	
 	elif gameState == 1: #The actual game looping part
 		pygame.mouse.set_visible(False)
@@ -222,9 +238,8 @@ while 1:#Main loop
 				myWall = Wall(flier.getColor(), screenWidth, screenHeight, baseColors, 3, preLoaded)
 				
 			nextWall = random.randint(130, 160) + counter
-			#bottomGrass = grass
 			activeWalls.append(myWall)
-			#grassList.append(bottomGrass)
+			
 			
 		m.updateFlier(flier) #Calls movement, gravity and rotation of avatar
 		
@@ -257,7 +272,9 @@ while 1:#Main loop
 			
 		scoreLabel.update(screen)
 		flier.update(screen)
+		
 		if flier.getAlive() == False: #if the flier is dead
+		
 			pygame.mixer.music.set_volume(1.0)
 			quoteLabel.updateText(quoteReader.getQuote())
 			activeWalls = []
@@ -267,27 +284,12 @@ while 1:#Main loop
 			pygame.mouse.set_visible(True)
 			wallSpeed = -4
 			gameState = 5 #goto loss screen
-			
-			##### Server highscore code, only works when austin has server up #####
-			
-			
-			try:
-				s.connect((host , port))
-
-				#Send some data to remote server
-				message = str(score)
-				s.sendall(message)
-
-				reply = s.recv(4096)
-				s.close()
-				highScores = reply.split()
-			except socket.error:
-				print 'Failed to connect to server'
-				highScores = HighScoreReader.getHighScores(score) #inputs the current score, then returns a list of all scores cut off at top 10
-
-			#Comment out highScores if using the server, we should use 2 lists, local highscore and global
-						
 			flier.restart()
+			
+			#inputs the current score, then returns a list of all scores cut off at top 10
+			highScores = serverConnect(s, host, port, score)
+
+			#Comment out highScores if using the server, we should use 2 lists, local highscore and global			
 			
 			for x in fpsTest:
 				fpsSum+=x
@@ -298,11 +300,12 @@ while 1:#Main loop
 			for x in range(0,len(highScores)):
 				loadedScore = MenuLabel("Score: " +str(highScores[x]), (100,100,100),(0, 0, 0),24,(screenWidth*3/4,screenHeight/15*x + screenHeight/5),100)
 				scoreLabels.append(loadedScore)
-			
-			
-			
+						
 		fpsTest.append( clock.get_fps() ) #Prints out the fps during the game for testing
-		#print clock.get_fps()
+		
+# -----------------------------------------------------------------------------------------
+		
+		
 	elif gameState == 2: #Instructions
 		screen.fill((40,80,160))
 		mouse = pygame.mouse.get_pos()
@@ -311,6 +314,9 @@ while 1:#Main loop
 		if key[pygame.K_BACKSPACE] or (mainBack.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0]):
 			m.playSound(clickSound,soundToggle)
 			gameState = 0
+			
+# -----------------------------------------------------------------------------------------
+
 			
 	elif gameState == 3: #Credits
 		screen.fill((40,80,160))
@@ -326,11 +332,18 @@ while 1:#Main loop
 			gameState = 5
 			screen.fill((40,80,160))
 			
+# -----------------------------------------------------------------------------------------
+
+			
 	elif gameState == 4: #Quit state
 		pygame.quit()
 		sys.exit()
 		
+# -----------------------------------------------------------------------------------------
+		
+		
 	elif gameState == 5: #Loss Screen
+		#print 'YOU LOST' #Please no, it spammed my console...
 		key = pygame.key.get_pressed()
 		if key[pygame.K_SPACE] == True:
 			gameState = 1
@@ -339,18 +352,21 @@ while 1:#Main loop
 			scoreLabel.updateText("Score: "+str(score))
 			pygame.mixer.music.set_volume(0.4)
 			counter = 0
-			flier.restart()
-		mouse = pygame.mouse.get_pos() # Position of the mouse, gets refreshed every tick
+		mouse = pygame.mouse.get_pos()
+		
 		for item in scoreLabels:
 			item.update(screen)
 			
 		for item in lossMenu:
 			quoteLabel.update(screen)
+			
 			if item.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
 				# If hovering over the item, and a button is clicked, go to the state the button is linked to. 
 				m.playSound(clickSound,soundToggle)
 				gameState = item.getState()
+				
 				if gameState == 1:
+					print 'PLAYING AGAIN'
 					### Call this to restart the game and scores ###
 					counter, flier, score = m.restartGame(counter, score, scoreLabel, flier)	# relocated code to restartGame function
 
@@ -361,6 +377,9 @@ while 1:#Main loop
 				break
 			item.update(screen)
 		justClicked = pygame.mouse.get_pressed()[0]
+		
+# -----------------------------------------------------------------------------------------
+
 		
 	if gameState == 6: #Options menu
 		screen.fill((40,80,160))
