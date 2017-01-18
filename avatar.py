@@ -62,7 +62,7 @@ class Avatar():
 		self.alive = True #Used to control the gameState
 		self.color = Colors.WHITE #Will be used to check collision, and change avatar image to correct color
 		self.crashing = False #Used to animate the crashing of the avatar
-		self.image = self.whiteImage
+		self.image = self.redImage
 		self.tempImage = self.image
 		
 	def crash(self):
