@@ -3,7 +3,6 @@
 # CS269
 # 1/5/17
 
-### This is going to be part of the Main Loop file, not it's own class ###
 import pygame, sys, avatar, socket, HighScoreReader, quoteReader, random
 from beams import *
 from wall import Wall
@@ -11,14 +10,36 @@ from label import *
 from grass import Grass
 import mainfuncs as m
 
+###Reading in settings###
+fp = file('Settings.txt') #reads the file
+lines = fp.readlines() #reads lines and creates an array of lines
+fp.close() #closes the file
+settings = [] #list of scores that is returned
+for line in lines: 
+	words = line.split()
+	settings.append( int(words[0]) )
+'''
+Settings File: 0: off, 1: on
+Line 0: Low Resolution Mode
+Line 1: Background Music
+Line 2: Sound Effects Toggle
+'''
+
 ### Initializing all needed Pygame stuff ###
 pygame.mixer.pre_init(44100, -16, 2, 2048)
 pygame.mixer.init()
 pygame.init()
 pygame.font.init()
 infoObject = pygame.display.Info()
-screenWidth = infoObject.current_w
-screenHeight = infoObject.current_h
+if settings[0] == 0:
+	lowRes = False
+	screenWidth = infoObject.current_w
+	screenHeight = infoObject.current_h
+else:
+	lowRes = True
+	screenWidth = 1024
+	screenHeight = 768
+
 displayFlags = pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE #using hardware acceleration
 screen = pygame.display.set_mode((screenWidth, screenHeight), displayFlags) #Screen size fits all screens
 
@@ -35,10 +56,16 @@ pointSound = pygame.mixer.Sound( "Assets/sound/blip.wav" )
 crashSound = pygame.mixer.Sound( "Assets/sound/hit_obstacle.wav" )
 
 pygame.mixer.music.load("Assets/sound/background.mp3")
-
 pygame.mixer.music.play(-1)
-musicToggle = True
-soundToggle = True
+if settings[1] == 1:
+	musicToggle = True
+else:
+	pygame.mixer.music.pause()
+	musicToggle = False
+if settings[2] == 1:
+	soundToggle = True
+else:
+	soundToggle = False
 
 ### Gamestate variables ###
 gameState = 0
@@ -87,9 +114,11 @@ mainBack = MenuLabel("Back", (100,100,100),(0,0,0),24,(screenWidth*6/7,screenHei
 instructions = [paint, help, controls, mainBack]
 
 #Options Menu
+lowResolution = MenuLabel("Slow Game Mode", (100,100,100),(191, 255, 0),24,(screenWidth/2,screenHeight*4/7),41)
+resInfo = MenuLabel("Turn on Slow Game Mode and restart game if it runs poorly", (100,100,100),(191, 255, 0),20,(screenWidth/2,screenHeight*5/7),100)
 musicToggled = MenuLabel("Background Music On/Off", (100,100,100),(191, 255, 0),24,(screenWidth/2,screenHeight*2/7),42)
 soundToggled = MenuLabel("Sound Effects On/Off", (100,100,100),(191, 255, 0),24,(screenWidth/2,screenHeight*3/7), 43)
-optionsList = [mainBack, musicToggled, soundToggled]
+optionsList = [mainBack, musicToggled, soundToggled,lowResolution,resInfo]
 
 #Loss Screen
 credits = MenuLabel("Credits", (100,100,100),(0,0,0),26,(300,260),3)
@@ -189,7 +218,7 @@ while 1:#Main loop
 		quoteLabel.update(screen)
 		title.update(screen)	# relocated code to mainButtonsClicked function
 		
-		bools = [musicToggle, musicToggled, soundToggled, justClicked]
+		bools = [musicToggle, musicToggled, soundToggled, justClicked, lowRes, lowResolution]
 		avatarParams = [screenWidth, screenHeight, soundToggle]
 		gameState, score, counter = m.mainButtonsClicked(gameState, score, counter, bools, mainMenu, mouse, screen, clickSound, scoreLabel, avatarParams)	# relocated code to checkMainItems function
 
@@ -386,7 +415,7 @@ while 1:#Main loop
 		screen.fill((40,80,160))
 		avatarParams = [screenWidth, screenHeight, soundToggle]
 		mouse = pygame.mouse.get_pos()
-		bools = [musicToggle, musicToggled, soundToggled, justClicked]
+		bools = [musicToggle, musicToggled, soundToggled, justClicked, lowRes, lowResolution]
 		avatarParams = [screenWidth, screenHeight, soundToggle]
 		musicToggle, soundToggle, gameState = m.updateSoundOptions(bools, gameState, optionsList, mouse, screen, avatarParams, clickSound)
 		# relocated code to updateSoundOptions function

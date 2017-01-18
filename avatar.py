@@ -20,7 +20,7 @@ class Avatar():
 		self.startingPos = (self.x,self.y)
 		
 		### Starts with white Image ###
-		self.imageScale = (screenWidth/17, screenHeight/10)
+		self.imageScale = (screenHeight/9, screenHeight/9)
 		
 
 		#Preloading the different colors of the squirrel

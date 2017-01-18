@@ -76,13 +76,31 @@ def updateSoundOptions(bools, gameState, optionsList, mouse, screen, avatarParam
 				else:
 					pygame.mixer.music.unpause()
 					bools[0] = True
+					
 			elif clickedState == 43: #Sound Toggle
 				if avatarParams[2] == True:
 					avatarParams[2] = False
 				else:
 					avatarParams[2] = True
+					
+			elif clickedState == 41: #LowRes Toggle
+				if bools[4] == True:
+					bools[4] = False
+				else:
+					bools[4] = True
 			elif clickedState == 0:
 				gameState = 0
+				settings = [bools[4], bools[0], avatarParams[2]]
+				writeString = ''
+				for set in settings:
+					if set == True:
+						writeString += str(1) + '\n'
+					else:
+						writeString += str(0) + '\n'
+	
+				fp = file( 'Settings.txt', 'w') #writes over the old file, adding the player score
+				fp.write(writeString)
+				fp.close()	
 			playSound(clickSound,avatarParams[2])
 		item.isHover = False
 		item.update(screen)
@@ -92,7 +110,9 @@ def updateSoundOptions(bools, gameState, optionsList, mouse, screen, avatarParam
 	if avatarParams[2] == True:
 		bools[2].isHover = True
 		bools[2].update(screen)
-		
+	if bools[4] == True:
+		bools[5].isHover = True
+		bools[5].update(screen)
 	return [bools[0], avatarParams[2], gameState]
 	
 # If the user is at the main menu, mainButtonsClicked is called to check if the mouse is
