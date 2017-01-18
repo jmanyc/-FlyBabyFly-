@@ -23,7 +23,7 @@ class Beam():
 			
 		self.beam = self.image.get_rect()
 		self.beam.move_ip(self.x, self.y)
-		
+		self.beam.inflate(self.image.get_width()*-1,0)
 	def getVisited(self):
 		return self.visited
 		

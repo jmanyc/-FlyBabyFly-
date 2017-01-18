@@ -138,6 +138,7 @@ fpsTest = []
 fpsSum = 0
 
 #Color list
+WHITE = (0,0,0)
 RED = (255,0,0)
 BLUE = (0,0,255)
 GREEN = (0,255,0)
@@ -146,8 +147,8 @@ PURPLE = (255,0,255)
 CYAN = (0,255,255)
 MAROON = (128,0,0)
 OLIVE = (128,128,0)
-colors = [RED, BLUE, GREEN, YELLOW, PURPLE, CYAN, MAROON, OLIVE] ### For current game, only BLUE RED GREEN
-baseColors = [RED,BLUE,GREEN]
+colors = [RED, BLUE, GREEN, YELLOW, PURPLE, CYAN, MAROON, OLIVE, WHITE] ### For current game, only BLUE RED GREEN
+baseColors = [RED,BLUE,GREEN,PURPLE,WHITE]
 
 imageScale = (screenHeight/5, screenHeight*15/16)
 redPaint = pygame.transform.scale(pygame.image.load( "Assets/img/RedPaint.png" ).convert_alpha(), imageScale)
@@ -201,6 +202,7 @@ while 1:#Main loop
 					myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, bluePaint)
 				elif difColor == PURPLE:
 					myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, purplePaint)
+					
 				if activeBeams != []:
 					if myBeam.getColor() != activeBeams[-1].getColor():
 						activeBeams.append(myBeam)

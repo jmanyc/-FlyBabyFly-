@@ -1,7 +1,6 @@
 #MenuLabel class for adding labels to a pygame menu, useful for changing gamestates
 #Checks for hovering over a button
 #Don't set background color over 235
-#Also has all our default labels in the Menu
 import pygame
 
 class MenuLabel():
