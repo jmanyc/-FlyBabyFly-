@@ -162,6 +162,7 @@ testGrass = Grass(screenWidth, screenHeight, -4)
 justClicked = False #Boolean so we can't double click options in the menu
 isPassing = False #Boolean so score isn't counted twice, nor sound played twice
 spacePress = False #So game doesn't restart if you're holding down space and die
+paused = False
 
 counter = 0
 score = 0
@@ -352,9 +353,14 @@ while 1:#Main loop
 				scoreLabels.append(loadedScore)
 
 		else:
+		
 			key = pygame.key.get_pressed()
-			if key[pygame.K_p] == True and justClicked == False:
-				gameState = 7
+			if key[pygame.K_p] == True:
+				if paused == False:
+					gameState = 7
+					paused = True
+			else:
+				paused = False
 # -----------------------------------------------------------------------------------------
 
 		
@@ -440,17 +446,19 @@ while 1:#Main loop
 		mouse = pygame.mouse.get_pos()
 		bools = [musicToggle, musicToggled, soundToggled, justClicked, lowRes, lowResolution]
 		avatarParams = [screenWidth, screenHeight, soundToggle]
-		musicToggle, soundToggle, gameState = m.updateSoundOptions(bools, gameState, optionsList, mouse, screen, avatarParams, clickSound)
+		musicToggle, soundToggle, gameState, lowRes = m.updateSoundOptions(bools, gameState, optionsList, mouse, screen, avatarParams, clickSound)
 		# relocated code to updateSoundOptions function
 		
 		justClicked = pygame.mouse.get_pressed()[0]
 	
 	if gameState == 7:
 		key = pygame.key.get_pressed()
-		if key[pygame.K_p] == True and justClicked == True:
-			gameState = 1
+		if key[pygame.K_p] == True:
+			if paused == False:
+				gameState = 1
+				paused = True
 		else:
-			justClicked = True
+			paused = False
 			
 	for event in pygame.event.get(): ##### Find out why removing this crashes the program #####
 			if event.type == pygame.QUIT:
