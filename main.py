@@ -160,6 +160,12 @@ purplePaint = pygame.transform.scale(pygame.image.load( "Assets/img/PurplePaint.
 avatarParams = [screenWidth, screenHeight, soundToggle]
 
 flier = avatar.Avatar(avatarParams[0], avatarParams[1], avatarParams[2])
+
+### Server Params ###
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+host = '137.146.141.168';
+port = 8888;
+
 while 1:#Main loop
 	if gameState == 0: #Start Menu
 		# handle every event since the last frame.
@@ -264,9 +270,7 @@ while 1:#Main loop
 			
 			##### Server highscore code, only works when austin has server up #####
 			
-			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-			host = '137.146.141.168';
-			port = 8888;
+			
 			try:
 				s.connect((host , port))
 
