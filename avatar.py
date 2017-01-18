@@ -4,6 +4,8 @@
 # 1/5/17
 import pygame
 from wall import Wall
+from powerups import Powerup
+
 def enum(**enums):
 		return type('Enum', (), enums)
 Colors = enum(RED = (255,0,0), GREEN = (0,255,0), BLUE = (0,0,255), WHITE = (255,255,255))
@@ -22,6 +24,7 @@ class Avatar():
 		### Starts with white Image ###
 		self.imageScale = (screenHeight/9, screenHeight/9)
 		
+		self.flierState = 0
 
 		#Preloading the different colors of the squirrel
 		self.whiteImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelWhitePlane.png" ).convert_alpha(), self.imageScale)
@@ -158,8 +161,25 @@ class Avatar():
 						self.image = self.purpleImage
 					self.tempImage = self.image
 					self.applyRotation()
-
  						
+	def applyRainbow(self):
+		return
+	
+	
+	def applyGravitySwitch(self):
+		return
+		
+		
+	def powerUpCollision(self, powerUp):	# powerUpCollision checked in gameState 1 loop, calls
+		type = powerUp.getType()			# \ appropriate power up method from powerups file
+
+		#if self.image_c.colliderect(beam.getBeam()) == True:
+		
+		if type == 'rainbow':
+			self.applyRainbow()
+		elif type == 'gravity Switch':
+			self.applyGravitySwitch()
+		
  					
 
  		

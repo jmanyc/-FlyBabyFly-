@@ -78,6 +78,14 @@ gameState = 0
 	5 = Loss Screen
 	6 = Options screen
 '''
+
+''' Flier States:
+
+	0 = default
+	1 = rainbow
+	2 = reverse gravity
+'''
+	
 			
 			
 ### Menu Items/Labels ###
@@ -144,6 +152,9 @@ greenObs = pygame.transform.scale(pygame.image.load( "Assets/img/GreenObstacle.p
 whiteObs = pygame.transform.scale(pygame.image.load( "Assets/img/WhiteObstacle.png" ).convert(), imageScale)
 purpleObs = pygame.transform.scale(pygame.image.load( "Assets/img/PurpleObstacle.png" ).convert(), imageScale)
 preLoaded = [redObs, blueObs, greenObs, whiteObs, purpleObs]
+
+### Need to load and convert power up images ###
+
 
 
 testGrass = Grass(screenWidth, screenHeight, -4)
@@ -290,19 +301,20 @@ while 1:#Main loop
 				
 		activeBeams = list(tempList)
 		flier.beamCollision(activeBeams[:1], soundToggle)
+		#flier.powerUpCollision(powerUps)	# powerUps list will include any powerup(s) currently on screen, similar to beams/walls
 		
 		if flier.wallCollision(activeWalls[:1], soundToggle) == True: #If passing through the wall is true
-			if isPassing == False:
+			if isPassing == False:												 # added gameState argument for rainbow testing
 				m.playSound(pointSound, soundToggle)
 				score += 1
 				scoreLabel.updateText("Score: "+str(score))
-				isPassing = True #So score is calculated once per wall
+				isPassing = True #So score is calculated once per wall		
 		else:
 			isPassing = False
 			
 		scoreLabel.update(screen)
 		flier.update(screen)
-		
+		fpsTest.append( clock.get_fps() )
 		if flier.getAlive() == False: #if the flier is dead
 		
 			pygame.mixer.music.set_volume(1.0)
@@ -316,6 +328,14 @@ while 1:#Main loop
 			gameState = 5 #goto loss screen
 			flier.restart()
 			
+# 		while avatar.flierState == 1:
+# 			flier.beamCollision(activeBeams[:1], soundToggle)
+# 			if flier.wallCollision(activeWalls[:1], soundToggle, gameState) == True:
+# 				if isPassing == False:												 # added gameState argument for rainbow testing
+# 					m.playSound(pointSound, soundToggle)
+# 					score += 1
+# 					scoreLabel.updateText("Score: "+str(score))
+# 					isPassing = True #So score is calculated once per wall
 			#inputs the current score, then returns a list of all scores cut off at top 10
 			highScores = serverConnect(s, host, port, score)
 
@@ -330,10 +350,13 @@ while 1:#Main loop
 			for x in range(0,len(highScores)):
 				loadedScore = MenuLabel("Score: " +str(highScores[x]), (100,100,100),(0, 0, 0),24,(screenWidth*3/4,screenHeight/15*x + screenHeight/5),100)
 				scoreLabels.append(loadedScore)
-						
-		fpsTest.append( clock.get_fps() ) #Prints out the fps during the game for testing
-		
+
+		else:
+			key = pygame.key.get_pressed()
+			if key[pygame.K_p] == True and justClicked == False:
+				gameState = 7
 # -----------------------------------------------------------------------------------------
+
 		
 		
 	elif gameState == 2: #Instructions
@@ -345,7 +368,7 @@ while 1:#Main loop
 			m.playSound(clickSound,soundToggle)
 			gameState = 0
 			
-# -----------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------
 
 			
 	elif gameState == 3: #Credits
@@ -373,7 +396,7 @@ while 1:#Main loop
 		
 		
 	elif gameState == 5: #Loss Screen
-		#print 'YOU LOST' #Please no, it spammed my console...
+
 		key = pygame.key.get_pressed()
 		if key[pygame.K_SPACE] == True:
 			gameState = 1
@@ -421,7 +444,14 @@ while 1:#Main loop
 		# relocated code to updateSoundOptions function
 		
 		justClicked = pygame.mouse.get_pressed()[0]
-		
+	
+	if gameState == 7:
+		key = pygame.key.get_pressed()
+		if key[pygame.K_p] == True and justClicked == True:
+			gameState = 1
+		else:
+			justClicked = True
+			
 	for event in pygame.event.get(): ##### Find out why removing this crashes the program #####
 			if event.type == pygame.QUIT:
 				pygame.quit() # quit the screen
