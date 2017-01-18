@@ -175,6 +175,8 @@ while 1:#Main loop
 
 		justClicked = pygame.mouse.get_pressed()[0]
 			
+# -----------------------------------------------------------------------------------------
+
 	
 	elif gameState == 1: #The actual game looping part
 		pygame.mouse.set_visible(False)
@@ -261,29 +263,29 @@ while 1:#Main loop
 			pygame.mouse.set_visible(True)
 			wallSpeed = -4
 			gameState = 5 #goto loss screen
-			
+			flier.restart()
 			##### Server highscore code, only works when austin has server up #####
 			
-			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-			host = '137.146.141.168';
-			port = 8888;
-			try:
-				s.connect((host , port))
-
-				#Send some data to remote server
-				message = str(score)
-				s.sendall(message)
-
-				reply = s.recv(4096)
-				s.close()
-				highScores = reply.split()
-			except socket.error:
-				print 'Failed to connect to server'
-				highScores = HighScoreReader.getHighScores(score) #inputs the current score, then returns a list of all scores cut off at top 10
+			# s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# 			host = '137.146.141.168';
+# 			port = 8888;
+# 			try:
+# 				s.connect((host , port))
+# 
+# 				#Send some data to remote server
+# 				message = str(score)
+# 				s.sendall(message)
+# 
+# 				reply = s.recv(4096)
+# 				s.close()
+# 				highScores = reply.split()
+# 			except socket.error:
+# 				print 'Failed to connect to server'
+# 				highScores = HighScoreReader.getHighScores(score) #inputs the current score, then returns a list of all scores cut off at top 10
 
 			#Comment out highScores if using the server, we should use 2 lists, local highscore and global
-						
-			flier.restart()
+			print 'PAST SERVER CODE'
+			
 			
 			for x in fpsTest:
 				fpsSum+=x
@@ -291,14 +293,16 @@ while 1:#Main loop
 			print fpsSum/len(fpsTest)
 			fpsTest = []
 			fpsSum = 0
-			for x in range(0,len(highScores)):
-				loadedScore = MenuLabel("Score: " +str(highScores[x]), (100,100,100),(0, 0, 0),24,(screenWidth*3/4,screenHeight/15*x + screenHeight/5),100)
-				scoreLabels.append(loadedScore)
-			
-			
-			
+# 			for x in range(0,len(highScores)):
+# 				loadedScore = MenuLabel("Score: " +str(highScores[x]), (100,100,100),(0, 0, 0),24,(screenWidth*3/4,screenHeight/15*x + screenHeight/5),100)
+# 				scoreLabels.append(loadedScore)
+						
 		fpsTest.append( clock.get_fps() ) #Prints out the fps during the game for testing
 		#print clock.get_fps()
+		
+# -----------------------------------------------------------------------------------------
+		
+		
 	elif gameState == 2: #Instructions
 		screen.fill((40,80,160))
 		mouse = pygame.mouse.get_pos()
@@ -307,6 +311,9 @@ while 1:#Main loop
 		if key[pygame.K_BACKSPACE] or (mainBack.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0]):
 			m.playSound(clickSound,soundToggle)
 			gameState = 0
+			
+# -----------------------------------------------------------------------------------------
+
 			
 	elif gameState == 3: #Credits
 		screen.fill((40,80,160))
@@ -322,11 +329,18 @@ while 1:#Main loop
 			gameState = 5
 			screen.fill((40,80,160))
 			
+# -----------------------------------------------------------------------------------------
+
+			
 	elif gameState == 4: #Quit state
 		pygame.quit()
 		sys.exit()
 		
+# -----------------------------------------------------------------------------------------
+		
+		
 	elif gameState == 5: #Loss Screen
+		print 'YOU LOST'
 		key = pygame.key.get_pressed()
 		if key[pygame.K_SPACE] == True:
 			gameState = 1
@@ -347,6 +361,7 @@ while 1:#Main loop
 				m.playSound(clickSound,soundToggle)
 				gameState = item.getState()
 				if gameState == 1:
+					print 'PLAYING AGAIN'
 					### Call this to restart the game and scores ###
 					counter, flier, score = m.restartGame(counter, score, scoreLabel, flier)	# relocated code to restartGame function
 
@@ -357,6 +372,9 @@ while 1:#Main loop
 				break
 			item.update(screen)
 		justClicked = pygame.mouse.get_pressed()[0]
+		
+# -----------------------------------------------------------------------------------------
+
 		
 	if gameState == 6: #Options menu
 		screen.fill((40,80,160))
