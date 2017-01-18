@@ -273,7 +273,7 @@ while 1:#Main loop
 			
 		scoreLabel.update(screen)
 		flier.update(screen)
-		
+		fpsTest.append( clock.get_fps() )
 		if flier.getAlive() == False: #if the flier is dead
 		
 			pygame.mixer.music.set_volume(1.0)
@@ -301,9 +301,10 @@ while 1:#Main loop
 			for x in range(0,len(highScores)):
 				loadedScore = MenuLabel("Score: " +str(highScores[x]), (100,100,100),(0, 0, 0),24,(screenWidth*3/4,screenHeight/15*x + screenHeight/5),100)
 				scoreLabels.append(loadedScore)
-						
-		fpsTest.append( clock.get_fps() ) #Prints out the fps during the game for testing
-		
+		else:
+			key = pygame.key.get_pressed()
+			if key[pygame.K_p] == True and justClicked == False:
+				gameState = 7
 # -----------------------------------------------------------------------------------------
 		
 		
@@ -392,7 +393,17 @@ while 1:#Main loop
 		# relocated code to updateSoundOptions function
 		
 		justClicked = pygame.mouse.get_pressed()[0]
-		
+	
+	if gameState == 7:
+		key = pygame.key.get_pressed()
+		if key[pygame.K_p] == True and justClicked == True:
+			gameState = 1
+		else:
+			justClicked = True
+			
+
+
+
 	for event in pygame.event.get(): ##### Find out why removing this crashes the program #####
 			if event.type == pygame.QUIT:
 				pygame.quit() # quit the screen
