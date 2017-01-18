@@ -126,4 +126,4 @@ def restartGame(counter, score, scoreLabel, flier):	# main consolidation
 	scoreLabel.updateText("Score: "+str(score))
 	pygame.mixer.music.set_volume(0.4)
 	counter = 0
-	return counter, flier
+	return counter, flier, score

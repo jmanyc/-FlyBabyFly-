@@ -35,7 +35,6 @@ class Obstacle():
 		
 	def draw(self, surface):
 		surface.blit(self.image,(self.x,self.y))
-		#pygame.draw.rect(surface, self.color, self.obstacle)
 		
 	def getObstacle(self):
 		return self.obstacle

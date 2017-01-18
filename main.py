@@ -4,12 +4,7 @@
 # 1/5/17
 
 ### This is going to be part of the Main Loop file, not it's own class ###
-import pygame
-import sys
-import avatar
-import HighScoreReader
-import quoteReader
-import random
+import pygame, sys, avatar, socket, HighScoreReader, quoteReader, random
 from beams import *
 from wall import Wall
 from label import *
@@ -265,8 +260,28 @@ while 1:#Main loop
 			nextBeam = random.randint(170, 200)
 			pygame.mouse.set_visible(True)
 			wallSpeed = -4
-			gameState = 5 #goto loss screen 
+			gameState = 5 #goto loss screen
+			
+			##### Server highscore code, only works when austin has server up #####
+			'''
+			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			host = 'localhost';
+			port = 8888;
+
+			s.connect((host , port))
+
+			#Send some data to remote server
+			message = str(score)
+			s.sendall(message)
+
+			reply = s.recv(4096)
+			s.close()
+			highScores = reply.split()
+			'''
+			
+			#Comment out highScores if using the server, we should use 2 lists, local highscore and global
 			highScores = HighScoreReader.getHighScores(score) #inputs the current score, then returns a list of all scores cut off at top 10
+			
 			flier.restart()
 			
 			for x in fpsTest:
@@ -319,7 +334,7 @@ while 1:#Main loop
 			scoreLabel.updateText("Score: "+str(score))
 			pygame.mixer.music.set_volume(0.4)
 			counter = 0
-			flier = avatar.Avatar(screenWidth, screenHeight, soundToggle)
+			flier.restart()
 		mouse = pygame.mouse.get_pos() # Position of the mouse, gets refreshed every tick
 		for item in scoreLabels:
 			item.update(screen)
@@ -332,7 +347,7 @@ while 1:#Main loop
 				gameState = item.getState()
 				if gameState == 1:
 					### Call this to restart the game and scores ###
-					counter, flier = m.restartGame(counter, score, scoreLabel, flier)	# relocated code to restartGame function
+					counter, flier, score = m.restartGame(counter, score, scoreLabel, flier)	# relocated code to restartGame function
 
 				elif gameState == 0:
 					quoteLabel.updateText(quoteReader.getQuote())
