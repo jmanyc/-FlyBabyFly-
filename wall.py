@@ -36,7 +36,7 @@ class Wall(Obstacle):
 				self.image = self.preLoaded[2]
 			elif self.colorList[x] == (255,0,255): #Purple
 				self.image = self.preLoaded[4]
-			elif self.colorList[x] == (0,0,0): #white
+			elif self.colorList[x] == (255,255,255): #white
 				self.image = self.preLoaded[3]
 			self.section = Obstacle((xPos, self.top + self.obstacleHeight * x), self.colorList[x], self.width, self.obstacleHeight, self.image)
 			self.wallSections.append(self.section)

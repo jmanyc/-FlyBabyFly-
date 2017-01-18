@@ -30,7 +30,7 @@ class Avatar():
 		self.greenImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelGreenPlane.png" ).convert_alpha(), self.imageScale)
 		self.purpleImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelPurplePlane.png" ).convert_alpha(), self.imageScale)
 		
-		self.image = self.redImage
+		self.image = self.whiteImage
 		self.tempImage = self.image
 		#for testing collision
 		self.image_c = self.image.get_rect()
@@ -41,7 +41,7 @@ class Avatar():
 		self.curSpeed = 0 #current speed of the avatar
 		self.gravity = 0.09 #the gravity setting on the avatar, remember this number is added to the speed every tick, so 60 times a second
 		self.alive = True #Used to control the gameState
-		self.color = Colors.RED #Will be used to check collision, and change avatar image to correct color
+		self.color = Colors.WHITE #Will be used to check collision, and change avatar image to correct color
 		self.crashing = False #Used to animate the crashing of the avatar
 
 	def keyPressed(self):
@@ -62,7 +62,7 @@ class Avatar():
 		self.alive = True #Used to control the gameState
 		self.color = Colors.WHITE #Will be used to check collision, and change avatar image to correct color
 		self.crashing = False #Used to animate the crashing of the avatar
-		self.image = self.redImage
+		self.image = self.whiteImage
 		self.tempImage = self.image
 		
 	def crash(self):

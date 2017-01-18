@@ -29,6 +29,9 @@ screen = pygame.display.set_mode((screenWidth, screenHeight), displayFlags) #Scr
 
 clock = pygame.time.Clock()
 
+mainBackground = pygame.transform.scale(pygame.image.load( "Assets/img/StartScreenFinal.png" ).convert(),(screenWidth,screenHeight))
+screen.blit(mainBackground,(0,0))
+
 ### Game Sound ###
 hoverSound = pygame.mixer.Sound( "Assets/sound/click.wav" )
 clickSound = pygame.mixer.Sound( "Assets/sound/pop.wav" )
@@ -107,6 +110,7 @@ quoteLabel = MenuLabel(quoteReader.getQuote(), (100,100,100),(0, 0, 0),24,(scree
 squirrel = pygame.image.load( "Assets/img/squirrelPilot.png" ).convert_alpha()
 imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseWGrass.png" ).convert(),(screenWidth,screenHeight))
 
+
 #So we preload these images at 3 per wall, later if we want more we'll convert these to new values
 imageScale = (screenWidth/28, screenHeight * 27/32 /3)
 redObs = pygame.transform.scale(pygame.image.load( "Assets/img/RedObstacle.png" ).convert(), imageScale)
@@ -138,7 +142,7 @@ fpsTest = []
 fpsSum = 0
 
 #Color list
-WHITE = (0,0,0)
+WHITE = (255,255,255)
 RED = (255,0,0)
 BLUE = (0,0,255)
 GREEN = (0,255,0)
@@ -164,9 +168,8 @@ flier = avatar.Avatar(avatarParams[0], avatarParams[1], avatarParams[2])
 while 1:#Main loop
 	if gameState == 0: #Start Menu
 		# handle every event since the last frame.
-		screen.fill((40,80,160))
+		screen.blit(mainBackground,(0,0))
 		mouse = pygame.mouse.get_pos() # Position of the mouse, gets refreshed every tick
-		screen.blit(squirrel,(500,50))
 		quoteLabel.update(screen)
 		title.update(screen)	# relocated code to mainButtonsClicked function
 		
@@ -204,7 +207,7 @@ while 1:#Main loop
 					myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, purplePaint)
 					
 				if activeBeams != []:
-					if myBeam.getColor() != activeBeams[-1].getColor():
+					if myBeam.getColor() != activeBeams[-1].getColor() and myBeam.getColor() != flier.getColor():
 						activeBeams.append(myBeam)
 				else:
 					activeBeams.append(myBeam)
