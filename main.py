@@ -175,6 +175,10 @@ activeBeams = []
 grassList = []
 scoreLabels = []
 
+low = 80
+high = 120
+
+
 fpsTest = []
 fpsSum = 0
 
@@ -271,7 +275,7 @@ while 1:#Main loop
 				else:
 					if myBeam.getColor() != flier.getColor():
 						activeBeams.append(myBeam)
-			nextBeam = random.randint(170, 200) + counter
+			nextBeam = random.randint(low + 170, high + 200) + counter
 			
 		if counter == nextWall:
 			if activeBeams != []:
@@ -280,10 +284,15 @@ while 1:#Main loop
 			else:
 				myWall = Wall(flier.getColor(), screenWidth, screenHeight, baseColors, 3, preLoaded)
 				
-			nextWall = random.randint(130, 160) + counter
+			nextWall = random.randint(low + 130, high + 160) + counter
 			activeWalls.append(myWall)
 			
-			
+		if counter % 300 == 0:
+			if low > 0:
+				low -= 15
+			if high > 0:
+				high -= 15
+				
 		m.updateFlier(flier) #Calls movement, gravity and rotation of avatar
 		
 		### Iteration of objects on screen ###
@@ -313,7 +322,15 @@ while 1:#Main loop
 				isPassing = True #So score is calculated once per wall		
 		else:
 			isPassing = False
-			
+# 		while avatar.flierState == 1:
+# 			flier.beamCollision(activeBeams[:1], soundToggle)
+# 			if flier.wallCollision(activeWalls[:1], soundToggle, gameState) == True:
+# 				if isPassing == False:												 # added gameState argument for rainbow testing
+# 					m.playSound(pointSound, soundToggle)
+# 					score += 1
+# 					scoreLabel.updateText("Score: "+str(score))
+# 					isPassing = True #So score is calculated once per wall
+			#inputs the current score, then returns a list of all scores cut off at top 10
 		scoreLabel.update(screen)
 		flier.update(screen)
 		fpsTest.append( clock.get_fps() )
@@ -329,20 +346,8 @@ while 1:#Main loop
 			wallSpeed = -4
 			gameState = 5 #goto loss screen
 			flier.restart()
-			
-# 		while avatar.flierState == 1:
-# 			flier.beamCollision(activeBeams[:1], soundToggle)
-# 			if flier.wallCollision(activeWalls[:1], soundToggle, gameState) == True:
-# 				if isPassing == False:												 # added gameState argument for rainbow testing
-# 					m.playSound(pointSound, soundToggle)
-# 					score += 1
-# 					scoreLabel.updateText("Score: "+str(score))
-# 					isPassing = True #So score is calculated once per wall
-			#inputs the current score, then returns a list of all scores cut off at top 10
 			highScores = serverConnect(s, host, port, score)
 
-			#Comment out highScores if using the server, we should use 2 lists, local highscore and global			
-			
 			for x in fpsTest:
 				fpsSum+=x
 				
