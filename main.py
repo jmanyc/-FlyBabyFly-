@@ -45,6 +45,7 @@ screen = pygame.display.set_mode((screenWidth, screenHeight), displayFlags) #Scr
 
 clock = pygame.time.Clock()
 
+### Displays main background while the rest loads ###
 mainBackground = pygame.transform.scale(pygame.image.load( "Assets/img/StartScreenFinal.png" ).convert(),(screenWidth,screenHeight))
 screen.blit(mainBackground,(0,0))
 pygame.display.update()
