@@ -22,8 +22,7 @@ class Beam():
 		self.image = image
 			
 		self.beam = self.image.get_rect()
-		self.beam.move_ip(self.x, self.y)
-		self.beam.inflate(self.image.get_width()*-1,0)
+		self.beam.move_ip(self.x + self.screenWidth/15, self.y)
 		
 	def getVisited(self):
 		return self.visited
@@ -52,40 +51,3 @@ class Beam():
 		self.beam.move_ip(speed, 0)	# change the object's internal position
 		self.x += speed
 		self.draw(surface)    # redraw the obstacle at its new position on the display
-		
-		
-# ------------- Test code ----------------------------------------------------------------
-'''
-pygame.init()
-screen = pygame.display.set_mode((800, 600))
-
-
-# color options 
-
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLUE = (0,0,255)
-
-myBeam = Beam([500, 300], BLUE, 40, 800, -5)	# create the obstacle object
-
-clock = pygame.time.Clock()	# initialize pygame's internal clock
-screen.fill((255,255,255))	# fill the screen with a white background
-
-
-myBeam.draw(screen)	# draw the obstacle to the screen
-print "entering main loop"
-
-while 1: #Main loop
-	print clock.get_fps()
-	myBeam.moveBeam(-5, screen)	# move the obstacle leftwards
-	
-	#pygame.display.update([myBeam.beam]) # update the location of the obstacle on the screen
-	pygame.display.update()
-
-	for event in pygame.event.get():
-		if event.type == pygame.QUIT:
-			print "terminating"
-			sys.exit()
-			break
-	clock.tick(60) # 60 fps
-'''

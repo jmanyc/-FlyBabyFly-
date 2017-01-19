@@ -145,13 +145,33 @@ imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseWGrass.png
 
 
 #So we preload these images at 3 per wall, later if we want more we'll convert these to new values
-imageScale = (screenWidth/28, screenHeight * 27/32 /3)
+imageScale = (screenWidth/28, screenHeight * 27/32) # For 1 tall walls
 redObs = pygame.transform.scale(pygame.image.load( "Assets/img/RedObstacle.png" ).convert(), imageScale)
 blueObs = pygame.transform.scale(pygame.image.load( "Assets/img/BlueObstacle.png" ).convert(), imageScale)
 greenObs = pygame.transform.scale(pygame.image.load( "Assets/img/GreenObstacle.png" ).convert(), imageScale)
-whiteObs = pygame.transform.scale(pygame.image.load( "Assets/img/WhiteObstacle.png" ).convert(), imageScale)
 purpleObs = pygame.transform.scale(pygame.image.load( "Assets/img/PurpleObstacle.png" ).convert(), imageScale)
-preLoaded = [redObs, blueObs, greenObs, whiteObs, purpleObs]
+preLoaded1 = [redObs, blueObs, greenObs, purpleObs]
+
+imageScale = (screenWidth/28, screenHeight * 27/32 /2) # For 2 tall walls
+redObs = pygame.transform.scale(pygame.image.load( "Assets/img/RedObstacle.png" ).convert(), imageScale)
+blueObs = pygame.transform.scale(pygame.image.load( "Assets/img/BlueObstacle.png" ).convert(), imageScale)
+greenObs = pygame.transform.scale(pygame.image.load( "Assets/img/GreenObstacle.png" ).convert(), imageScale)
+purpleObs = pygame.transform.scale(pygame.image.load( "Assets/img/PurpleObstacle.png" ).convert(), imageScale)
+preLoaded2 = [redObs, blueObs, greenObs, purpleObs]
+
+imageScale = (screenWidth/28, screenHeight * 27/32 /3) # For 3 tall walls
+redObs = pygame.transform.scale(pygame.image.load( "Assets/img/RedObstacle.png" ).convert(), imageScale)
+blueObs = pygame.transform.scale(pygame.image.load( "Assets/img/BlueObstacle.png" ).convert(), imageScale)
+greenObs = pygame.transform.scale(pygame.image.load( "Assets/img/GreenObstacle.png" ).convert(), imageScale)
+purpleObs = pygame.transform.scale(pygame.image.load( "Assets/img/PurpleObstacle.png" ).convert(), imageScale)
+preLoaded3 = [redObs, blueObs, greenObs, purpleObs]
+
+imageScale = (screenWidth/28, screenHeight * 27/32 /4) # For 4 tall walls
+redObs = pygame.transform.scale(pygame.image.load( "Assets/img/RedObstacle.png" ).convert(), imageScale)
+blueObs = pygame.transform.scale(pygame.image.load( "Assets/img/BlueObstacle.png" ).convert(), imageScale)
+greenObs = pygame.transform.scale(pygame.image.load( "Assets/img/GreenObstacle.png" ).convert(), imageScale)
+purpleObs = pygame.transform.scale(pygame.image.load( "Assets/img/PurpleObstacle.png" ).convert(), imageScale)
+preLoaded4 = [redObs, blueObs, greenObs, purpleObs]
 
 ### Need to load and convert power up images ###
 
@@ -168,7 +188,7 @@ counter = 0
 score = 0
 wallSpeed = -4
 nextWall = random.randint(130, 160)
-nextBeam = random.randint(170, 200)
+nextBeam = 60
 
 activeWalls = []
 activeBeams = []
@@ -193,7 +213,7 @@ CYAN = (0,255,255)
 MAROON = (128,0,0)
 OLIVE = (128,128,0)
 colors = [RED, BLUE, GREEN, YELLOW, PURPLE, CYAN, MAROON, OLIVE, WHITE] ### For current game, only BLUE RED GREEN
-baseColors = [RED,BLUE,GREEN,PURPLE,WHITE]
+baseColors = [RED,BLUE,GREEN,PURPLE]
 
 imageScale = (screenHeight/5, screenHeight*15/16)
 redPaint = pygame.transform.scale(pygame.image.load( "Assets/img/RedPaint.png" ).convert_alpha(), imageScale)
@@ -208,11 +228,11 @@ avatarParams = [screenWidth, screenHeight, soundToggle]
 flier = avatar.Avatar(avatarParams[0], avatarParams[1], avatarParams[2])
 
 ### Server Params ###
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = '137.146.141.168';
 port = 8888;
 
-def serverConnect(s, host, port, score):
+def serverConnect(host, port, score):
+	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	s.settimeout(0.1)
 	try:
 		s.connect((host , port))
@@ -220,11 +240,14 @@ def serverConnect(s, host, port, score):
 		s.sendall(data)
 		reply = s.recv(4096)
 		s.close()
-		highScores = reply.split()
+		serverHighScores = reply.split()
 	except socket.error:
 		print 'Failed to connect to server'
-		highScores = HighScoreReader.getHighScores(score)
-	return highScores
+		serverHighScores = ["Couldn't Connect to Server"]
+		
+	localHighScores = HighScoreReader.getHighScores(score)
+	
+	return localHighScores, serverHighScores
 
 while 1:#Main loop
 	if gameState == 0: #Start Menu
@@ -279,10 +302,10 @@ while 1:#Main loop
 			
 		if counter == nextWall:
 			if activeBeams != []:
-				myWall = Wall(activeBeams[-1].getColor(), screenWidth, screenHeight, baseColors, 3, preLoaded)	# create the Wall object with a certain number of obstacles
+				myWall = Wall(activeBeams[-1].getColor(), screenWidth, screenHeight, baseColors, 3, preLoaded3)	# create the Wall object with a certain number of obstacles
 				#Last beam in the list is the closest one to the wall being created
 			else:
-				myWall = Wall(flier.getColor(), screenWidth, screenHeight, baseColors, 3, preLoaded)
+				myWall = Wall(flier.getColor(), screenWidth, screenHeight, baseColors, 3, preLoaded3)
 				
 			nextWall = random.randint(low + 130, high + 160) + counter
 			activeWalls.append(myWall)
@@ -346,7 +369,7 @@ while 1:#Main loop
 			wallSpeed = -4
 			gameState = 5 #goto loss screen
 			flier.restart()
-			highScores = serverConnect(s, host, port, score)
+			localHighScores, serverHighScores = serverConnect(host, port, score)
 
 			for x in fpsTest:
 				fpsSum+=x
@@ -354,10 +377,24 @@ while 1:#Main loop
 			print fpsSum/len(fpsTest)
 			fpsTest = []
 			fpsSum = 0
-			for x in range(0,len(highScores)):
-				loadedScore = MenuLabel("Score: " +str(highScores[x]), (100,100,100),(0, 0, 0),24,(screenWidth*3/4,screenHeight/15*x + screenHeight/5),100)
+			
+			
+			loadedScore = MenuLabel("Local High Scores", (100,100,100),(0, 0, 0),26,(screenWidth*3/5,screenHeight/15 + screenHeight/10),100)
+			scoreLabels.append(loadedScore)
+			
+			for x in range(2,len(localHighScores) +2):
+				loadedScore = MenuLabel("Score: " +str(localHighScores[x-2]), (100,100,100),(0, 0, 0),24,(screenWidth*3/5,screenHeight/15*x + screenHeight/10),100)
 				scoreLabels.append(loadedScore)
-
+				
+			loadedScore = MenuLabel("Server High Scores", (100,100,100),(0, 0, 0),26,(screenWidth*4/5,screenHeight/15 + screenHeight/10),100)
+			scoreLabels.append(loadedScore)
+			if serverHighScores[0] == "Couldn't Connect to Server":
+				loadedScore = MenuLabel(str(serverHighScores[0]), (100,100,100),(0, 0, 0),24,(screenWidth*4/5,screenHeight/15*2 + screenHeight/10),100)
+				scoreLabels.append(loadedScore)
+			else:
+				for x in range(2,len(serverHighScores)+2):
+					loadedScore = MenuLabel("Score: " +str(serverHighScores[x-2]), (100,100,100),(0, 0, 0),24,(screenWidth*4/5,screenHeight/15*x + screenHeight/10),100)
+					scoreLabels.append(loadedScore)
 		else:
 		
 			key = pygame.key.get_pressed()
