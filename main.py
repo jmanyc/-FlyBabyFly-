@@ -190,14 +190,18 @@ score = 0
 wallSpeed = -4
 nextWall = random.randint(130, 160)
 nextBeam = 60
+low = 80
+high = 120
 
+
+obstacleList = preLoaded1
+numObs = 1
 activeWalls = []
 activeBeams = []
 grassList = []
 scoreLabels = []
 
-low = 80
-high = 120
+
 
 
 fpsTest = []
@@ -277,9 +281,10 @@ while 1:#Main loop
 		counter += 1
 		#testGrass.updateGrass(screen)
 		
+		
 		tempList = []
 		if counter == nextBeam:
-			if abs(nextBeam - nextWall) > 45: #So they don't spawn on top of each other
+			if abs(nextBeam - nextWall) > 35: #So they don't spawn on top of each other
 				difColor = random.choice(baseColors)
 				while difColor == flier.getColor():
 					difColor = random.choice(baseColors)
@@ -303,20 +308,15 @@ while 1:#Main loop
 			
 		if counter == nextWall:
 			if activeBeams != []:
-				myWall = Wall(activeBeams[-1].getColor(), screenWidth, screenHeight, baseColors, 3, preLoaded3)	# create the Wall object with a certain number of obstacles
+				myWall = Wall(activeBeams[-1].getColor(), screenWidth, screenHeight, baseColors, numObs, obstacleList)	# create the Wall object with a certain number of obstacles
 				#Last beam in the list is the closest one to the wall being created
 			else:
-				myWall = Wall(flier.getColor(), screenWidth, screenHeight, baseColors, 3, preLoaded3)
+				myWall = Wall(flier.getColor(), screenWidth, screenHeight, baseColors, numObs, obstacleList)
 				
 			nextWall = random.randint(low + 130, high + 160) + counter
 			activeWalls.append(myWall)
 			
-		if counter % 300 == 0:
-			if low > 0:
-				low -= 15
-			if high > 0:
-				high -= 15
-				
+		
 		m.updateFlier(flier) #Calls movement, gravity and rotation of avatar
 		
 		### Iteration of objects on screen ###
@@ -343,7 +343,22 @@ while 1:#Main loop
 				m.playSound(pointSound, soundToggle)
 				score += 1
 				scoreLabel.updateText("Score: "+str(score))
-				isPassing = True #So score is calculated once per wall		
+				isPassing = True #So score is calculated once per wall
+				### Changing the difficulty ###
+				if score % 5 == 0:
+					if low > 0:
+						low -= 5
+					if high > 0:
+						high -= 5
+				if score == 3:
+					obstacleList = preLoaded2
+					numObs = 2
+				elif score == 6:
+					obstacleList = preLoaded3
+					numObs = 3
+				elif score == 10:
+					obstacleList = preLoaded4
+					numObs = 4
 		else:
 			isPassing = False
 # 		while avatar.flierState == 1:
@@ -364,12 +379,16 @@ while 1:#Main loop
 			quoteLabel.updateText(quoteReader.getQuote())
 			activeWalls = []
 			activeBeams = []
-			nextWall = random.randint(130, 160)
-			nextBeam = random.randint(170, 200)
-			pygame.mouse.set_visible(True)
+			
 			wallSpeed = -4
 			gameState = 5 #goto loss screen
 			flier.restart()
+			nextWall = random.randint(130, 160)
+			nextBeam = 80
+			low = 80
+			high = 120
+			obstacleList = preLoaded1
+			numObs = 1
 			localHighScores, serverHighScores = serverConnect(host, port, score)
 
 			for x in fpsTest:
@@ -384,18 +403,24 @@ while 1:#Main loop
 			scoreLabels.append(loadedScore)
 			
 			for x in range(2,len(localHighScores) +2):
+			
 				loadedScore = MenuLabel("Score: " +str(localHighScores[x-2]), (100,100,100),(0, 0, 0),24,(screenWidth*3/5,screenHeight/15*x + screenHeight/10),100)
 				scoreLabels.append(loadedScore)
 				
 			loadedScore = MenuLabel("Server High Scores", (100,100,100),(0, 0, 0),26,(screenWidth*4/5,screenHeight/15 + screenHeight/10),100)
 			scoreLabels.append(loadedScore)
+			
 			if serverHighScores[0] == "Couldn't Connect to Server":
 				loadedScore = MenuLabel(str(serverHighScores[0]), (100,100,100),(0, 0, 0),24,(screenWidth*4/5,screenHeight/15*2 + screenHeight/10),100)
 				scoreLabels.append(loadedScore)
+				
 			else:
 				for x in range(2,len(serverHighScores)+2):
 					loadedScore = MenuLabel("Score: " +str(serverHighScores[x-2]), (100,100,100),(0, 0, 0),24,(screenWidth*4/5,screenHeight/15*x + screenHeight/10),100)
 					scoreLabels.append(loadedScore)
+					
+			pygame.mouse.set_visible(True)
+			
 		else:
 		
 			key = pygame.key.get_pressed()
