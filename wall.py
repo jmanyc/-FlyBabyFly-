@@ -10,23 +10,47 @@ class Wall(Obstacle):
 	
 	
 	def __init__(self, lastBeamColor, xPos, screenHeight, colors, numObs, preLoaded):
+	
+
+		#stores the vertical position of the top edge of the wall object
 		self.top = screenHeight*3/32
-		self.obstacleHeight = screenHeight * 27/32 /numObs #All 3 or whatever number of obstacles must equal roughly 13/16 of the screen
+		
+		#the sum of the heights of whatever number of obstacles must equal roughly 13/16 of the screen
+		self.obstacleHeight = screenHeight * 27/32 /numObs 
+		
+		#sotres the width of the wall object (currently set to 1/28th of the wall's initial x-position, which is the width of the whole screen)
 		self.width = xPos/28
+
+		#List containing all of the colors that the obstacles making up the wall could have
 		self.colors = list(colors)
-		self.colorList = [lastBeamColor] #Contains all the colors that are going to be in the wall
+
+		#list storing the color of the last beam encountered in the screen
+		self.colorList = [lastBeamColor] 
+
+		#remove the color of the last beam encountered from the color list.
 		self.colors.remove(lastBeamColor)
-		self.wallSections = [] #Contains obstacles
+
+		#list containing the obstacles that make up the wall object
+		self.wallSections = []
+
+		#boolean storing the width and height of each obstacle
 		self.imageScale = (self.width, self.obstacleHeight)
 		
 		self.preLoaded = preLoaded
-		for x in range(1, numObs): #Minus one, because we pass in the needed color already
+		
+		#this loops one time less than the number of obstacles and randomly picks colors from self.colors and appends them to colorList
+		#(which is where our last beam color was stored in the first place). This ensures that colorList will be a list of colors of length 
+		#equal to the number of obstacles in the wall and that it will include the color of the las beam encountered. 
+		for x in range(1, numObs): 
 			tempColor = random.choice(self.colors)
 			self.colors.remove(tempColor)
 			self.colorList.append(tempColor)
 			
-		random.shuffle(self.colorList) # Now we shuffle the list and then assign them to the following obstacles
-		
+		#next we shuffle colorList	
+		random.shuffle(self.colorList) 
+
+
+		#and now we assign each color list to an obstacle object and append the obstacle object to the wallSections list
 		for x in range(0, numObs):
 			if self.colorList[x] == (255,0,0): #Red
 				self.image = self.preLoaded[0]
@@ -38,12 +62,18 @@ class Wall(Obstacle):
 				self.image = self.preLoaded[4]
 			elif self.colorList[x] == (255,255,255): #white
 				self.image = self.preLoaded[3]
+			
 			self.section = Obstacle((xPos, self.top + self.obstacleHeight * x), self.colorList[x], self.width, self.obstacleHeight, self.image)
+			
 			self.wallSections.append(self.section)
 		
 	def moveWall(self, speed, surface):
+		
+		#for each section in the wall, we call that obstacle's move method
 		for section in self.wallSections:
 			section.moveObs(speed, surface)
+
+		#next, we redraw each section.
 		for section in self.wallSections:
 			section.draw(surface)
 			
