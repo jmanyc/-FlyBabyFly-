@@ -52,12 +52,16 @@ class Wall(Obstacle):
 
 		#and now we assign each color list to an obstacle object and append the obstacle object to the wallSections list
 		for x in range(0, numObs):
+		
 			if self.colorList[x] == (255,0,0): #Red
 				self.image = self.preLoaded[0]
+				
 			elif self.colorList[x] == (0,0,255): #Blue
 				self.image = self.preLoaded[1]
+				
 			elif self.colorList[x] == (0,255,0): #Green
 				self.image = self.preLoaded[2]
+				
 			elif self.colorList[x] == (255,0,255): #Purple
 				self.image = self.preLoaded[3]
 
