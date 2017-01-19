@@ -350,13 +350,13 @@ while 1:#Main loop
 						low -= 5
 					if high > 0:
 						high -= 5
-				if score == 3:
+				if score == 2:
 					obstacleList = preLoaded2
 					numObs = 2
 				elif score == 6:
 					obstacleList = preLoaded3
 					numObs = 3
-				elif score == 10:
+				elif score == 12:
 					obstacleList = preLoaded4
 					numObs = 4
 		else:
