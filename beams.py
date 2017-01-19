@@ -9,38 +9,56 @@ class Beam():
 
 	def __init__(self, position, color, screenWidth, screenHeight, image): #Work on this
 		
+		#initialize the beam's xposition to the <position argument>
 		self.x = position
+
+		#initialize its y-position to 0
 		self.y = 0
+
+		#initialize the beam's color to <color>
 		self.color = color
 
+		#store the screen height and width
 		self.screenHeight = screenHeight
 		self.screenWidth = screenWidth
 		
 		# This needs tweaking, should be 5.5
 		self.visited = False
 		
+		#stores the image associated with the beam (originally the paint cans)
 		self.image = image
 			
+		#stores the Rect object associated with the beams image
 		self.beam = self.image.get_rect()
+
+		#moves the Rect object to the beam's image's initial position
 		self.beam.move_ip(self.x, self.y)
+
+		#shrinks the Rect associated with the beam's image by and offset of -(screenWidth)
 		self.beam.inflate(self.image.get_width()*-1,0)
 		
-	def getVisited(self):
+	def getVisited(self):\
+		#returns the object's visited state
 		return self.visited
 		
 	def setVisited(self, bool):
+		#sets the beams visited state to the given boolean <bool>
 		self.visited = bool
 		
 	def getPosition(self):
+		#returns the x-position of the beam
 		return self.x
 		
 	def setColor(self, color):
+		#sets the color field of the beam to the given color <color>
 		self.color = color
 		
 	def getColor(self):
+		#returns the beam object's color field
 		return self.color
 
 	def draw(self, surface):		
+		#blitst the beam's image onto the given <surface> at the beam's (x,y) position
 		surface.blit(self.image,(self.x,self.y))
 
 	def getBeam(self):
@@ -49,43 +67,13 @@ class Beam():
 
 		
 	def moveBeam(self, speed, surface):
-		self.beam.move_ip(speed, 0)	# change the object's internal position
+		#change the position of this beam's imgage's Rect object
+		self.beam.move_ip(speed, 0)
+
+		#move the beam (distance determined by <speed> argument)
 		self.x += speed
-		self.draw(surface)    # redraw the obstacle at its new position on the display
+		
+		#redraw the beam at its new position on the display
+		self.draw(surface)    
 		
 		
-# ------------- Test code ----------------------------------------------------------------
-'''
-pygame.init()
-screen = pygame.display.set_mode((800, 600))
-
-
-# color options 
-
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLUE = (0,0,255)
-
-myBeam = Beam([500, 300], BLUE, 40, 800, -5)	# create the obstacle object
-
-clock = pygame.time.Clock()	# initialize pygame's internal clock
-screen.fill((255,255,255))	# fill the screen with a white background
-
-
-myBeam.draw(screen)	# draw the obstacle to the screen
-print "entering main loop"
-
-while 1: #Main loop
-	print clock.get_fps()
-	myBeam.moveBeam(-5, screen)	# move the obstacle leftwards
-	
-	#pygame.display.update([myBeam.beam]) # update the location of the obstacle on the screen
-	pygame.display.update()
-
-	for event in pygame.event.get():
-		if event.type == pygame.QUIT:
-			print "terminating"
-			sys.exit()
-			break
-	clock.tick(60) # 60 fps
-'''

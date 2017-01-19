@@ -33,7 +33,7 @@ class Wall(Obstacle):
 		#list containing the obstacles that make up the wall object
 		self.wallSections = []
 
-		#boolean storing the width and height of each obstacle
+		#tuple storing the width and height of each obstacle
 		self.imageScale = (self.width, self.obstacleHeight)
 		
 		self.preLoaded = preLoaded
@@ -69,11 +69,11 @@ class Wall(Obstacle):
 		
 	def moveWall(self, speed, surface):
 		
-		#for each section in the wall, we call that obstacle's move method
+		#for each obstacle in the wall, we call that obstacle's move method
 		for section in self.wallSections:
 			section.moveObs(speed, surface)
 
-		#next, we redraw each section.
+		#next, we redraw each obstacle.
 		for section in self.wallSections:
 			section.draw(surface)
 			
