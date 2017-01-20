@@ -15,10 +15,12 @@ class Wall(Obstacle):
 		#stores the vertical position of the top edge of the wall object
 		self.top = screenHeight*3/32
 		
-		#the sum of the heights of whatever number of obstacles must equal roughly 13/16 of the screen
+		#the sum of the heights of whatever number of obstacles must equal roughly 
+		#13/16 of the screen
 		self.obstacleHeight = screenHeight * 27/32 /numObs 
 		
-		#sotres the width of the wall object (currently set to 1/28th of the wall's initial x-position, which is the width of the whole screen)
+		#sotres the width of the wall object (currently set to 1/28th of the wall's 
+		#initial x-position, which is the width of the whole screen)
 		self.width = xPos/28
 
 		#List containing all of the colors that the obstacles making up the wall could have
@@ -50,7 +52,8 @@ class Wall(Obstacle):
 		random.shuffle(self.colorList) 
 
 
-		#and now we assign each color list to an obstacle object and append the obstacle object to the wallSections list
+		#and now we assign each color list to an obstacle object and append 
+		#the obstacle object to the wallSections list
 		for x in range(0, numObs):
 		
 			if self.colorList[x] == (255,0,0): #Red

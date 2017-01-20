@@ -187,7 +187,7 @@ paused = False
 
 counter = 0
 score = 0
-wallSpeed = -4
+wallSpeed = -3
 nextWall = random.randint(130, 160)
 nextBeam = 60
 low = 80
@@ -304,7 +304,7 @@ while 1:#Main loop
 				else:
 					if myBeam.getColor() != flier.getColor():
 						activeBeams.append(myBeam)
-			nextBeam = random.randint(low + 170, high + 200) + counter
+			nextBeam = random.randint(low + 150, high + 180) + counter
 			
 		if counter == nextWall:
 			if activeBeams != []:
@@ -345,18 +345,22 @@ while 1:#Main loop
 				scoreLabel.updateText("Score: "+str(score))
 				isPassing = True #So score is calculated once per wall
 				### Changing the difficulty ###
-				if score % 5 == 0:
+				if score % 2 == 0:
 					if low > 0:
 						low -= 5
 					if high > 0:
 						high -= 5
-				if score == 2:
+				if score == 1:
 					obstacleList = preLoaded2
 					numObs = 2
+				elif score == 3:
+					wallSpeed = -4
 				elif score == 6:
 					obstacleList = preLoaded3
 					numObs = 3
-				elif score == 12:
+				elif score == 10:
+					wallSpeed = -5
+				elif score == 16:
 					obstacleList = preLoaded4
 					numObs = 4
 		else:
@@ -380,7 +384,7 @@ while 1:#Main loop
 			activeWalls = []
 			activeBeams = []
 			
-			wallSpeed = -4
+			wallSpeed = -3
 			gameState = 5 #goto loss screen
 			flier.restart()
 			nextWall = random.randint(130, 160)
