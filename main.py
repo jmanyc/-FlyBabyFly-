@@ -47,7 +47,9 @@ clock = pygame.time.Clock()
 
 ### Displays main background while the rest loads ###
 mainBackground = pygame.transform.scale(pygame.image.load( "Assets/img/StartScreenFinal.png" ).convert(),(screenWidth,screenHeight))
+fan = pygame.transform.scale(pygame.image.load( "Assets/img/Fan.png" ).convert_alpha(),(screenHeight*2/11,screenHeight*2/11))
 screen.blit(mainBackground,(0,0))
+screen.blit(fan,(screenWidth*29/128,screenHeight*8/30))
 pygame.display.update()
 
 ### Game Sound ###
@@ -93,11 +95,11 @@ gameState = 0
 # varName = MenuLable("Text", "Font-Style", BkgColor of Box, Text Color, fontSize, Position, gamestate it points to)
 
 #Main Menu
-title = MenuLabel("Fly Baby, Fly", (100,100,100),(255,105,180),42,(300,100),100)
-start = MenuLabel("Start Game", (100,100,100),(255,153,0),26,(300,200),1)
-instruction = MenuLabel("Instructions", (100,100,100),(255,153,0),26,(300,280),2)
-options = MenuLabel("Options", (100,100,100),(255,153,0),26,(300,360),6)
-mainQuit = MenuLabel("Quit", (100,100,100),(255,153,0),26,(300,440),4)
+title = MenuLabel("Fly Baby, Fly", (100,100,100),(255,105,180),42,(screenWidth*9/16,screenHeight/10),100)
+start = MenuLabel("Start Game", (100,100,100),(255,153,0),26,(screenWidth*9/16,screenHeight/14*3),1)
+instruction = MenuLabel("Instructions", (100,100,100),(255,153,0),26,(screenWidth*9/16,screenHeight/14*4),2)
+options = MenuLabel("Options", (100,100,100),(255,153,0),26,(screenWidth*9/16,screenHeight/14*5),6)
+mainQuit = MenuLabel("Quit", (100,100,100),(255,153,0),26,(screenWidth*9/16,screenHeight/14*6),4)
 mainMenu = [start, mainQuit, instruction, options] #Main Menu Labels
 
 #Credits
@@ -192,7 +194,7 @@ nextWall = random.randint(130, 160)
 nextBeam = 60
 low = 80
 high = 120
-
+angle = 0
 
 obstacleList = preLoaded1
 numObs = 1
@@ -258,6 +260,21 @@ while 1:#Main loop
 	if gameState == 0: #Start Menu
 		# handle every event since the last frame.
 		screen.blit(mainBackground,(0,0))
+		
+		
+		angle -= 3 #Slow speed
+		if angle < -360:
+			angle = 0
+		temp_image = fan
+		orig_rect = fan.get_rect()
+		rotated_image = pygame.transform.rotate(fan, angle)
+		rotated_rect = orig_rect.copy()
+		rotated_rect.center = rotated_image.get_rect().center #Makes sure our new image is centered after rotation
+		fan = rotated_image.subsurface(rotated_rect).copy()
+		screen.blit(fan,(screenWidth*29/128,screenHeight*8/30))
+		fan = temp_image
+		
+		
 		mouse = pygame.mouse.get_pos() # Position of the mouse, gets refreshed every tick
 		quoteLabel.update(screen)
 		title.update(screen)	# relocated code to mainButtonsClicked function
