@@ -3,7 +3,7 @@ import time
 import socket
 import HighScoreReader
 class Client(threading.Thread):
-	def __init__(self, ip, port, score) :
+	def __init__(self, ip, port, score):
 		threading.Thread.__init__(self)
 		
 		self.score = score

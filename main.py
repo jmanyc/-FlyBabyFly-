@@ -4,9 +4,9 @@
 # 1/5/17
 
 import pygame, sys, avatar, socket, HighScoreReader, quoteReader, random
-from beams import *
+from beams import Beam
 from wall import Wall
-from label import *
+from label import MenuLabel
 from grass import Grass
 import mainfuncs as m
 
