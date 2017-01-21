@@ -12,7 +12,7 @@ class Client(threading.Thread):
 
 	def run(self) :
 		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		s.settimeout(5)
+		s.settimeout(0.1)
 		try:
 			s.connect((self.ip , self.port))
 			#print "hahaha"

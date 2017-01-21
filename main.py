@@ -364,9 +364,9 @@ while 1:#Main loop
 				### Changing the difficulty ###
 				if score % 2 == 0:
 					if low > 0:
-						low -= 5
+						low -= 8
 					if high > 0:
-						high -= 5
+						high -= 8
 				if score == 1:
 					obstacleList = preLoaded2
 					numObs = 2
