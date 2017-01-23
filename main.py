@@ -9,6 +9,7 @@ from wall import Wall
 from label import MenuLabel
 from grass import Grass
 import mainfuncs as m
+from powerups import Powerup
 
 ###Reading in settings###
 fp = file('Settings.txt') #reads the file
@@ -175,6 +176,10 @@ blueObs = pygame.transform.scale(pygame.image.load( "Assets/img/BlueObstacle.png
 greenObs = pygame.transform.scale(pygame.image.load( "Assets/img/GreenObstacle.png" ).convert(), imageScale)
 purpleObs = pygame.transform.scale(pygame.image.load( "Assets/img/PurpleObstacle.png" ).convert(), imageScale)
 preLoaded4 = [redObs, blueObs, greenObs, purpleObs]
+
+### Powerup images ###
+
+rainbow_powerup = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelRainbowPlane.png" ).convert(), imageScale)
 
 ### Need to load and convert power up images ###
 
@@ -382,14 +387,28 @@ while 1:#Main loop
 					numObs = 4
 		else:
 			isPassing = False
-# 		while avatar.flierState == 1:
-# 			flier.beamCollision(activeBeams[:1], soundToggle)
-# 			if flier.wallCollision(activeWalls[:1], soundToggle, gameState) == True:
-# 				if isPassing == False:												 # added gameState argument for rainbow testing
-# 					m.playSound(pointSound, soundToggle)
-# 					score += 1
-# 					scoreLabel.updateText("Score: "+str(score))
-# 					isPassing = True #So score is calculated once per wall
+			
+# ----------------------------------------------- powerups ------------------------------------
+
+		
+		# Powerup collision handling, created one powerup for testing purposes, still need
+		# \ to implement spawning
+		
+		power_up = Powerup(position, screenWidth, screenHeight, rainbow_powerup, 'rainbow')
+		power_up.movePowerUp([-5,0], screen)
+		activePowerUps.append(powerUp)
+		if flier.powerUpCollision(activePowerUps, soundToggle):	# Does the avatar collide with a powerup?
+						
+			while flier.flierState == 1:	# flierState is set to 1 if it collides with the rainbow powerup
+
+				score = flier.applyRainbow(activeWalls, soundToggle, score)	
+				
+				# ^^^^^ Change the squirrel's image and continue to check
+				# \ for collisions between it and the walls, incrementing 
+				# \ and returning the score.
+					
+# ----------------------------------------------- powerups ------------------------------------
+
 			#inputs the current score, then returns a list of all scores cut off at top 10
 		scoreLabel.update(screen)
 		flier.update(screen)
