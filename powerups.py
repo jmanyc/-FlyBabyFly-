@@ -36,10 +36,7 @@ class Powerup():
 
 	def draw(self, surface):		
 		surface.blit(self.image,(self.x, self.y))
-	
-	def getPower(self):
-		return self.powerUpType
-	
+
 	def getPowerUp(self):
 		#returns this power up object's Rect defined in self.powerUp
 		return self.powerUp
