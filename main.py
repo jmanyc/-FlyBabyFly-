@@ -144,7 +144,7 @@ quoteLabel = MenuLabel(quoteReader.getQuote(), (100,100,100),(0, 0, 0),24,(scree
 
 ### Initializing Main Loop variables and images ###
 squirrel = pygame.image.load( "Assets/img/squirrelPilot.png" ).convert_alpha()
-imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseNoGrass.png" ).convert(),(screenWidth,screenHeight))
+imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseWGrass.png" ).convert(),(screenWidth,screenHeight))
 
 
 #So we preload these images at 3 per wall, later if we want more we'll convert these to new values
