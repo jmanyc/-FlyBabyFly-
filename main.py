@@ -398,10 +398,15 @@ while 1:#Main loop
 		power_up.movePowerUp([-5,0], screen)
 		activePowerUps.append(powerUp)
 		if flier.powerUpCollision(activePowerUps, soundToggle):	# Does the avatar collide with a powerup?
-						
+			
+			# stop beams from spawning on screen (code)
+			
 			while flier.flierState == 1:	# flierState is set to 1 if it collides with the rainbow powerup
 
-				score = flier.applyRainbow(activeWalls, soundToggle, score)	
+				score = flier.applyRainbow(activeWalls, soundToggle, score)
+				
+				if /60 % 7 == 0: # 7 seconds have passed:
+					flier.resetState()
 				
 				# ^^^^^ Change the squirrel's image and continue to check
 				# \ for collisions between it and the walls, incrementing 

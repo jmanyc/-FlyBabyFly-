@@ -183,13 +183,15 @@ class Avatar():
 		self.tempImage = self.image
 		score = self.wallCollRainbowState(activeWalls, soundToggle, score)
 		return score
+		
+	def resetState(self):
+		self.flierState = 0
 			
 	
 	def applyGravitySwitch(self):
 		return
 		
-		
-<<<<<<< Updated upstream
+
 	def powerUpCollision(self, powerUp):	# powerUpCollision checked in gameState 1 loop, calls
 		type = powerUp.getType()			# \ appropriate power up method from powerups file
 
@@ -199,7 +201,7 @@ class Avatar():
 			self.applyRainbow()
 		elif type == 'gravity Switch':
 			self.applyGravitySwitch()
-=======
+
 	# powerUpCollision is checked in main (gameState 1 loop), checks for avatar-powerup
 	# \ collisions and changes the flier's state appropriately-main checks the flier's
 	# \ state and calls the appropriate powerup method (i.e. applyRainbow, applyGravitySwitch)
@@ -216,58 +218,3 @@ class Avatar():
 							self.flierState = 2
 							
 						return True
-		
-		
-##### Test code, copied and edited from source #####
-if __name__ == "__main__":
-
-
-	RED = (255,0,0)
-	BLUE = (0,0,255)
-	GREEN = (0,255,0)
-	YELLOW = (255,255,0)
-	PURPLE = (255,0,255)
-	CYAN = (0,255,255)
-	MAROON = (128,0,0)
-	OLIVE = (128,128,0)
-	colors = [RED, BLUE, GREEN, YELLOW, PURPLE, CYAN, MAROON, OLIVE] ### For current game, only BLUE RED GREEN
-	###colors = [RED,BLUE,GREEN]
-
-
-
-	pygame.init()
-	screen = pygame.display.set_mode((800, 600))
-	avatar = Avatar(800,600,True)
-
-	heights = []	# put the heights of the three blocks in a list (in the main loop the section
-	heights.extend([150, 150, 150]) # \ heights will vary while the wall sections remain adjacent)
-	myWall = Wall(BLUE, screen.get_width(), screen.get_height(),colors)	# create the Wall object
-	activeWalls = []
-	activeWalls.append(myWall)
-	print len(activeWalls)
-	clock = pygame.time.Clock()
-
-	while 1:#Main loop
-		# handle every event since the last frame.
-		avatar.keyPressed() # handle the keys
-		avatar.applyGravity() # calls the simulated gravity function of avatar
-		
-		screen.fill((255,255,255))# white background on the screen
-		myWall.moveWall(-5, screen)	# move the obstacle leftwards
-		avatar.wallCollision(activeWalls)
-
-
-		avatar.update(screen) # updates the position of the avatar on the screen
-		pygame.display.update() # update the screen
-		
-		if avatar.getAlive() == False:
-			print "You Crashed!"
-			pygame.quit()#Quit the game
-			break
-		
-		for event in pygame.event.get():
-			if event.type == pygame.QUIT:
-				pygame.quit()#Quit the game
-				break
-		clock.tick(60) # 60 fps
->>>>>>> Stashed changes
