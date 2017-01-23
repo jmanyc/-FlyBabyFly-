@@ -205,9 +205,9 @@ class Avatar():
 			if powerup.getVisited() == False:
 					if self.image_c.colliderect(powerup.getPowerUp()) == True:
 						powerup.setVisited(True)
-						if powerup.getPower() == 'rainbow':
+						if powerup.getPowerUp() == 'rainbow':
 							self.flierState = 1
-						if powerup.getPower() == 'gravitySwitch':
+						if powerup.getPowerUp() == 'gravitySwitch':
 							self.flierState = 2
 							
 						return True
