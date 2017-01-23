@@ -144,7 +144,6 @@ scoreLabel = MenuLabel("Score: 0", (100,100,100),(0, 0, 0),24,(screenWidth/9,scr
 quoteLabel = MenuLabel(quoteReader.getQuote(), (100,100,100),(0, 0, 0),24,(screenWidth/2,screenHeight*11/12),100)
 
 ### Initializing Main Loop variables and images ###
-squirrel = pygame.image.load( "Assets/img/squirrelPilot.png" ).convert_alpha()
 imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseWGrass.png" ).convert(),(screenWidth,screenHeight))
 
 
@@ -179,7 +178,7 @@ preLoaded4 = [redObs, blueObs, greenObs, purpleObs]
 
 ### Powerup images ###
 
-rainbow_powerup = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelRainbowPlane.png" ).convert(), imageScale)
+rainbow_powerup = pygame.transform.scale(pygame.image.load( "Assets/img/Rainbow.png" ).convert_alpha(), (screenHeight/7, screenHeight/7))
 
 ### Need to load and convert power up images ###
 
@@ -205,6 +204,7 @@ obstacleList = preLoaded1
 numObs = 1
 activeWalls = []
 activeBeams = []
+activePowerUps = []
 grassList = []
 scoreLabels = []
 
@@ -393,20 +393,16 @@ while 1:#Main loop
 		
 		# Powerup collision handling, created one powerup for testing purposes, still need
 		# \ to implement spawning
+		if counter == 10:
+			power_up = Powerup([screenWidth,screenHeight/2], rainbow_powerup, 'rainbow')
+			activePowerUps.append(power_up)
+		for item in activePowerUps:
+			item.movePowerUp([wallSpeed,0], screen)
 		
-		power_up = Powerup(position, screenWidth, screenHeight, rainbow_powerup, 'rainbow')
-		power_up.movePowerUp([-5,0], screen)
-		activePowerUps.append(powerUp)
 		if flier.powerUpCollision(activePowerUps, soundToggle):	# Does the avatar collide with a powerup?
-			
+			if flier.flierState == 1: 
+				flier.applyRainbow(soundToggle)
 			# stop beams from spawning on screen (code)
-			
-			while flier.flierState == 1:	# flierState is set to 1 if it collides with the rainbow powerup
-
-				score = flier.applyRainbow(activeWalls, soundToggle, score)
-				
-				if /60 % 7 == 0: # 7 seconds have passed:
-					flier.resetState()
 				
 				# ^^^^^ Change the squirrel's image and continue to check
 				# \ for collisions between it and the walls, incrementing 

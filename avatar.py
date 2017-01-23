@@ -16,6 +16,7 @@ class Avatar():
 		self.soundToggle = soundToggle
 		self.crashSound = pygame.mixer.Sound( "Assets/sound/hit_obstacle.wav" )
 		self.hitGround = pygame.mixer.Sound( "Assets/sound/hit_ground.wav" )
+		#self.rainbowSound = pygame.mixer.Sound( "Assets/sound/super.mp3" )
 		self.paintSound = pygame.mixer.Sound( "Assets/sound/paintsplash_sound16.wav" )
 		self.x = screenWidth/12 # initial spawn of the image
 		self.y = screenHeight/4
@@ -134,7 +135,7 @@ class Avatar():
 				if obst.getVisited() == False:
 					if self.image_c.colliderect(obst.getObstacle()) == True:
 						obst.setVisited(True)
-						if self.color != obst.getColor():
+						if self.color != obst.getColor() and self.flierState != 1:
 							self.crashing = True
 							self.crash()
 							if self.soundToggle == True:
@@ -160,6 +161,7 @@ class Avatar():
 						self.image = self.greenImage
 					elif self.color == (255,0,255): #Purple
 						self.image = self.purpleImage
+					self.flierState = 0
 					self.tempImage = self.image
 					self.applyRotation()
 
@@ -177,12 +179,13 @@ class Avatar():
  
  	# applyRainbow is called from main once the flier has collided with the rainbow powerup
  
-	def applyRainbow(self, activeWalls, soundToggle, score):
+	def applyRainbow(self, soundToggle):
 		
 		self.image = self.rainbowImage
 		self.tempImage = self.image
-		score = self.wallCollRainbowState(activeWalls, soundToggle, score)
-		return score
+		self.applyRotation()
+		if soundToggle == True:
+			self.paintSound.play()
 		
 	def resetState(self):
 		self.flierState = 0
@@ -191,16 +194,6 @@ class Avatar():
 	def applyGravitySwitch(self):
 		return
 		
-
-	def powerUpCollision(self, powerUp):	# powerUpCollision checked in gameState 1 loop, calls
-		type = powerUp.getType()			# \ appropriate power up method from powerups file
-
-		#if self.image_c.colliderect(beam.getBeam()) == True:
-		
-		if type == 'rainbow':
-			self.applyRainbow()
-		elif type == 'gravity Switch':
-			self.applyGravitySwitch()
 
 	# powerUpCollision is checked in main (gameState 1 loop), checks for avatar-powerup
 	# \ collisions and changes the flier's state appropriately-main checks the flier's
@@ -212,9 +205,9 @@ class Avatar():
 			if powerup.getVisited() == False:
 					if self.image_c.colliderect(powerup.getPowerUp()) == True:
 						powerup.setVisited(True)
-						if powerup.getPowerUp() == 'rainbow':
+						if powerup.getPower() == 'rainbow':
 							self.flierState = 1
-						if powerup.getPowerUp() == 'gravitySwitch':
+						if powerup.getPower() == 'gravitySwitch':
 							self.flierState = 2
 							
 						return True

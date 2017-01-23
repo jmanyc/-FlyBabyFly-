@@ -7,15 +7,11 @@ import pygame, os, sys
 
 
 class Powerup():
-	def __init__(self, position, screenWidth, screenHeight, image, type):
+	def __init__(self, position, image, type):
 		self.image = image
-		self.position 
+		self.position = position
 		self.x = position[0]
 		self.y = position[1]
-		self.color = color
-
-		self.screenHeight = screenHeight
-		self.screenWidth = screenWidth
 		
 		self.visited = False
 		
@@ -23,7 +19,6 @@ class Powerup():
 			
 		self.powerUp = self.image.get_rect()
 		self.powerUp.move_ip(self.x, self.y)
-		#self.powerUp.inflate(self.image.get_width()*-1,0)
 		
 		self.powerUpType = type
 		
@@ -40,13 +35,16 @@ class Powerup():
 		return self.position
 
 	def draw(self, surface):		
-		surface.blit(self.image,(self.position))
-
+		surface.blit(self.image,(self.x, self.y))
+	
+	def getPower(self):
+		return self.powerUpType
+	
 	def getPowerUp(self):
 		#returns this power up object's Rect defined in self.powerUp
 		return self.powerUp
 		
 	def movePowerUp(self, speed, surface):
 		self.powerUp.move_ip(speed[0], speed[1])	# change the object's internal position
-		self.x += speed
+		self.x += speed[0]
 		self.draw(surface)    # redraw the obstacle at its new position on the display
