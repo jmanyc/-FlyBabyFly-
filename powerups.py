@@ -36,7 +36,6 @@ class Powerup():
 
 	def draw(self, surface):		
 		surface.blit(self.image,(self.x, self.y))
-		#print 'drawing'
 	
 	def getPower(self):
 		return self.powerUpType

@@ -4,7 +4,7 @@
 import pygame
 
 class MenuLabel():
-	def __init__(self, text, bkgColor, fontColor, fontSize, (x,y), state):
+	def __init__(self, text, fontColor, fontSize, (x,y), state):
 		### Storing all the important text information ###
 		self.hoverSound = pygame.mixer.Sound( "Assets/sound/click.wav" )
 		#Text Part#
@@ -20,8 +20,8 @@ class MenuLabel():
 		self.height = self.cText.get_rect().height
 		
 		#Color of the rectangle, and dealing with hover/state
-		self.bkgColor = bkgColor
-		self.tempColor = bkgColor #Backup color for when we change it on hover
+		self.bkgColor = (100,100,100)
+		self.tempColor = self.bkgColor #Backup color for when we change it on hover
 		self.initialX = x
 		self.x = x - self.width/2
 		self.y = y
