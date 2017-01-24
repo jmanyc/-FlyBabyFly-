@@ -8,6 +8,7 @@ from beams import Beam
 from wall import Wall
 from label import MenuLabel
 #from grass import Grass
+from window import Window
 import mainfuncs as m
 from powerups import Powerup
 from loadObstacles import *
@@ -189,6 +190,7 @@ activeWalls = []
 activeBeams = []
 activePowerUps = []
 grassList = []
+windowList = []
 scoreLabels = []
 
 
@@ -215,6 +217,8 @@ bluePaint = pygame.transform.scale(pygame.image.load( "Assets/img/BluePaint.png"
 greenPaint = pygame.transform.scale(pygame.image.load( "Assets/img/GreenPaint.png" ).convert_alpha(), imageScale)
 purplePaint = pygame.transform.scale(pygame.image.load( "Assets/img/PurplePaint.png" ).convert_alpha(), imageScale)
 
+
+windowImage = pygame.transform.scale(pygame.image.load( "Assets/img/Window.png" ).convert(), (screenWidth/6, screenWidth/6))
 
 #m.importLists(avatarParams, creditsMenu, optionsList, lossMenu, instructions)	# call mainfunc's importLists function to return local lists
 avatarParams = [screenWidth, screenHeight, soundToggle]
@@ -290,6 +294,17 @@ while 1:#Main loop
 
 		#screen.blit(grass,(0,0))
 		counter += 1
+		tempList = []
+		if counter % 750 == 0:
+			newWindow = Window(screenWidth,screenHeight, windowImage)
+			windowList.append(newWindow)
+			
+		for item in windowList:
+			item.move(wallSpeed, screen)
+			if item.getX() > -screenWidth/2:
+				tempList.append(item)
+				
+		windowList = list(tempList)
 		
 		tempList = []
 		if counter == nextBeam:
