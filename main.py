@@ -154,28 +154,28 @@ redObs = pygame.transform.scale(pygame.image.load( "Assets/img/RedObstacle.png" 
 blueObs = pygame.transform.scale(pygame.image.load( "Assets/img/BlueObstacle.png" ).convert(), imageScale)
 greenObs = pygame.transform.scale(pygame.image.load( "Assets/img/GreenObstacle.png" ).convert(), imageScale)
 purpleObs = pygame.transform.scale(pygame.image.load( "Assets/img/PurpleObstacle.png" ).convert(), imageScale)
-preLoaded1 = [redObs, blueObs, greenObs, purpleObs]
+preLoaded1 = [redObs, blueObs, greenObs, purpleObs, 1]
 
 imageScale = (screenWidth/28, screenHeight * 27/32 /2) # For 2 tall walls
 redObs = pygame.transform.scale(pygame.image.load( "Assets/img/RedObstacle.png" ).convert(), imageScale)
 blueObs = pygame.transform.scale(pygame.image.load( "Assets/img/BlueObstacle.png" ).convert(), imageScale)
 greenObs = pygame.transform.scale(pygame.image.load( "Assets/img/GreenObstacle.png" ).convert(), imageScale)
 purpleObs = pygame.transform.scale(pygame.image.load( "Assets/img/PurpleObstacle.png" ).convert(), imageScale)
-preLoaded2 = [redObs, blueObs, greenObs, purpleObs]
+preLoaded2 = [redObs, blueObs, greenObs, purpleObs, 2]
 
 imageScale = (screenWidth/28, screenHeight * 27/32 /3) # For 3 tall walls
 redObs = pygame.transform.scale(pygame.image.load( "Assets/img/RedObstacle.png" ).convert(), imageScale)
 blueObs = pygame.transform.scale(pygame.image.load( "Assets/img/BlueObstacle.png" ).convert(), imageScale)
 greenObs = pygame.transform.scale(pygame.image.load( "Assets/img/GreenObstacle.png" ).convert(), imageScale)
 purpleObs = pygame.transform.scale(pygame.image.load( "Assets/img/PurpleObstacle.png" ).convert(), imageScale)
-preLoaded3 = [redObs, blueObs, greenObs, purpleObs]
+preLoaded3 = [redObs, blueObs, greenObs, purpleObs, 3]
 
 imageScale = (screenWidth/28, screenHeight * 27/32 /4) # For 4 tall walls
 redObs = pygame.transform.scale(pygame.image.load( "Assets/img/RedObstacle.png" ).convert(), imageScale)
 blueObs = pygame.transform.scale(pygame.image.load( "Assets/img/BlueObstacle.png" ).convert(), imageScale)
 greenObs = pygame.transform.scale(pygame.image.load( "Assets/img/GreenObstacle.png" ).convert(), imageScale)
 purpleObs = pygame.transform.scale(pygame.image.load( "Assets/img/PurpleObstacle.png" ).convert(), imageScale)
-preLoaded4 = [redObs, blueObs, greenObs, purpleObs]
+preLoaded4 = [redObs, blueObs, greenObs, purpleObs, 4]
 
 ### Powerup images ###
 

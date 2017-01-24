@@ -14,7 +14,7 @@ class Wall(Obstacle):
 
 		#stores the vertical position of the top edge of the wall object
 		self.top = screenHeight*3/32
-		self.numObs = len(preLoaded)
+		self.numObs = preLoaded[4]
 		#the sum of the heights of whatever number of obstacles must equal roughly 
 		#13/16 of the screen
 		self.obstacleHeight = screenHeight * 27/32 /self.numObs 
