@@ -184,6 +184,9 @@ low = 80
 high = 120
 angle = 0
 
+rainbowYvel = 3 # we could make it proportional to the wall speed, but idk if James wants
+				# \ to keep the vertical powerup velocity constant or not
+
 obstacleList = preLoaded1
 
 activeWalls = []
@@ -192,9 +195,6 @@ activePowerUps = []
 grassList = []
 windowList = []
 scoreLabels = []
-
-
-
 
 fpsTest = []
 fpsSum = 0
@@ -405,11 +405,14 @@ while 1:#Main loop
 		
 		# Powerup collision handling, created one powerup for testing purposes, still need
 		# \ to implement spawning
+
 		if counter == 150:
 			power_up = Powerup([screenWidth,screenHeight/2], rainbow_powerup, 'rainbow')
 			activePowerUps.append(power_up)
 		for item in activePowerUps:
-			item.movePowerUp([wallSpeed,0], screen)
+			rainbowYvel = item.movePowerUp([wallSpeed,rainbowYvel], screen)
+			if item.x < -40:
+				activePowerUps.remove(item)
 		
 		if flier.powerUpCollision(activePowerUps, soundToggle):	# Does the avatar collide with a powerup?
 			if flier.flierState == 1: 
