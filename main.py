@@ -7,7 +7,7 @@ import pygame, sys, avatar, socket, HighScoreReader, quoteReader, random
 from beams import Beam
 from wall import Wall
 from label import MenuLabel
-from grass import Grass
+#from grass import Grass
 import mainfuncs as m
 from powerups import Powerup
 
@@ -57,9 +57,9 @@ pygame.display.update()
 hoverSound = pygame.mixer.Sound( "Assets/sound/click.wav" )
 clickSound = pygame.mixer.Sound( "Assets/sound/pop.wav" )
 pointSound = pygame.mixer.Sound( "Assets/sound/blip.wav" )
-crashSound = pygame.mixer.Sound( "Assets/sound/hit_obstacle.wav" )
+rainbowSound = pygame.mixer.Sound( "Assets/sound/paintsplash_sound16.wav" )
 
-pygame.mixer.music.load("Assets/sound/soundtrack2.mp3")
+pygame.mixer.music.load("Assets/sound/background.mp3")
 pygame.mixer.music.play(-1)
 if settings[1] == 1:
 	musicToggle = True
@@ -184,7 +184,7 @@ rainbow_powerup = pygame.transform.scale(pygame.image.load( "Assets/img/Rainbow.
 
 
 
-testGrass = Grass(screenWidth, screenHeight, -4)
+#testGrass = Grass(screenWidth, screenHeight, -4)
 
 justClicked = False #Boolean so we can't double click options in the menu
 isPassing = False #Boolean so score isn't counted twice, nor sound played twice
@@ -301,13 +301,13 @@ while 1:#Main loop
 
 		#screen.blit(grass,(0,0))
 		counter += 1
-		#testGrass.updateGrass(screen)
-		
 		
 		tempList = []
 		if counter == nextBeam:
+			rainbowSound.stop()
 			if abs(nextBeam - nextWall) > 35: #So they don't spawn on top of each other
 				difColor = random.choice(baseColors)
+				
 				while difColor == flier.getColor():
 					difColor = random.choice(baseColors)
 					
@@ -358,7 +358,6 @@ while 1:#Main loop
 				
 		activeBeams = list(tempList)
 		flier.beamCollision(activeBeams[:1], soundToggle)
-		#flier.powerUpCollision(powerUps)	# powerUps list will include any powerup(s) currently on screen, similar to beams/walls
 		
 		if flier.wallCollision(activeWalls[:1], soundToggle) == True: #If passing through the wall is true
 			if isPassing == False:												 # added gameState argument for rainbow testing
@@ -393,7 +392,7 @@ while 1:#Main loop
 		
 		# Powerup collision handling, created one powerup for testing purposes, still need
 		# \ to implement spawning
-		if counter == 10:
+		if counter == 150:
 			power_up = Powerup([screenWidth,screenHeight/2], rainbow_powerup, 'rainbow')
 			activePowerUps.append(power_up)
 		for item in activePowerUps:
@@ -401,21 +400,20 @@ while 1:#Main loop
 		
 		if flier.powerUpCollision(activePowerUps, soundToggle):	# Does the avatar collide with a powerup?
 			if flier.flierState == 1: 
-				flier.applyRainbow(soundToggle)
-			# stop beams from spawning on screen (code)
-				
-				# ^^^^^ Change the squirrel's image and continue to check
-				# \ for collisions between it and the walls, incrementing 
-				# \ and returning the score.
+				flier.applyRainbow()
+				activeBeams = []
+				nextBeam = random.randint(low + 170, high + 230) + counter
+				#Play rainbow Sound
 					
 # ----------------------------------------------- powerups ------------------------------------
 
 			#inputs the current score, then returns a list of all scores cut off at top 10
 		scoreLabel.update(screen)
-		flier.update(screen)
-		fpsTest.append( clock.get_fps() )
-		if flier.getAlive() == False: #if the flier is dead
 		
+		fpsTest.append( clock.get_fps() )
+		
+		flier.update(screen) #It's a start.
+		if flier.getAlive() == False: #if the flier is dead
 			pygame.mixer.music.set_volume(1.0)
 			quoteLabel.updateText(quoteReader.getQuote())
 			activeWalls = []
@@ -463,7 +461,7 @@ while 1:#Main loop
 			pygame.mouse.set_visible(True)
 			
 		else:
-		
+			
 			key = pygame.key.get_pressed()
 			if key[pygame.K_p] == True:
 				if paused == False:
@@ -535,13 +533,13 @@ while 1:#Main loop
 				gameState = item.getState()
 				
 				if gameState == 1:
-					print 'PLAYING AGAIN'
+
 					### Call this to restart the game and scores ###
 					counter, flier, score = m.restartGame(counter, score, scoreLabel, flier)	# relocated code to restartGame function
 
 				elif gameState == 0:
 					if musicToggle == True:
-						pygame.mixer.music.load("Assets/sound/soundtrack2.mp3")
+						pygame.mixer.music.load("Assets/sound/background.mp3")
 						pygame.mixer.music.play(-1)
 					quoteLabel.updateText(quoteReader.getQuote())
 				justClicked = pygame.mouse.get_pressed()[0]

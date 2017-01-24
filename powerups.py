@@ -42,6 +42,7 @@ class Powerup():
 		return self.powerUp
 		
 	def movePowerUp(self, speed, surface):
+		
 		self.powerUp.move_ip(speed[0], speed[1])	# change the object's internal position
 		self.x += speed[0]
 		self.draw(surface)    # redraw the obstacle at its new position on the display
