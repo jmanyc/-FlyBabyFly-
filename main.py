@@ -10,6 +10,7 @@ from label import MenuLabel
 #from grass import Grass
 import mainfuncs as m
 from powerups import Powerup
+from loadObstacles import *
 
 ###Reading in settings###
 fp = file('Settings.txt') #reads the file
@@ -52,6 +53,17 @@ fan = pygame.transform.scale(pygame.image.load( "Assets/img/Fan.png" ).convert_a
 screen.blit(mainBackground,(0,0))
 screen.blit(fan,(screenWidth*29/128,screenHeight*8/30))
 pygame.display.update()
+
+preLoaded1 = loadObstacles(screenWidth, screenHeight, 1) 
+preLoaded1.start()
+preLoaded2 = loadObstacles(screenWidth, screenHeight, 2) 
+preLoaded2.start()
+preLoaded3 = loadObstacles(screenWidth, screenHeight, 3) 
+preLoaded3.start()
+preLoaded4 = loadObstacles(screenWidth, screenHeight, 4)
+preLoaded4.start()
+
+
 
 ### Game Sound ###
 hoverSound = pygame.mixer.Sound( "Assets/sound/click.wav" )
@@ -97,85 +109,55 @@ gameState = 0
 # varName = MenuLable("Text", "Font-Style", BkgColor of Box, Text Color, fontSize, Position, gamestate it points to)
 
 #Main Menu
-title = MenuLabel("Fly Baby, Fly", (100,100,100),(255,105,180),42,(screenWidth*9/16,screenHeight/10),100)
-start = MenuLabel("Start Game", (100,100,100),(255,153,0),26,(screenWidth*9/16,screenHeight/14*3),1)
-instruction = MenuLabel("Instructions", (100,100,100),(255,153,0),26,(screenWidth*9/16,screenHeight/14*4),2)
-options = MenuLabel("Options", (100,100,100),(255,153,0),26,(screenWidth*9/16,screenHeight/14*5),6)
-mainQuit = MenuLabel("Quit", (100,100,100),(255,153,0),26,(screenWidth*9/16,screenHeight/14*6),4)
+title = MenuLabel("Fly Baby, Fly",(255,105,180),screenWidth/32,(screenWidth*9/16,screenHeight/10),100)
+start = MenuLabel("Start Game",(255,153,0),screenWidth/53,(screenWidth*9/16,screenHeight/14*3),1)
+instruction = MenuLabel("Instructions",(255,153,0),screenWidth/53,(screenWidth*9/16,screenHeight/14*4),2)
+options = MenuLabel("Options",(255,153,0),screenWidth/53,(screenWidth*9/16,screenHeight/14*5),6)
+mainQuit = MenuLabel("Quit",(255,153,0),screenWidth/53,(screenWidth*9/16,screenHeight/14*6),4)
 mainMenu = [start, mainQuit, instruction, options] #Main Menu Labels
 
 #Credits
-Producer = MenuLabel("He's a People Person (Producer): Chris Marcello", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8), 100)
-Designer = MenuLabel("Man with Vision (Designer): James Lindberg", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 70), 100)
-Programmer = MenuLabel("Hackerman (Lead Programmer): Lucas DeGraw", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 140), 100)
-Artist = MenuLabel("Frida Kahlo + GIMP (Lead Artist): Riley Karp", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 210), 100)
-Sound = MenuLabel("Mariachi (Lead Sound Design): Jerry Diaz ", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 280), 100)
-Gamer = MenuLabel("Gamer (Quality Assurance): Austin Nantkes", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 350), 100)
-Knife = MenuLabel("Swiss Army Knife (Multirole): Jon", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 420), 100)
-DJ = MenuLabel("DJ (Art Assistance): Dean", (100,100,100),(0,0,0), 26, (screenWidth/2, screenHeight/8 + 490), 100)
+Producer = MenuLabel("He's a People Person (Producer): Chris Marcello",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8), 100)
+Designer = MenuLabel("Man with Vision (Designer): James Lindberg", (0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8 + 70), 100)
+Programmer = MenuLabel("Hackerman (Lead Programmer): Lucas DeGraw",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8 + 140), 100)
+Artist = MenuLabel("Frida Kahlo + GIMP (Lead Artist): Riley Karp",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8 + 210), 100)
+Sound = MenuLabel("Mariachi (Lead Sound Design): Jerry Diaz ", (0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8 + 280), 100)
+Gamer = MenuLabel("Gamer (Quality Assurance): Austin Nantkes",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8 + 350), 100)
+Knife = MenuLabel("Swiss Army Knife (Multirole): Jon",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8 + 420), 100)
+DJ = MenuLabel("DJ (Art Assistance): Dean",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8 + 490), 100)
 
-Bruce = MenuLabel("Special Thanks to: Bruce (Totally Not CIA) Maxwell",(100,100,100),(0,0,0),26,(screenWidth/2, screenHeight/8 + 560),100)
+Bruce = MenuLabel("Special Thanks to: Bruce (Totally Not CIA) Maxwell",(0,0,0),screenWidth/53,(screenWidth/2, screenHeight/8 + 560),100)
 
-lossBack = MenuLabel("Back", (100,100,100),(0,0,0),24,(screenWidth*8/9,screenHeight/15),5)
+lossBack = MenuLabel("Back",(0,0,0), screenWidth/57,(screenWidth*8/9,screenHeight/15),5)
 creditsMenu = [Producer, Designer, Programmer, Artist, Sound, Gamer, Knife, DJ, Bruce, lossBack]
 
 #Instructions
-paint = MenuLabel("Paint streams will change your plane's color", (100,100,100),(255,105,180),24,(screenWidth/2,screenHeight*2/7),100)
-help = MenuLabel("Go through the color block that matches your plane", (100,100,100),(255,105,180),24,(screenWidth/2,screenHeight*3/7),100)
-controls = MenuLabel("Press Spacebar to increase your upward speed!", (100,100,100),(255,105,180),24,(screenWidth/2,screenHeight*4/7),100)
-mainBack = MenuLabel("Back", (100,100,100),(0,0,0),24,(screenWidth*6/7,screenHeight/15),0)
+paint = MenuLabel("Paint streams will change your plane's color",(255,105,180),screenWidth/57,(screenWidth/2,screenHeight*2/7),100)
+help = MenuLabel("Go through the color block that matches your plane",(255,105,180),screenWidth/57,(screenWidth/2,screenHeight*3/7),100)
+controls = MenuLabel("Press Spacebar to increase your upward speed!",(255,105,180),screenWidth/57,(screenWidth/2,screenHeight*4/7),100)
+mainBack = MenuLabel("Back", (0,0,0),screenWidth/57,(screenWidth*6/7,screenHeight/15),0)
 instructions = [paint, help, controls, mainBack]
 
 #Options Menu
-lowResolution = MenuLabel("Slow Game Mode", (100,100,100),(191, 255, 0),24,(screenWidth/2,screenHeight*4/7),41)
-resInfo = MenuLabel("Turn on Slow Game Mode and restart game if it runs poorly", (100,100,100),(191, 255, 0),20,(screenWidth/2,screenHeight*5/7),100)
-musicToggled = MenuLabel("Background Music On/Off", (100,100,100),(191, 255, 0),24,(screenWidth/2,screenHeight*2/7),42)
-soundToggled = MenuLabel("Sound Effects On/Off", (100,100,100),(191, 255, 0),24,(screenWidth/2,screenHeight*3/7), 43)
+lowResolution = MenuLabel("Slow Game Mode",(191, 255, 0),screenWidth/57,(screenWidth/2,screenHeight*4/7),41)
+resInfo = MenuLabel("Turn on Slow Game Mode and restart game if it runs poorly",(191, 255, 0),screenWidth/68,(screenWidth/2,screenHeight*5/7),100)
+musicToggled = MenuLabel("Background Music On/Off", (191, 255, 0),screenWidth/57,(screenWidth/2,screenHeight*2/7),42)
+soundToggled = MenuLabel("Sound Effects On/Off",(191, 255, 0),screenWidth/57,(screenWidth/2,screenHeight*3/7), 43)
 optionsList = [mainBack, musicToggled, soundToggled,lowResolution]
 
 #Loss Screen
-credits = MenuLabel("Credits", (100,100,100),(0,0,0),26,(300,260),3)
-restart = MenuLabel("Retry!", (100,100,100),(0,0,0),26,(300,100),1)
-main = MenuLabel("Main Menu", (100,100,100),(0,0,0),26,(300,180),0)
-lossQuit = MenuLabel("Quit", (100,100,100),(0,0,0),26,(300,340),4)
+credits = MenuLabel("Credits",(0,0,0),screenWidth/53,(300,260),3)
+restart = MenuLabel("Retry!",(0,0,0),screenWidth/53,(300,100),1)
+main = MenuLabel("Main Menu",(0,0,0),screenWidth/53,(300,180),0)
+lossQuit = MenuLabel("Quit",(0,0,0),screenWidth/53,(300,340),4)
 lossMenu = [restart, credits, lossQuit, main]
 
 #In-Game
-scoreLabel = MenuLabel("Score: 0", (100,100,100),(0, 0, 0),24,(screenWidth/9,screenHeight/9),100)
-quoteLabel = MenuLabel(quoteReader.getQuote(), (100,100,100),(0, 0, 0),24,(screenWidth/2,screenHeight*11/12),100)
+scoreLabel = MenuLabel("Score: 0",(0, 0, 0),screenWidth/57,(screenWidth/9,screenHeight/9),100)
+quoteLabel = MenuLabel(quoteReader.getQuote(), (0, 0, 0),screenWidth/57,(screenWidth/2,screenHeight*11/12),100)
 
 ### Initializing Main Loop variables and images ###
 imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseWGrass.png" ).convert(),(screenWidth,screenHeight))
-
-
-#So we preload these images at 3 per wall, later if we want more we'll convert these to new values
-imageScale = (screenWidth/28, screenHeight * 27/32) # For 1 tall walls
-redObs = pygame.transform.scale(pygame.image.load( "Assets/img/RedObstacle.png" ).convert(), imageScale)
-blueObs = pygame.transform.scale(pygame.image.load( "Assets/img/BlueObstacle.png" ).convert(), imageScale)
-greenObs = pygame.transform.scale(pygame.image.load( "Assets/img/GreenObstacle.png" ).convert(), imageScale)
-purpleObs = pygame.transform.scale(pygame.image.load( "Assets/img/PurpleObstacle.png" ).convert(), imageScale)
-preLoaded1 = [redObs, blueObs, greenObs, purpleObs, 1]
-
-imageScale = (screenWidth/28, screenHeight * 27/32 /2) # For 2 tall walls
-redObs = pygame.transform.scale(pygame.image.load( "Assets/img/RedObstacle.png" ).convert(), imageScale)
-blueObs = pygame.transform.scale(pygame.image.load( "Assets/img/BlueObstacle.png" ).convert(), imageScale)
-greenObs = pygame.transform.scale(pygame.image.load( "Assets/img/GreenObstacle.png" ).convert(), imageScale)
-purpleObs = pygame.transform.scale(pygame.image.load( "Assets/img/PurpleObstacle.png" ).convert(), imageScale)
-preLoaded2 = [redObs, blueObs, greenObs, purpleObs, 2]
-
-imageScale = (screenWidth/28, screenHeight * 27/32 /3) # For 3 tall walls
-redObs = pygame.transform.scale(pygame.image.load( "Assets/img/RedObstacle.png" ).convert(), imageScale)
-blueObs = pygame.transform.scale(pygame.image.load( "Assets/img/BlueObstacle.png" ).convert(), imageScale)
-greenObs = pygame.transform.scale(pygame.image.load( "Assets/img/GreenObstacle.png" ).convert(), imageScale)
-purpleObs = pygame.transform.scale(pygame.image.load( "Assets/img/PurpleObstacle.png" ).convert(), imageScale)
-preLoaded3 = [redObs, blueObs, greenObs, purpleObs, 3]
-
-imageScale = (screenWidth/28, screenHeight * 27/32 /4) # For 4 tall walls
-redObs = pygame.transform.scale(pygame.image.load( "Assets/img/RedObstacle.png" ).convert(), imageScale)
-blueObs = pygame.transform.scale(pygame.image.load( "Assets/img/BlueObstacle.png" ).convert(), imageScale)
-greenObs = pygame.transform.scale(pygame.image.load( "Assets/img/GreenObstacle.png" ).convert(), imageScale)
-purpleObs = pygame.transform.scale(pygame.image.load( "Assets/img/PurpleObstacle.png" ).convert(), imageScale)
-preLoaded4 = [redObs, blueObs, greenObs, purpleObs, 4]
 
 ### Powerup images ###
 
@@ -223,9 +205,8 @@ GREEN = (0,255,0)
 YELLOW = (255,255,0)
 PURPLE = (255,0,255)
 CYAN = (0,255,255)
-MAROON = (128,0,0)
-OLIVE = (128,128,0)
-colors = [RED, BLUE, GREEN, YELLOW, PURPLE, CYAN, MAROON, OLIVE, WHITE] ### For current game, only BLUE RED GREEN
+ORANGE = (255,99,71)
+colors = [RED, BLUE, GREEN, YELLOW, PURPLE, CYAN, ORANGE] ### For current game, only BLUE RED GREEN
 baseColors = [RED,BLUE,GREEN,PURPLE]
 
 imageScale = (screenHeight/5, screenHeight*15/16)
@@ -239,6 +220,13 @@ purplePaint = pygame.transform.scale(pygame.image.load( "Assets/img/PurplePaint.
 avatarParams = [screenWidth, screenHeight, soundToggle]
 
 flier = avatar.Avatar(avatarParams[0], avatarParams[1], avatarParams[2])
+
+preLoaded1.join()
+preLoaded2.join()
+preLoaded3.join()
+preLoaded4.join()
+
+obstacleList = preLoaded1.getObstacles()
 
 ### Server Params ###
 host = '137.146.141.168';
@@ -320,7 +308,14 @@ while 1:#Main loop
 					myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, bluePaint)
 				elif difColor == PURPLE:
 					myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, purplePaint)
-					
+				'''
+				elif difColor == ORANGE:
+					myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, orangePaint)
+				elif difColor == YELLOW:
+					myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, yellowPaint)
+				elif difColor == CYAN:
+					myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, cyanPaint)
+					'''
 				if activeBeams != []:
 					if myBeam.getColor() != activeBeams[-1].getColor() and myBeam.getColor() != flier.getColor():
 						activeBeams.append(myBeam)
@@ -331,7 +326,7 @@ while 1:#Main loop
 			
 		if counter == nextWall:
 			if activeBeams != []:
-				myWall = Wall(activeBeams[-1].getColor(), screenWidth, screenHeight, baseColors, obstacleList)	# create the Wall object with a certain number of obstacles
+				myWall = Wall(activeBeams[-1].getColor(), screenWidth, screenHeight, colors, obstacleList)	# create the Wall object with a certain number of obstacles
 				#Last beam in the list is the closest one to the wall being created
 			else:
 				myWall = Wall(flier.getColor(), screenWidth, screenHeight, baseColors, obstacleList)
@@ -358,9 +353,9 @@ while 1:#Main loop
 				tempList.append(item)
 				
 		activeBeams = list(tempList)
-		flier.beamCollision(activeBeams[:1], soundToggle)
+		flier.beamCollision(activeBeams[:1])
 		
-		if flier.wallCollision(activeWalls[:1], soundToggle) == True: #If passing through the wall is true
+		if flier.wallCollision(activeWalls[:1]) == True: #If passing through the wall is true
 			if isPassing == False:												 # added gameState argument for rainbow testing
 				m.playSound(pointSound, soundToggle)
 				score += 1
@@ -373,17 +368,19 @@ while 1:#Main loop
 					if high > 0:
 						high -= 8
 				if score == 1:
-					obstacleList = preLoaded2
-
+					#obstacleList = preLoaded2
+					obstacleList = preLoaded2.getObstacles()
 				elif score == 3:
 					wallSpeed = -4
 				elif score == 6:
-					obstacleList = preLoaded3
+					#obstacleList = preLoaded3
+					obstacleList = preLoaded3.getObstacles()
 
 				elif score == 10:
 					wallSpeed = -5
 				elif score == 16:
-					obstacleList = preLoaded4
+					#obstacleList = preLoaded4
+					obstacleList = preLoaded4.getObstacles()
 
 		else:
 			isPassing = False
@@ -422,12 +419,12 @@ while 1:#Main loop
 			
 			wallSpeed = -3
 			gameState = 5 #goto loss screen
-			flier.restart()
+			flier.restart(soundToggle)
 			nextWall = random.randint(130, 160)
 			nextBeam = 80
 			low = 80
 			high = 120
-			obstacleList = preLoaded1
+			obstacleList = preLoaded1.getObstacles()
 
 			localHighScores, serverHighScores = serverConnect(host, port, score)
 
@@ -439,24 +436,24 @@ while 1:#Main loop
 			fpsSum = 0
 			
 			
-			loadedScore = MenuLabel("Local High Scores", (100,100,100),(0, 0, 0),26,(screenWidth*3/5,screenHeight/15 + screenHeight/10),100)
+			loadedScore = MenuLabel("Local High Scores",(0, 0, 0),screenWidth/53,(screenWidth*3/5,screenHeight/15 + screenHeight/10),100)
 			scoreLabels.append(loadedScore)
 			
 			for x in range(2,len(localHighScores) +2):
 			
-				loadedScore = MenuLabel("Score: " +str(localHighScores[x-2]), (100,100,100),(0, 0, 0),24,(screenWidth*3/5,screenHeight/15*x + screenHeight/10),100)
+				loadedScore = MenuLabel("Score: " +str(localHighScores[x-2]), (0, 0, 0),screenWidth/57,(screenWidth*3/5,screenHeight/15*x + screenHeight/10),100)
 				scoreLabels.append(loadedScore)
 				
-			loadedScore = MenuLabel("Server High Scores", (100,100,100),(0, 0, 0),26,(screenWidth*4/5,screenHeight/15 + screenHeight/10),100)
+			loadedScore = MenuLabel("Server High Scores",(0, 0, 0),screenWidth/53,(screenWidth*4/5,screenHeight/15 + screenHeight/10),100)
 			scoreLabels.append(loadedScore)
 			
 			if serverHighScores[0] == "Couldn't Connect to Server":
-				loadedScore = MenuLabel(str(serverHighScores[0]), (100,100,100),(0, 0, 0),24,(screenWidth*4/5,screenHeight/15*2 + screenHeight/10),100)
+				loadedScore = MenuLabel(str(serverHighScores[0]),(0, 0, 0),screenWidth/57,(screenWidth*4/5,screenHeight/15*2 + screenHeight/10),100)
 				scoreLabels.append(loadedScore)
 				
 			else:
 				for x in range(2,len(serverHighScores)+2):
-					loadedScore = MenuLabel("Score: " +str(serverHighScores[x-2]), (100,100,100),(0, 0, 0),24,(screenWidth*4/5,screenHeight/15*x + screenHeight/10),100)
+					loadedScore = MenuLabel("Score: " +str(serverHighScores[x-2]),(0, 0, 0),screenWidth/57,(screenWidth*4/5,screenHeight/15*x + screenHeight/10),100)
 					scoreLabels.append(loadedScore)
 					
 			pygame.mouse.set_visible(True)
@@ -564,6 +561,7 @@ while 1:#Main loop
 		# relocated code to updateSoundOptions function
 		resInfo.update(screen)
 		justClicked = pygame.mouse.get_pressed()[0]
+		flier.restart(soundToggle)
 	
 	if gameState == 7:
 		key = pygame.key.get_pressed()

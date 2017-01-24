@@ -33,7 +33,9 @@ class Avatar():
 		self.blueImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelBluePlane.png" ).convert_alpha(), self.imageScale)
 		self.greenImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelGreenPlane.png" ).convert_alpha(), self.imageScale)
 		self.purpleImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelPurplePlane.png" ).convert_alpha(), self.imageScale)
-		
+		self.yellowImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelYellowPlane.png" ).convert_alpha(), self.imageScale)
+		self.cyanImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelCyanPlane.png" ).convert_alpha(), self.imageScale)
+		self.orangeImage =  pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelOrangePlane.png" ).convert_alpha(), self.imageScale)
 		self.rainbowImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelRainbowPlane.png" ).convert_alpha(), self.imageScale)
 		
 		self.image = self.whiteImage
@@ -64,7 +66,7 @@ class Avatar():
 					self.hitTop.play()
 				self.crash()
 				
-	def restart(self):
+	def restart(self, soundToggle):
 		self.x = self.startingPos[0]
 		self.y = self.startingPos[1]
 		self.alive = True #Used to control the gameState
@@ -76,6 +78,7 @@ class Avatar():
 		self.flierState = 0
 		self.crashAngle = 0
 		self.curSpeed = 0
+		self.soundToggle = soundToggle
 		
 	def crash(self):
 		self.curSpeed = 0
@@ -150,7 +153,7 @@ class Avatar():
 		
 	###def setAvatar(self, image):	  Idea for later
 	
-	def wallCollision(self, activeWalls, soundToggle):
+	def wallCollision(self, activeWalls):
 	### Returns true for correct collision, false for incorrect ###
 		for wall in activeWalls:
 			for obst in wall.getWallSections():
@@ -167,12 +170,12 @@ class Avatar():
 							return True
 			
 
-	def beamCollision(self,activeBeams, soundToggle):					
+	def beamCollision(self,activeBeams):					
 		for beam in activeBeams:
 			if beam.getVisited() == False:
 				if self.image_c.colliderect(beam.getBeam()) == True:
 					self.color = beam.getColor()
-					if soundToggle == True:
+					if self.soundToggle == True:
 						self.paintSound.play()
 					beam.setVisited(True)
 					if self.color == (255,0,0): #Red
@@ -182,6 +185,12 @@ class Avatar():
 					elif self.color == (0,255,0): #Green
 						self.image = self.greenImage
 					elif self.color == (255,0,255): #Purple
+						self.image = self.purpleImage
+					elif self.color == (0,255,255): #Cyan
+						self.image = self.purpleImage
+					elif self.color == (255,255,0): #Yellow
+						self.image = self.purpleImage
+					elif self.color == (255,99,71): #Orange
 						self.image = self.purpleImage
 					self.flierState = 0
 					self.tempImage = self.image
