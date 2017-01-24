@@ -59,7 +59,8 @@ clickSound = pygame.mixer.Sound( "Assets/sound/pop.wav" )
 pointSound = pygame.mixer.Sound( "Assets/sound/blip.wav" )
 rainbowSound = pygame.mixer.Sound( "Assets/sound/paintsplash_sound16.wav" )
 
-pygame.mixer.music.load("Assets/sound/background.mp3")
+pygame.mixer.music.load("Assets/sound/soundtrack3.mp3")
+
 pygame.mixer.music.play(-1)
 if settings[1] == 1:
 	musicToggle = True
@@ -538,9 +539,11 @@ while 1:#Main loop
 					counter, flier, score = m.restartGame(counter, score, scoreLabel, flier)	# relocated code to restartGame function
 
 				elif gameState == 0:
+				
 					if musicToggle == True:
-						pygame.mixer.music.load("Assets/sound/background.mp3")
+						pygame.mixer.music.load("Assets/sound/soundtrack3.mp3")
 						pygame.mixer.music.play(-1)
+						
 					quoteLabel.updateText(quoteReader.getQuote())
 				justClicked = pygame.mouse.get_pressed()[0]
 				
