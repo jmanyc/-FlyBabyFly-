@@ -59,7 +59,7 @@ clickSound = pygame.mixer.Sound( "Assets/sound/pop.wav" )
 pointSound = pygame.mixer.Sound( "Assets/sound/blip.wav" )
 rainbowSound = pygame.mixer.Sound( "Assets/sound/paintsplash_sound16.wav" )
 
-pygame.mixer.music.load("Assets/sound/soundtrack3.mp3")
+pygame.mixer.music.load("Assets/sound/soundtrack2.ogg")
 
 pygame.mixer.music.play(-1)
 if settings[1] == 1:
@@ -202,7 +202,7 @@ high = 120
 angle = 0
 
 obstacleList = preLoaded1
-numObs = 1
+
 activeWalls = []
 activeBeams = []
 activePowerUps = []
@@ -331,10 +331,10 @@ while 1:#Main loop
 			
 		if counter == nextWall:
 			if activeBeams != []:
-				myWall = Wall(activeBeams[-1].getColor(), screenWidth, screenHeight, baseColors, numObs, obstacleList)	# create the Wall object with a certain number of obstacles
+				myWall = Wall(activeBeams[-1].getColor(), screenWidth, screenHeight, baseColors, obstacleList)	# create the Wall object with a certain number of obstacles
 				#Last beam in the list is the closest one to the wall being created
 			else:
-				myWall = Wall(flier.getColor(), screenWidth, screenHeight, baseColors, numObs, obstacleList)
+				myWall = Wall(flier.getColor(), screenWidth, screenHeight, baseColors, obstacleList)
 				
 			nextWall = random.randint(low + 130, high + 160) + counter
 			activeWalls.append(myWall)
@@ -374,17 +374,17 @@ while 1:#Main loop
 						high -= 8
 				if score == 1:
 					obstacleList = preLoaded2
-					numObs = 2
+
 				elif score == 3:
 					wallSpeed = -4
 				elif score == 6:
 					obstacleList = preLoaded3
-					numObs = 3
+
 				elif score == 10:
 					wallSpeed = -5
 				elif score == 16:
 					obstacleList = preLoaded4
-					numObs = 4
+
 		else:
 			isPassing = False
 			
@@ -428,7 +428,7 @@ while 1:#Main loop
 			low = 80
 			high = 120
 			obstacleList = preLoaded1
-			numObs = 1
+
 			localHighScores, serverHighScores = serverConnect(host, port, score)
 
 			for x in fpsTest:

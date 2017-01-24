@@ -9,15 +9,15 @@ from obstacles import Obstacle
 class Wall(Obstacle):
 	
 	
-	def __init__(self, lastBeamColor, xPos, screenHeight, colors, numObs, preLoaded):
+	def __init__(self, lastBeamColor, xPos, screenHeight, colors, preLoaded):
 	
 
 		#stores the vertical position of the top edge of the wall object
 		self.top = screenHeight*3/32
-		
+		self.numObs = len(preLoaded)
 		#the sum of the heights of whatever number of obstacles must equal roughly 
 		#13/16 of the screen
-		self.obstacleHeight = screenHeight * 27/32 /numObs 
+		self.obstacleHeight = screenHeight * 27/32 /self.numObs 
 		
 		#sotres the width of the wall object (currently set to 1/28th of the wall's 
 		#initial x-position, which is the width of the whole screen)
@@ -43,7 +43,7 @@ class Wall(Obstacle):
 		#this loops one time less than the number of obstacles and randomly picks colors from self.colors and appends them to colorList
 		#(which is where our last beam color was stored in the first place). This ensures that colorList will be a list of colors of length 
 		#equal to the number of obstacles in the wall and that it will include the color of the las beam encountered. 
-		for x in range(1, numObs): 
+		for x in range(1, self.numObs): 
 			tempColor = random.choice(self.colors)
 			self.colors.remove(tempColor)
 			self.colorList.append(tempColor)
@@ -54,7 +54,7 @@ class Wall(Obstacle):
 
 		#and now we assign each color list to an obstacle object and append 
 		#the obstacle object to the wallSections list
-		for x in range(0, numObs):
+		for x in range(0, self.numObs):
 		
 			if self.colorList[x] == (255,0,0): #Red
 				self.image = self.preLoaded[0]
