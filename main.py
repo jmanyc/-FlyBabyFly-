@@ -7,12 +7,12 @@ import pygame, sys, avatar, socket, HighScoreReader, quoteReader, random
 from beams import Beam
 from wall import Wall
 from label import MenuLabel
-#from grass import Grass
+from grass import Grass
 from window import Window
 import mainfuncs as m
 from powerups import Powerup
 from loadObstacles import *
-
+from loadMenuLabels import *
 ###Reading in settings###
 fp = file('Settings.txt') #reads the file
 lines = fp.readlines() #reads lines and creates an array of lines
@@ -116,20 +116,23 @@ mainQuit = MenuLabel("Quit",(255,153,0),screenWidth/53,(screenWidth*9/16,screenH
 mainMenu = [start, mainQuit, instruction, options] #Main Menu Labels
 
 #Credits
-Producer = MenuLabel("He's a People Person (Producer): Chris Marcello",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8), 100)
-Designer = MenuLabel("Man with Vision (Designer): James Lindberg", (0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8 + 70), 100)
-Programmer = MenuLabel("Hackerman (Lead Programmer): Lucas DeGraw",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8 + 140), 100)
-Artist = MenuLabel("Frida Kahlo + GIMP (Lead Artist): Riley Karp",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8 + 210), 100)
-Sound = MenuLabel("Mariachi (Lead Sound Design): Jerry Diaz ", (0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8 + 280), 100)
-Gamer = MenuLabel("Gamer (Quality Assurance): Austin Nantkes",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8 + 350), 100)
-Knife = MenuLabel("Swiss Army Knife (Multirole): Jon",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8 + 420), 100)
-DJ = MenuLabel("DJ (Art Assistance): Dean",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8 + 490), 100)
+Producer = loadMenuLabels("He's a People Person (Producer): Chris Marcello",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8), 100)
+Designer = loadMenuLabels("Man with Vision (Designer): James Lindberg", (0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8 + 70), 100)
+Programmer = loadMenuLabels("Hackerman (Lead Programmer): Lucas DeGraw",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8 + 140), 100)
+Artist = loadMenuLabels("Frida Kahlo + GIMP (Lead Artist): Riley Karp",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8 + 210), 100)
+Sound = loadMenuLabels("Mariachi (Lead Sound Design): Jerry Diaz ", (0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8 + 280), 100)
+Gamer = loadMenuLabels("Gamer (Quality Assurance): Austin Nantkes",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8 + 350), 100)
+Knife = loadMenuLabels("Swiss Army Knife (Multirole): Jon",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8 + 420), 100)
+DJ = loadMenuLabels("DJ (Art Assistance): Dean",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8 + 490), 100)
 
-Bruce = MenuLabel("Special Thanks to: Bruce (Totally Not CIA) Maxwell",(0,0,0),screenWidth/53,(screenWidth/2, screenHeight/8 + 560),100)
+Bruce = loadMenuLabels("Special Thanks to: Bruce (Totally Not CIA) Maxwell",(0,0,0),screenWidth/53,(screenWidth/2, screenHeight/8 + 560),100)
 
-lossBack = MenuLabel("Back",(0,0,0), screenWidth/57,(screenWidth*8/9,screenHeight/15),5)
+lossBack = loadMenuLabels("Back",(0,0,0), screenWidth/57,(screenWidth*8/9,screenHeight/15),5)
 creditsMenu = [Producer, Designer, Programmer, Artist, Sound, Gamer, Knife, DJ, Bruce, lossBack]
 
+for label in creditsMenu :
+	label.start()
+	
 #Instructions
 paint = MenuLabel("Paint streams will change your plane's color",(255,105,180),screenWidth/57,(screenWidth/2,screenHeight*2/7),100)
 help = MenuLabel("Go through the color block that matches your plane",(255,105,180),screenWidth/57,(screenWidth/2,screenHeight*3/7),100)
@@ -145,32 +148,30 @@ soundToggled = MenuLabel("Sound Effects On/Off",(191, 255, 0),screenWidth/57,(sc
 optionsList = [mainBack, musicToggled, soundToggled,lowResolution]
 
 #Loss Screen
-credits = MenuLabel("Credits",(0,0,0),screenWidth/53,(300,260),3)
-restart = MenuLabel("Retry!",(0,0,0),screenWidth/53,(300,100),1)
-main = MenuLabel("Main Menu",(0,0,0),screenWidth/53,(300,180),0)
-lossQuit = MenuLabel("Quit",(0,0,0),screenWidth/53,(300,340),4)
+credits = loadMenuLabels("Credits",(0,0,0),screenWidth/53,(300,260),3)
+restart = loadMenuLabels("Retry!",(0,0,0),screenWidth/53,(300,100),1)
+main = loadMenuLabels("Main Menu",(0,0,0),screenWidth/53,(300,180),0)
+lossQuit = loadMenuLabels("Quit",(0,0,0),screenWidth/53,(300,340),4)
 lossMenu = [restart, credits, lossQuit, main]
+
+for label in lossMenu :
+	label.start()
 
 #In-Game
 scoreLabel = MenuLabel("Score: 0",(0, 0, 0),screenWidth/57,(screenWidth/9,screenHeight/9),100)
 quoteLabel = MenuLabel(quoteReader.getQuote(), (0, 0, 0),screenWidth/57,(screenWidth/2,screenHeight*11/12),100)
 
 ### Initializing Main Loop variables and images ###
-imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseWGrass.png" ).convert(),(screenWidth,screenHeight))
+imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseNoGrass.png" ).convert(),(screenWidth,screenHeight))
 
 ### Powerup images ###
 
 rainbow_powerup = pygame.transform.scale(pygame.image.load( "Assets/img/Rainbow.png" ).convert_alpha(), (screenHeight/7, screenHeight/7))
 gravityFlip = pygame.transform.scale(pygame.image.load( "Assets/img/GravitySwap.png" ).convert_alpha(), (screenHeight/7, screenHeight/7))
-### Need to load and convert power up images ###
 
-
-
-#testGrass = Grass(screenWidth, screenHeight, -4)
 
 justClicked = False #Boolean so we can't double click options in the menu
 isPassing = False #Boolean so score isn't counted twice, nor sound played twice
-spacePress = False #So game doesn't restart if you're holding down space and die
 paused = False
 
 counter = 0
@@ -178,8 +179,7 @@ score = 0
 wallSpeed = -3
 nextWall = random.randint(130, 160)
 nextBeam = 60
-nextRainbow = 700
-nextFlip = 1050
+nextPowerUp = 850
 low = 80
 high = 120
 angle = 0
@@ -219,6 +219,7 @@ purplePaint = pygame.transform.scale(pygame.image.load( "Assets/img/PurplePaint.
 
 
 windowImage = pygame.transform.scale(pygame.image.load( "Assets/img/Window.png" ).convert(), (screenWidth/6, screenWidth/6))
+grassImage = pygame.transform.scale(pygame.image.load( "Assets/img/grass.png" ).convert(), (screenWidth, screenHeight/16))
 
 #m.importLists(avatarParams, creditsMenu, optionsList, lossMenu, instructions)	# call mainfunc's importLists function to return local lists
 avatarParams = [screenWidth, screenHeight, soundToggle]
@@ -290,10 +291,26 @@ while 1:#Main loop
 	elif gameState == 1: #The actual game looping part
 		pygame.mouse.set_visible(False)
 		
-		screen.blit(imageBkg,(0,0))
-
-		#screen.blit(grass,(0,0))
 		counter += 1
+		
+		screen.blit(imageBkg,(0,0))
+		
+		tempList = []
+		
+		if grassList != []:
+			if grassList[-1].getX() < screenWidth/10:
+				newGrass = Grass(screenWidth, screenHeight, grassImage)
+				grassList.append(newGrass)
+		else:
+			newGrass = Grass(0, screenHeight, grassImage)
+			grassList.append(newGrass)
+		
+		for item in grassList:
+			item.move(wallSpeed, screen)
+			if item.getX() > -screenWidth*1.2:
+				tempList.append(item)
+		grassList = list(tempList)
+		
 		tempList = []
 		if counter % 750 == 0:
 			newWindow = Window(screenWidth,screenHeight, windowImage)
@@ -407,16 +424,14 @@ while 1:#Main loop
 		# Powerup collision handling, created one powerup for testing purposes, still need
 		# \ to implement spawning
 
-		if counter == nextRainbow:
-			power_up = Powerup([screenWidth,screenHeight/2], rainbow_powerup, 'rainbow')
-			activePowerUps.append(power_up)
-			nextRainbow = counter + random.randint(1400,2000)
+		if counter == nextPowerUp and flier.flierState != 1:
+			if random.randint(0,1) == 0:
+				power_up = Powerup([screenWidth,screenHeight/2], rainbow_powerup, 'rainbow')
+			else:
+				power_up = Powerup([screenWidth,screenHeight/2], gravityFlip, 'gravitySwitch')
 			
-		if counter == nextFlip and abs(nextBeam - nextFlip) > 45 and self.flierState != 1:
-			power_up = Powerup([screenWidth,screenHeight/2], gravityFlip, 'gravitySwitch')
 			activePowerUps.append(power_up)
-			nextFlip = counter + random.randint(1200,1800)
-			
+			nextPowerUp = counter + random.randint(1200,1800)
 		tempList = []
 		
 		for item in activePowerUps:
@@ -451,9 +466,9 @@ while 1:#Main loop
 			activeBeams = []
 			activePowerUps = []
 			windowList = []
+			grassList = []
 			
-			nextRainbow = 700
-			nextFlip = 1050
+			nextPowerUp = 850
 			wallSpeed = -3
 			gameState = 5 #goto loss screen
 			flier.restart(soundToggle)
@@ -509,6 +524,13 @@ while 1:#Main loop
 		
 		
 	elif gameState == 2: #Instructions
+		if type(instructions[0]) is loadMenuLabels :
+			tempList = []
+			for item in instructions :
+				item.join()
+				tempList.append(item.getLabel())
+			instructions = tempList
+			
 		screen.fill((40,80,160))
 		mouse = pygame.mouse.get_pos()
 		m.State2Update(screen, instructions)	# relocated code to State2Update function
@@ -527,6 +549,7 @@ while 1:#Main loop
 		for item in creditsMenu:
 			item.update(screen)
 			
+		lossBack = creditsMenu[9]
 		key = pygame.key.get_pressed()
 		if key[pygame.K_BACKSPACE] or (lossBack.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0]):
 			#If back button is clicked, go back to loss screen
@@ -556,6 +579,13 @@ while 1:#Main loop
 			counter = 0
 		mouse = pygame.mouse.get_pos()
 		
+		if type(lossMenu[0]) is loadMenuLabels :
+			tempList = []
+			for item in lossMenu :
+				item.join()
+				tempList.append(item.getLabel())
+			lossMenu = tempList
+			
 		for item in scoreLabels:
 			item.update(screen)
 			
