@@ -36,6 +36,7 @@ class Powerup():
 
 	def draw(self, surface):		
 		surface.blit(self.image,(self.x, self.y))
+		#print 'drawing'
 	
 	def getPower(self):
 		return self.powerUpType
@@ -45,6 +46,14 @@ class Powerup():
 		return self.powerUp
 		
 	def movePowerUp(self, speed, surface):
-		self.powerUp.move_ip(speed[0], speed[1])	# change the object's internal position
+		
+ 		self.powerUp.move_ip(speed[0], speed[1])	# change the object's internal position
 		self.x += speed[0]
-		self.draw(surface)    # redraw the obstacle at its new position on the display
+		self.y += speed[1]
+		self.draw(surface) # redraw the obstacle at its new position on the display
+ 		if self.y <= 100 and speed[1] < 0 or self.y >= 650 and speed[1] > 0:
+ 			speed[1] = -speed[1]
+ 			
+		return speed[1]	# the speed is returned to rainbowYvel (hardcoded value, could be changed
+						#  so that it is proportional to the wall speed) in main so that it passes in 
+						# \ the new reversed y velocity every time that it calls movePowerUp
