@@ -103,8 +103,6 @@ gameState = 0
 	1 = rainbow
 	2 = reverse gravity
 '''
-	
-			
 			
 ### Menu Items/Labels ###
 # varName = MenuLable("Text", "Font-Style", BkgColor of Box, Text Color, fontSize, Position, gamestate it points to)
@@ -163,7 +161,7 @@ imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseWGrass.png
 ### Powerup images ###
 
 rainbow_powerup = pygame.transform.scale(pygame.image.load( "Assets/img/Rainbow.png" ).convert_alpha(), (screenHeight/7, screenHeight/7))
-
+gravityFlip = pygame.transform.scale(pygame.image.load( "Assets/img/GravitySwap.png" ).convert_alpha(), (screenHeight/7, screenHeight/7))
 ### Need to load and convert power up images ###
 
 
@@ -180,6 +178,8 @@ score = 0
 wallSpeed = -3
 nextWall = random.randint(130, 160)
 nextBeam = 60
+nextRainbow = 700
+nextFlip = 1050
 low = 80
 high = 120
 angle = 0
@@ -309,7 +309,7 @@ while 1:#Main loop
 		tempList = []
 		if counter == nextBeam:
 			rainbowSound.stop()
-			if abs(nextBeam - nextWall) > 35: #So they don't spawn on top of each other
+			if abs(nextBeam - nextWall) > 45: #So they don't spawn on top of each other
 				difColor = random.choice(baseColors)
 				
 				while difColor == flier.getColor():
@@ -376,6 +376,7 @@ while 1:#Main loop
 				score += 1
 				scoreLabel.updateText("Score: "+str(score))
 				isPassing = True #So score is calculated once per wall
+				
 				### Changing the difficulty ###
 				if score % 2 == 0:
 					if low > 0:
@@ -406,19 +407,32 @@ while 1:#Main loop
 		# Powerup collision handling, created one powerup for testing purposes, still need
 		# \ to implement spawning
 
-		if counter == 150:
+		if counter == nextRainbow:
 			power_up = Powerup([screenWidth,screenHeight/2], rainbow_powerup, 'rainbow')
 			activePowerUps.append(power_up)
+			nextRainbow = counter + random.randint(1400,2000)
+			
+		if counter == nextFlip and abs(nextBeam - nextFlip) > 45 and self.flierState != 1:
+			power_up = Powerup([screenWidth,screenHeight/2], gravityFlip, 'gravitySwitch')
+			activePowerUps.append(power_up)
+			nextFlip = counter + random.randint(1200,1800)
+			
+		tempList = []
+		
 		for item in activePowerUps:
 			rainbowYvel = item.movePowerUp([wallSpeed,rainbowYvel], screen)
-			if item.x < -40:
-				activePowerUps.remove(item)
+			if item.x  > -screenWidth/2:
+				tempList.append(item)
+				
+		activePowerUps = list(tempList)
 		
 		if flier.powerUpCollision(activePowerUps, soundToggle):	# Does the avatar collide with a powerup?
+			activePowerUps = []
+			
 			if flier.flierState == 1: 
-				flier.applyRainbow()
+				
 				activeBeams = []
-				nextBeam = random.randint(low + 170, high + 230) + counter
+				nextBeam = random.randint(low + 200, high + 260) + counter
 				#Play rainbow Sound
 					
 # ----------------------------------------------- powerups ------------------------------------
@@ -432,9 +446,14 @@ while 1:#Main loop
 		if flier.getAlive() == False: #if the flier is dead
 			pygame.mixer.music.set_volume(1.0)
 			quoteLabel.updateText(quoteReader.getQuote())
+			
 			activeWalls = []
 			activeBeams = []
+			activePowerUps = []
+			windowList = []
 			
+			nextRainbow = 700
+			nextFlip = 1050
 			wallSpeed = -3
 			gameState = 5 #goto loss screen
 			flier.restart(soundToggle)

@@ -59,13 +59,19 @@ class Avatar():
 		if self.y > self.topLimit and self.crashing == False:
 			key = pygame.key.get_pressed()
 			if key[pygame.K_SPACE] or key[pygame.K_UP] or key[pygame.K_w]:
-				self.curSpeed += self.gravity*2.5
+			
+				if self.flierState != 2:
+					self.curSpeed += self.gravity*2.5
+				else:
+					self.curSpeed -= self.gravity*2.5
+
 		else:
 			if self.crashing == False: #The squirrel bonks his head on the gutter and falls
 				if self.soundToggle == True:
 					self.hitTop.play()
 				self.crash()
-				
+			self.flierState = 0
+						
 	def restart(self, soundToggle):
 		self.x = self.startingPos[0]
 		self.y = self.startingPos[1]
@@ -86,10 +92,14 @@ class Avatar():
 		
 	def applyGravity(self):
 		### This line of code should be run in the main loop as every tick it moves the position of the avatar ###
+		
 		if self.y < self.bottomLimit:
-			self.curSpeed -= self.gravity
-			self.y -= self.curSpeed
-
+			if self.flierState != 2:
+				self.curSpeed -= self.gravity
+				self.y -= self.curSpeed
+			else:
+				self.curSpeed += self.gravity
+				self.y -= self.curSpeed
 		else:
 			
 			if self.soundToggle == True:#If the squirrel hits the ground
@@ -194,19 +204,7 @@ class Avatar():
 						self.image = self.purpleImage
 					self.flierState = 0
 					self.tempImage = self.image
-					self.applyRotation()
-
-	# wallCollRainbowState is called from applyRainbow; it checks collisions with the walls
-	# \ and increments and returns the score. 
-							
-	def wallCollRainbowState(self, activeWalls, score):
-		for wall in activeWalls:
-			for obst in wall.getWallSections():
-				if obst.getVisited() == False:
-					if self.image_c.colliderect(obst.getObstacle()) == True:
-						obst.setVisited(True)
-						score += 1
-						return score				
+					self.applyRotation()			
  
  	# applyRainbow is called from main once the flier has collided with the rainbow powerup
  
@@ -217,12 +215,7 @@ class Avatar():
 		self.applyRotation()
 		
 	def resetState(self):
-		self.flierState = 0
-			
-	
-	def applyGravitySwitch(self):
-		return
-		
+		self.flierState = 0		
 
 	# powerUpCollision is checked in main (gameState 1 loop), checks for avatar-powerup
 	# \ collisions and changes the flier's state appropriately-main checks the flier's
@@ -236,6 +229,7 @@ class Avatar():
 						powerup.setVisited(True)
 						if powerup.getType() == 'rainbow':
 							self.flierState = 1
+							self.applyRainbow()
 						if powerup.getType() == 'gravitySwitch':
 							self.flierState = 2
 							
