@@ -13,6 +13,8 @@ import mainfuncs as m
 from powerups import Powerup
 from loadObstacles import *
 from loadMenuLabels import *
+
+
 ###Reading in settings###
 fp = file('Settings.txt') #reads the file
 lines = fp.readlines() #reads lines and creates an array of lines
@@ -63,7 +65,6 @@ preLoaded3 = loadObstacles(screenWidth, screenHeight, 3)
 preLoaded3.start()
 preLoaded4 = loadObstacles(screenWidth, screenHeight, 4)
 preLoaded4.start()
-
 
 
 ### Game Sound ###
@@ -133,6 +134,17 @@ creditsMenu = [Producer, Designer, Programmer, Artist, Sound, Gamer, Knife, DJ, 
 for label in creditsMenu :
 	label.start()
 	
+#Colorblind Mode Labels
+redLabel = loadMenuLabels("Red",(0,0,0), screenWidth/80, (screenWidth/2, screenHeight/8), 100)
+blueLabel = loadMenuLabels("Blue",(0,0,0), screenWidth/80, (screenWidth/2, screenHeight/8), 100)
+greenLabel = loadMenuLabels("Green",(0,0,0), screenWidth/80, (screenWidth/2, screenHeight/8), 100)
+purpleLabel = loadMenuLabels("Purple",(0,0,0), screenWidth/80, (screenWidth/2, screenHeight/8), 100)
+yellowLabel = loadMenuLabels("Yellow",(0,0,0), screenWidth/80, (screenWidth/2, screenHeight/8), 100)
+cyanLabel = loadMenuLabels("Cyan",(0,0,0), screenWidth/80, (screenWidth/2, screenHeight/8), 100)
+orangeLabel = loadMenuLabels("Orange",(0,0,0), screenWidth/80, (screenWidth/2, screenHeight/8), 100)
+
+cbLabels = [redLabel, blueLabel, greenLabel, purpleLabel, yellowLabel, cyanLabel, orangeLabel]
+
 #Instructions
 paint = MenuLabel("Paint streams will change your plane's color",(255,105,180),screenWidth/57,(screenWidth/2,screenHeight*2/7),100)
 help = MenuLabel("Go through the color block that matches your plane",(255,105,180),screenWidth/57,(screenWidth/2,screenHeight*3/7),100)
@@ -210,6 +222,8 @@ CYAN = (0,255,255)
 ORANGE = (255,99,71)
 colors = [RED, BLUE, GREEN, YELLOW, PURPLE, CYAN, ORANGE] ### For current game, only BLUE RED GREEN
 baseColors = [RED,BLUE,GREEN,PURPLE,CYAN,ORANGE]
+
+### load all paint beam images ###
 
 imageScale = (screenHeight/5, screenHeight*15/16)
 redPaint = pygame.transform.scale(pygame.image.load( "Assets/img/RedPaint.png" ).convert_alpha(), imageScale)
@@ -451,7 +465,7 @@ while 1:#Main loop
 				nextBeam = random.randint(low + 200, high + 260) + counter
 				#Play rainbow Sound
 					
-# ----------------------------------------------- powerups ------------------------------------
+# -----------------------------------------------^^^powerups^^^------------------------------
 
 			#inputs the current score, then returns a list of all scores cut off at top 10
 		scoreLabel.update(screen)
