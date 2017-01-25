@@ -18,8 +18,7 @@ class Obstacle():
 		
 		#stores the y-position of the obstacle object
 		self.y = self.position[1]
-		print 'LABEL:', label
-		if type(label[0]) is MenuLabel:
+		if type(label) is MenuLabel:
 		#if isinstance(label[0], MenuLabel):
 			self.hasLabel = True
 			print 'has label?:', self.hasLabel
