@@ -167,17 +167,15 @@ class Avatar():
 	### Returns true for correct collision, false for incorrect ###
 		for wall in activeWalls:
 			for obst in wall.getWallSections():
-				if obst.getVisited() == False:
-					if self.image_c.colliderect(obst.getObstacle()) == True:
-						obst.setVisited(True)
-						if self.color != obst.getColor() and self.flierState != 1:
-							self.crashing = True
-							self.crash()
-							if self.soundToggle == True:
-								self.crashSound.play()
-							return False
-						else:
-							return True
+				if self.image_c.colliderect(obst.getObstacle()) == True:
+					if self.color != obst.getColor() and self.flierState != 1:
+						self.crashing = True
+						self.crash()
+						if self.soundToggle == True:
+							self.crashSound.play()
+						return False
+					else:
+						return True
 			
 
 	def beamCollision(self,activeBeams):					

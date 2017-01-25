@@ -169,7 +169,7 @@ imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseNoGrass.pn
 rainbow_powerup = pygame.transform.scale(pygame.image.load( "Assets/img/Rainbow.png" ).convert_alpha(), (screenHeight/7, screenHeight/7))
 gravityFlip = pygame.transform.scale(pygame.image.load( "Assets/img/GravitySwap.png" ).convert_alpha(), (screenHeight/7, screenHeight/7))
 
-
+isSpacebar = False
 justClicked = False #Boolean so we can't double click options in the menu
 isPassing = False #Boolean so score isn't counted twice, nor sound played twice
 paused = False
@@ -369,7 +369,11 @@ while 1:#Main loop
 			
 		
 		m.updateFlier(flier) #Calls movement, gravity and rotation of avatar
-		
+		key = pygame.key.get_pressed()
+		if key[pygame.K_SPACE]:
+			isSpacebar = True
+		else:
+			isSpacebar = False
 		### Iteration of objects on screen ###
 		for item in activeWalls:#Create an iterator here to move each object, and stop drawing the ones that go off-screen
 			item.moveWall(wallSpeed, screen)
@@ -568,7 +572,7 @@ while 1:#Main loop
 	elif gameState == 5: #Loss Screen
 
 		key = pygame.key.get_pressed()
-		if key[pygame.K_SPACE] == True:
+		if key[pygame.K_SPACE] == True and isSpacebar == False:
 			gameState = 1
 			### Call this to restart the game and scores ###
 			score = 0
@@ -576,6 +580,7 @@ while 1:#Main loop
 			pygame.mixer.music.set_volume(0.4)
 			counter = 0
 		mouse = pygame.mouse.get_pos()
+		isSpacebar = key[pygame.K_SPACE]
 		
 		if type(lossMenu[0]) is loadMenuLabels :
 			tempList = []
@@ -646,4 +651,4 @@ while 1:#Main loop
 		
 	pygame.display.update() # update the screen
 
-	clock.tick(65) # 60 fps
+	clock.tick(70) # 60 fps
