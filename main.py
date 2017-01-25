@@ -160,7 +160,7 @@ for label in lossMenu :
 #In-Game
 scoreLabel = MenuLabel("Score: 0",(0, 0, 0),screenWidth/57,(screenWidth/9,screenHeight/9),100)
 quoteLabel = MenuLabel(quoteReader.getQuote(), (0, 0, 0),screenWidth/57,(screenWidth/2,screenHeight*11/12),100)
-
+pauseLabel = MenuLabel("Game Paused",(0,0,0),screenWidth/50,(screenWidth/2,screenHeight/2),100)
 ### Initializing Main Loop variables and images ###
 imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseNoGrass.png" ).convert(),(screenWidth,screenHeight))
 
@@ -209,14 +209,16 @@ PURPLE = (255,0,255)
 CYAN = (0,255,255)
 ORANGE = (255,99,71)
 colors = [RED, BLUE, GREEN, YELLOW, PURPLE, CYAN, ORANGE] ### For current game, only BLUE RED GREEN
-baseColors = [RED,BLUE,GREEN,PURPLE]
+baseColors = [RED,BLUE,GREEN,PURPLE,CYAN,ORANGE]
 
 imageScale = (screenHeight/5, screenHeight*15/16)
 redPaint = pygame.transform.scale(pygame.image.load( "Assets/img/RedPaint.png" ).convert_alpha(), imageScale)
 bluePaint = pygame.transform.scale(pygame.image.load( "Assets/img/BluePaint.png" ).convert_alpha(), imageScale)
 greenPaint = pygame.transform.scale(pygame.image.load( "Assets/img/GreenPaint.png" ).convert_alpha(), imageScale)
 purplePaint = pygame.transform.scale(pygame.image.load( "Assets/img/PurplePaint.png" ).convert_alpha(), imageScale)
-
+#yellowPaint = pygame.transform.scale(pygame.image.load( "Assets/img/YellowPaint.png" ).convert_alpha(), imageScale)
+orangePaint = pygame.transform.scale(pygame.image.load( "Assets/img/OrangePaint.png" ).convert_alpha(), imageScale)
+cyanPaint = pygame.transform.scale(pygame.image.load( "Assets/img/CyanPaint.png" ).convert_alpha(), imageScale)
 
 windowImage = pygame.transform.scale(pygame.image.load( "Assets/img/Window.png" ).convert(), (screenWidth/6, screenWidth/6))
 grassImage = pygame.transform.scale(pygame.image.load( "Assets/img/grass.png" ).convert(), (screenWidth, screenHeight/16))
@@ -326,7 +328,7 @@ while 1:#Main loop
 		tempList = []
 		if counter == nextBeam:
 			rainbowSound.stop()
-			if abs(nextBeam - nextWall) > 45: #So they don't spawn on top of each other
+			if abs(nextBeam - nextWall) > 55: #So they don't spawn on top of each other
 				difColor = random.choice(baseColors)
 				
 				while difColor == flier.getColor():
@@ -340,14 +342,13 @@ while 1:#Main loop
 					myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, bluePaint)
 				elif difColor == PURPLE:
 					myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, purplePaint)
-				'''
 				elif difColor == ORANGE:
 					myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, orangePaint)
-				elif difColor == YELLOW:
-					myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, yellowPaint)
+			#	elif difColor == YELLOW:
+			#		myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, yellowPaint)
 				elif difColor == CYAN:
 					myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, cyanPaint)
-					'''
+					
 				if activeBeams != []:
 					if myBeam.getColor() != activeBeams[-1].getColor() and myBeam.getColor() != flier.getColor():
 						activeBeams.append(myBeam)
@@ -401,18 +402,14 @@ while 1:#Main loop
 					if high > 0:
 						high -= 8
 				if score == 1:
-					#obstacleList = preLoaded2
 					obstacleList = preLoaded2.getObstacles()
 				elif score == 3:
 					wallSpeed = -4
 				elif score == 6:
-					#obstacleList = preLoaded3
 					obstacleList = preLoaded3.getObstacles()
-
 				elif score == 10:
 					wallSpeed = -5
 				elif score == 16:
-					#obstacleList = preLoaded4
 					obstacleList = preLoaded4.getObstacles()
 
 		else:
@@ -462,6 +459,7 @@ while 1:#Main loop
 			pygame.mixer.music.set_volume(1.0)
 			quoteLabel.updateText(quoteReader.getQuote())
 			
+			tempList = []
 			activeWalls = []
 			activeBeams = []
 			activePowerUps = []
@@ -473,7 +471,7 @@ while 1:#Main loop
 			gameState = 5 #goto loss screen
 			flier.restart(soundToggle)
 			nextWall = random.randint(130, 160)
-			nextBeam = 80
+			nextBeam = 60
 			low = 80
 			high = 120
 			obstacleList = preLoaded1.getObstacles()
@@ -605,7 +603,7 @@ while 1:#Main loop
 				elif gameState == 0:
 				
 					if musicToggle == True:
-						pygame.mixer.music.load("Assets/sound/soundtrack3.mp3")
+						pygame.mixer.music.load("Assets/sound/soundtrack2.ogg")
 						pygame.mixer.music.play(-1)
 						
 					quoteLabel.updateText(quoteReader.getQuote())
@@ -631,6 +629,7 @@ while 1:#Main loop
 		flier.restart(soundToggle)
 	
 	if gameState == 7:
+		pauseLabel.update(screen)
 		key = pygame.key.get_pressed()
 		if key[pygame.K_p] == True:
 			if paused == False:

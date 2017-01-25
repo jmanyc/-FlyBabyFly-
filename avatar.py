@@ -49,7 +49,7 @@ class Avatar():
 		self.curSpeed = 0 #current speed of the avatar
 		self.gravity = 0.09 #the gravity setting on the avatar, remember this number is added to the speed every tick, so 60 times a second
 		self.alive = True #Used to control the gameState
-		self.color = Colors.WHITE #Will be used to check collision, and change avatar image to correct color
+		self.color = Colors.RED #Will be used to check collision, and change avatar image to correct color
 		self.crashing = False #Used to animate the crashing of the avatar
 		self.crashAngle = 0
 		self.curAngle = 0
@@ -76,7 +76,7 @@ class Avatar():
 		self.x = self.startingPos[0]
 		self.y = self.startingPos[1]
 		self.alive = True #Used to control the gameState
-		self.color = Colors.WHITE #Will be used to check collision, and change avatar image to correct color
+		self.color = Colors.RED #Will be used to check collision, and change avatar image to correct color
 		self.crashing = False #Used to animate the crashing of the avatar
 		self.image = self.whiteImage
 		self.tempImage = self.image
@@ -197,11 +197,11 @@ class Avatar():
 					elif self.color == (255,0,255): #Purple
 						self.image = self.purpleImage
 					elif self.color == (0,255,255): #Cyan
-						self.image = self.purpleImage
+						self.image = self.cyanImage
 					elif self.color == (255,255,0): #Yellow
-						self.image = self.purpleImage
+						self.image = self.yellowImage
 					elif self.color == (255,99,71): #Orange
-						self.image = self.purpleImage
+						self.image = self.orangeImage
 					self.flierState = 0
 					self.tempImage = self.image
 					self.applyRotation()			

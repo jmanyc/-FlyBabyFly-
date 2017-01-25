@@ -130,7 +130,7 @@ def mainButtonsClicked(gameState, score, counter, bools, mainMenu, mouse, screen
 				if gameState == 1: #If you add anything to this if statement, add it to the retry menu too
 					### Call this to restart the game and scores ###
 					if bools[0] == True:
-						pygame.mixer.music.load("Assets/sound/background.mp3")
+						pygame.mixer.music.load("Assets/sound/Original_Soundtrack.ogg")
 						pygame.mixer.music.play(-1)
 					score = 0
 					scoreLabel.updateText("Score: "+str(score))
