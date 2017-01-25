@@ -17,9 +17,10 @@ class Obstacle():
 		#stores the x-position of the obstacle object
 		self.x = self.position[0]
 		
+		self.label = label
 		#stores the y-position of the obstacle object
 		self.y = self.position[1]
-		
+
 		if isinstance(label, MenuLabel):
 			self.hasLabel = True
 			self.label = label
