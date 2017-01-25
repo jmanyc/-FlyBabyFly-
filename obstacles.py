@@ -19,12 +19,10 @@ class Obstacle():
 		
 		#stores the y-position of the obstacle object
 		self.y = self.position[1]
-		if type(label) is MenuLabel:
-		#if isinstance(label[0], MenuLabel):
+		
+		if isinstance(label, MenuLabel):
 			self.hasLabel = True
-			print 'has label?:', self.hasLabel
-		if type(label) is MenuLabel:
-			self.hasLabel = True
+			self.label = label
 			self.label.y = self.y
 			self.label.x = self.x
 		else:
@@ -72,7 +70,6 @@ class Obstacle():
 		#blits the object's image onto the given surface at its stored position
 		surface.blit(self.image,(self.x,self.y))
 		if self.hasLabel:
-			print 'HASLABEL'
 			self.label.update(surface)
 		
 	def getObstacle(self):
