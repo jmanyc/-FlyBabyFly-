@@ -62,17 +62,12 @@ class Wall(Obstacle):
 				
 			elif self.colorList[x] == (0,0,255): #Blue
 				self.image = self.preLoaded[1]
-<<<<<<< HEAD
-				self.label = label[1]				
-=======
 				self.label = label[1]
->>>>>>> origin/master
-				
+
 			elif self.colorList[x] == (0,255,0): #Green
 				self.image = self.preLoaded[2]
 				self.label = label[2]
-<<<<<<< HEAD
-				
+	
 			elif self.colorList[x] == (255,0,255): #Purple
 				self.image = self.preLoaded[3]
 				self.label = label[3]
@@ -89,20 +84,6 @@ class Wall(Obstacle):
 				self.image = self.preLoaded[6]
 				self.label = label[6]
 				
-=======
-			elif self.colorList[x] == (255,0,255): #Purple
-				self.image = self.preLoaded[3]
-				self.label = label[3]
-			elif self.colorList[x] == (255,255,0): #Yellow
-				self.image = self.preLoaded[4]
-				self.label = label[4]
-			elif self.colorList[x] == (0,255,255): #Cyan
-				self.image = self.preLoaded[5]
-				self.label = label[5]
-			elif self.colorList[x] == (255,99,71): #Orange
-				self.image = self.preLoaded[6]
-				self.label = label[6]
->>>>>>> origin/master
 			self.section = Obstacle((xPos, self.top + self.obstacleHeight * x), self.colorList[x], self.width, self.obstacleHeight, self.image, self.label)
 			
 			self.wallSections.append(self.section)
