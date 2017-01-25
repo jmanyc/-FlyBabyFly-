@@ -4,6 +4,9 @@
 # 1/10/17
 
 import pygame, os, sys
+
+from label import MenuLabel
+
 class Obstacle():
 
 	def __init__(self, position, color, width, height, image, label = None):
