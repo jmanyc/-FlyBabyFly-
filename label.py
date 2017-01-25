@@ -47,6 +47,7 @@ class MenuLabel():
 		return False
 		
 	def updateText(self, text):
+		self.text = text
 		self.cText = self.cFont.render( text, True, self.fontColor)
 		self.width = self.cText.get_rect().width
 		self.height = self.cText.get_rect().height
