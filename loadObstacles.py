@@ -21,7 +21,7 @@ class loadObstacles(threading.Thread):
 		yellowObs = pygame.transform.scale(pygame.image.load( "Assets/img/YellowObstacle.png" ).convert(), imageScale)
 		cyanObs = pygame.transform.scale(pygame.image.load( "Assets/img/CyanObstacle.png" ).convert(), imageScale)
 		orangeObs = pygame.transform.scale(pygame.image.load( "Assets/img/OrangeObstacle.png" ).convert(), imageScale)
-		self.preloaded = [redObs, blueObs, greenObs, purpleObs, self.height, yellowObs, cyanObs, orangeObs]
+		self.preloaded = [redObs, blueObs, greenObs, purpleObs, yellowObs, cyanObs, orangeObs, self.height,]
 		
 	def getObstacles(self) :
 		return self.preloaded

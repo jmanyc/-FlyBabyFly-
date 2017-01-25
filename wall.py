@@ -9,12 +9,12 @@ from obstacles import Obstacle
 class Wall(Obstacle):
 	
 	
-	def __init__(self, lastBeamColor, xPos, screenHeight, colors, preLoaded):
+	def __init__(self, lastBeamColor, xPos, screenHeight, colors, preLoaded, label = [0,0,0,0,0,0,0]):
 	
 
 		#stores the vertical position of the top edge of the wall object
 		self.top = screenHeight*3/32
-		self.numObs = preLoaded[4]
+		self.numObs = preLoaded[7]
 		#the sum of the heights of whatever number of obstacles must equal roughly 
 		#13/16 of the screen
 		self.obstacleHeight = screenHeight * 27/32 /self.numObs 
@@ -58,26 +58,28 @@ class Wall(Obstacle):
 		
 			if self.colorList[x] == (255,0,0): #Red
 				self.image = self.preLoaded[0]
+				self.label = label[0]
 				
 			elif self.colorList[x] == (0,0,255): #Blue
 				self.image = self.preLoaded[1]
+				self.label = label[1]
 				
 			elif self.colorList[x] == (0,255,0): #Green
 				self.image = self.preLoaded[2]
-				
+				self.label = label[2]
 			elif self.colorList[x] == (255,0,255): #Purple
 				self.image = self.preLoaded[3]
-				
+				self.label = label[3]
 			elif self.colorList[x] == (255,255,0): #Yellow
-				self.image = self.preLoaded[5]
-				
+				self.image = self.preLoaded[4]
+				self.label = label[4]
 			elif self.colorList[x] == (0,255,255): #Cyan
-				self.image = self.preLoaded[6]
-				
+				self.image = self.preLoaded[5]
+				self.label = label[5]
 			elif self.colorList[x] == (255,99,71): #Orange
-				self.image = self.preLoaded[7]
-				
-			self.section = Obstacle((xPos, self.top + self.obstacleHeight * x), self.colorList[x], self.width, self.obstacleHeight, self.image)
+				self.image = self.preLoaded[6]
+				self.label = label[6]
+			self.section = Obstacle((xPos, self.top + self.obstacleHeight * x), self.colorList[x], self.width, self.obstacleHeight, self.image, self.label)
 			
 			self.wallSections.append(self.section)
 		
