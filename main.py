@@ -23,6 +23,15 @@ settings = [] #list of scores that is returned
 for line in lines: 
 	words = line.split()
 	settings.append( int(words[0]) )
+	
+'''
+Settings File: 0: off, 1: on
+Line 0: Low Resolution Mode
+Line 1: Background Music
+Line 2: Sound Effects Toggle
+'''
+	
+	
 fp = file('Store.txt') #reads the file
 lines = fp.readlines() #reads lines and creates an array of lines
 fp.close() #closes the file
@@ -30,12 +39,9 @@ itemsBought = [] #list of scores that is returned
 for line in lines: 
 	words = line.split()
 	itemsBought.append( int(words[0]) )
-'''
-Settings File: 0: off, 1: on
-Line 0: Low Resolution Mode
-Line 1: Background Music
-Line 2: Sound Effects Toggle
-'''
+	
+	
+
 
 ### Initializing all needed Pygame stuff ###
 pygame.mixer.pre_init(44100, -16, 2, 2048)
@@ -43,6 +49,7 @@ pygame.mixer.init()
 pygame.init()
 pygame.font.init()
 infoObject = pygame.display.Info()
+
 if settings[0] == 0:
 	lowRes = False
 	screenWidth = infoObject.current_w
@@ -246,6 +253,7 @@ YELLOW = (255,255,0)
 PURPLE = (255,0,255)
 CYAN = (0,255,255)
 ORANGE = (255,99,71)
+
 colors = [RED, BLUE, GREEN, YELLOW, PURPLE, CYAN, ORANGE] ### For current game, only BLUE RED GREEN
 baseColors = [RED,BLUE,GREEN,PURPLE,CYAN,ORANGE,YELLOW]
 
@@ -368,7 +376,7 @@ while 1:#Main loop
 		tempList = []
 		if counter == nextBeam:
 			rainbowSound.stop()
-			if abs(nextBeam - nextWall) > 65: #So they don't spawn on top of each other
+			if abs(nextBeam - nextWall) > 75: #So they don't spawn on top of each other
 				difColor = random.choice(baseColors)
 				
 				while difColor == flier.getColor():
@@ -448,14 +456,17 @@ while 1:#Main loop
 				if score == 1:
 					obstacleList = preLoaded2.getObstacles()
 				elif score == 3:
-					wallSpeed = -4
+					wallSpeed = -6
 				elif score == 6:
 					obstacleList = preLoaded3.getObstacles()
 				elif score == 10:
 					wallSpeed = -5
 				elif score == 16:
 					obstacleList = preLoaded4.getObstacles()
-
+				elif score == 18:
+					obstacleList = preLoaded3.getObstacles()
+				elif score == 20:
+					obstacleList = preLoaded4.getObstacles()
 		else:
 			isPassing = False
 		
@@ -497,7 +508,7 @@ while 1:#Main loop
 		if flier.getAlive() == False: #if the flier is dead
 			pygame.mixer.music.set_volume(1.0)
 			quoteLabel.updateText(quoteReader.getQuote())
-			
+			counter = 0
 			tempList = []
 			activeWalls = []
 			activeBeams = []
@@ -623,7 +634,7 @@ while 1:#Main loop
 		mouse = pygame.mouse.get_pos()
 		isSpacebar = key[pygame.K_SPACE]
 		
-		if type(lossMenu[0]) is loadMenuLabels :
+		if type(lossMenu[0]) is loadMenuLabels:
 			tempList = []
 			for item in lossMenu :
 				item.join()
@@ -694,6 +705,7 @@ while 1:#Main loop
 
 	if gameState == 8: #Store page
 		screen.fill((40,80,160)) ### Market stall image please? ###
+		
 		if itemsBought[0] == 1:
 			if storeBuy[0].text != "Bought":
 				storeBuy[0].updateText("Bought")
@@ -709,7 +721,7 @@ while 1:#Main loop
 		for item in storeBuy:
 			
 					
-			if item.hover((mouse[0],mouse[1]),avatarParams[2]) == True and pygame.mouse.get_pressed()[0]:
+			if item.hover((mouse[0],mouse[1]),avatarParams[2]) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
 				clickedState = item.getState()
 				
 				if clickedState == 86 and itemsBought[0] == 0:
@@ -720,8 +732,6 @@ while 1:#Main loop
 			item.isHover = False
 			item.update(screen)
 		for item in storeTitles:
-		
-		### ADd the if clicked thing again ###
 		
 			if item.hover((mouse[0],mouse[1]),avatarParams[2]) == True and pygame.mouse.get_pressed()[0]:
 				m.playSound(clickSound,soundToggle)
@@ -757,11 +767,7 @@ while 1:#Main loop
 			elif currentType == 'biFlyboy':
 				biFlyboy.isHover = True
 				biFlyboy.update(screen)
-		
-		
-				
-		
-			
+		justClicked = pygame.mouse.get_pressed()[0]	
 	### Make it write to the file on exit ###
 	
 	for event in pygame.event.get(): ##### Find out why removing this crashes the program #####

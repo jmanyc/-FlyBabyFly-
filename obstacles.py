@@ -4,11 +4,19 @@
 # 1/10/17
 
 import pygame, os, sys
+<<<<<<< HEAD
 from label import MenuLabel
 
 class Obstacle():
 
 	def __init__(self, position, color, width, height, image, label):
+=======
+from Label import MenuLabel
+
+class Obstacle():
+
+	def __init__(self, position, color, width, height, image, label = None):
+>>>>>>> origin/master
 		
 		#tuple that stores the position of the obstacle in the following format: (xpos,ypos)
 		self.position = position
@@ -18,15 +26,25 @@ class Obstacle():
 		
 		#stores the y-position of the obstacle object
 		self.y = self.position[1]
+<<<<<<< HEAD
 		print 'LABEL:', label
 		if type(label[0]) is MenuLabel:
 		#if isinstance(label[0], MenuLabel):
 			self.hasLabel = True
 			print 'has label?:', self.hasLabel
+=======
+		if type(label) is MenuLabel:
+			self.hasLabel = True
+>>>>>>> origin/master
 			self.label.y = self.y
 			self.label.x = self.x
 		else:
 			self.hasLabel = False
+<<<<<<< HEAD
+=======
+		
+		
+>>>>>>> origin/master
 		#stores the color of the obstacle object
 		self.color = color
 
@@ -69,7 +87,10 @@ class Obstacle():
 		#blits the object's image onto the given surface at its stored position
 		surface.blit(self.image,(self.x,self.y))
 		if self.hasLabel:
+<<<<<<< HEAD
 			print 'HASLABEL'
+=======
+>>>>>>> origin/master
 			self.label.update(surface)
 		
 	def getObstacle(self):
