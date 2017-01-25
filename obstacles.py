@@ -23,8 +23,8 @@ class Obstacle():
 		if isinstance(label, MenuLabel):
 			self.hasLabel = True
 			self.label = label
-			self.label.y = self.y
-			self.label.x = self.x
+			self.label.y = self.y + height/2
+			self.label.x = self.x 
 		else:
 			self.hasLabel = False
 

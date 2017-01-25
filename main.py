@@ -29,8 +29,8 @@ Settings File: 0: off, 1: on
 Line 0: Low Resolution Mode
 Line 1: Background Music
 Line 2: Sound Effects Toggle
+Line 3: Colorblind Mode
 '''
-	
 	
 fp = file('Store.txt') #reads the file
 lines = fp.readlines() #reads lines and creates an array of lines
@@ -149,14 +149,14 @@ for label in creditsMenu :
 	label.start()
 	
 #Colorblind Mode Labels
-redLabel = MenuLabel("Red",(0,0,0), screenWidth/80, (screenWidth/2, screenHeight/8), 100)
-blueLabel = MenuLabel("Blue",(0,0,0), screenWidth/80, (screenWidth/2, screenHeight/8), 100)
-greenLabel = MenuLabel("Green",(0,0,0), screenWidth/80, (screenWidth/2, screenHeight/8), 100)
-purpleLabel = MenuLabel("Purple",(0,0,0), screenWidth/80, (screenWidth/2, screenHeight/8), 100)
-yellowLabel = MenuLabel("Yellow",(0,0,0), screenWidth/80, (screenWidth/2, screenHeight/8), 100)
-cyanLabel = MenuLabel("Cyan",(0,0,0), screenWidth/80, (screenWidth/2, screenHeight/8), 100)
-orangeLabel = MenuLabel("Orange",(0,0,0), screenWidth/80, (screenWidth/2, screenHeight/8), 100)
-
+redLabel = MenuLabel("Red",(0,0,0), screenWidth/70, (screenWidth/2, screenHeight/8), 100)
+blueLabel = MenuLabel("Blue",(0,0,0), screenWidth/70, (screenWidth/2, screenHeight/8), 100)
+greenLabel = MenuLabel("Green",(0,0,0), screenWidth/70, (screenWidth/2, screenHeight/8), 100)
+purpleLabel = MenuLabel("Purple",(0,0,0), screenWidth/70, (screenWidth/2, screenHeight/8), 100)
+yellowLabel = MenuLabel("Yellow",(0,0,0), screenWidth/70, (screenWidth/2, screenHeight/8), 100)
+cyanLabel = MenuLabel("Cyan",(0,0,0), screenWidth/70, (screenWidth/2, screenHeight/8), 100)
+orangeLabel = MenuLabel("Orange",(0,0,0), screenWidth/70, (screenWidth/2, screenHeight/8), 100)
+planeLabel = MenuLabel("Color: White",(0,0,0), screenWidth/70, (screenWidth/9,screenHeight*2/9), 100)
 cbLabels = [redLabel, blueLabel, greenLabel, purpleLabel, yellowLabel, cyanLabel, orangeLabel]
 
 #Instructions
@@ -167,11 +167,12 @@ mainBack = MenuLabel("Back", (0,0,0),screenWidth/57,(screenWidth*6/7,screenHeigh
 instructions = [paint, help, controls, mainBack]
 
 #Options Menu
-lowResolution = MenuLabel("Slow Game Mode",(191, 255, 0),screenWidth/57,(screenWidth/2,screenHeight*4/7),41)
-resInfo = MenuLabel("Turn on Slow Game Mode and restart game if it runs poorly",(191, 255, 0),screenWidth/68,(screenWidth/2,screenHeight*5/7),100)
-musicToggled = MenuLabel("Background Music On/Off", (191, 255, 0),screenWidth/57,(screenWidth/2,screenHeight*2/7),42)
-soundToggled = MenuLabel("Sound Effects On/Off",(191, 255, 0),screenWidth/57,(screenWidth/2,screenHeight*3/7), 43)
-optionsList = [mainBack, musicToggled, soundToggled,lowResolution]
+lowResolution = MenuLabel("Slow Game Mode",(191, 255, 0),screenWidth/57,(screenWidth/2,screenHeight*5/8),41)
+resInfo = MenuLabel("Turn on Slow Game Mode and restart game if it runs poorly",(191, 255, 0),screenWidth/68,(screenWidth/2,screenHeight*6/8),100)
+musicToggled = MenuLabel("Background Music On/Off", (191, 255, 0),screenWidth/57,(screenWidth/2,screenHeight*2/8),42)
+soundToggled = MenuLabel("Sound Effects On/Off",(191, 255, 0),screenWidth/57,(screenWidth/2,screenHeight*3/8), 43)
+colorBlindLabel = MenuLabel("Colorblind Mode On/Off",(191, 255, 0),screenWidth/57,(screenWidth/2,screenHeight*4/8), 48)
+optionsList = [mainBack, musicToggled, soundToggled,lowResolution, colorBlindLabel]
 
 #Loss Screen
 credits = loadMenuLabels("Credits",(0,0,0),screenWidth/53,(screenWidth/5,screenHeight*5/10),3)
@@ -218,7 +219,10 @@ isSpacebar = False
 justClicked = False #Boolean so we can't double click options in the menu
 isPassing = False #Boolean so score isn't counted twice, nor sound played twice
 paused = False
-
+if settings[3] == 1:
+	colorBlind = True
+else:
+	colorBlind = False
 counter = 0
 score = 0
 wallSpeed = -3
@@ -328,7 +332,7 @@ while 1:#Main loop
 		quoteLabel.update(screen)
 		title.update(screen)	# relocated code to mainButtonsClicked function
 		
-		bools = [musicToggle, musicToggled, soundToggled, justClicked, lowRes, lowResolution]
+		bools = [musicToggle, musicToggled, soundToggled, justClicked, lowRes, lowResolution,colorBlind]
 		avatarParams = [screenWidth, screenHeight, soundToggle]
 		gameState, score, counter = m.mainButtonsClicked(gameState, score, counter, bools, mainMenu, mouse, screen, clickSound, scoreLabel, avatarParams)	# relocated code to checkMainItems function
 
@@ -407,16 +411,22 @@ while 1:#Main loop
 			
 		if counter == nextWall:
 			if activeBeams != []:
-				myWall = Wall(activeBeams[-1].getColor(), screenWidth, screenHeight, colors, obstacleList, cbLabels)	# create the Wall object with a certain number of obstacles
-				#Last beam in the list is the closest one to the wall being created
+				if colorBlind:
+					myWall = Wall(activeBeams[-1].getColor(), screenWidth, screenHeight, colors, obstacleList, cbLabels)	# create the Wall object with a certain number of obstacles
+				else:
+					myWall = Wall(activeBeams[-1].getColor(), screenWidth, screenHeight, colors, obstacleList)
 			else:
-				myWall = Wall(flier.getColor(), screenWidth, screenHeight, baseColors, obstacleList, cbLabels)
+				if colorBlind:
+					myWall = Wall(flier.getColor(), screenWidth, screenHeight, colors, obstacleList, cbLabels)	# create the Wall object with a certain number of obstacles
+				else:
+					myWall = Wall(flier.getColor(), screenWidth, screenHeight, colors, obstacleList)
 
 			nextWall = random.randint(low + 145, high + 170) + counter
 			activeWalls.append(myWall)
 			
 		
 		m.updateFlier(flier) #Calls movement, gravity and rotation of avatar
+		
 		key = pygame.key.get_pressed()
 		if key[pygame.K_SPACE]:
 			isSpacebar = True
@@ -438,7 +448,8 @@ while 1:#Main loop
 				tempList.append(item)
 				
 		activeBeams = list(tempList)
-		flier.beamCollision(activeBeams[:1])
+		if flier.beamCollision(activeBeams[:1]):
+			planeLabel.updateText("Color: "+flier.string)
 		
 		if flier.wallCollision(activeWalls[:1]) == True: #If passing through the wall is true
 			if isPassing == False:												 # added gameState argument for rainbow testing
@@ -495,17 +506,26 @@ while 1:#Main loop
 			
 			if flier.flierState == 1: 
 				
+				
+				if colorBlind:
+					flier.string = 'Rainbow'
+					planeLabel.updateText("Color: "+flier.string)
+					planeLabel.update(screen)
 				activeBeams = []
 				nextBeam = random.randint(low + 200, high + 260) + counter
 				#Play rainbow Sound
 
 			#inputs the current score, then returns a list of all scores cut off at top 10
 		scoreLabel.update(screen)
-		
+		if colorBlind:
+			planeLabel.x = flier.x
+			planeLabel.y = flier.y + flier.image.get_height()
+			planeLabel.update(screen)
 		fpsTest.append( clock.get_fps() )
 		
 		flier.update(screen) #It's a start.
 		if flier.getAlive() == False: #if the flier is dead
+			
 			pygame.mixer.music.set_volume(1.0)
 			quoteLabel.updateText(quoteReader.getQuote())
 			counter = 0
@@ -520,6 +540,7 @@ while 1:#Main loop
 			wallSpeed = -3
 			gameState = 5 #goto loss screen
 			flier.restart(soundToggle)
+			planeLabel.updateText("Color: "+flier.string)
 			nextWall = random.randint(145, 170)
 			nextBeam = 60
 			low = 80
@@ -677,9 +698,9 @@ while 1:#Main loop
 		screen.fill((40,80,160))
 		avatarParams = [screenWidth, screenHeight, soundToggle]
 		mouse = pygame.mouse.get_pos()
-		bools = [musicToggle, musicToggled, soundToggled, justClicked, lowRes, lowResolution]
+		bools = [musicToggle, musicToggled, soundToggled, justClicked, lowRes, lowResolution, colorBlind]
 		avatarParams = [screenWidth, screenHeight, soundToggle]
-		musicToggle, soundToggle, gameState, lowRes = m.updateSoundOptions(bools, gameState, optionsList, mouse, screen, avatarParams, clickSound)
+		musicToggle, soundToggle, gameState, lowRes, colorBlind = m.updateSoundOptions(bools, gameState, optionsList, mouse, screen, avatarParams, clickSound)
 		# relocated code to updateSoundOptions function
 		resInfo.update(screen)
 		justClicked = pygame.mouse.get_pressed()[0]
@@ -722,18 +743,19 @@ while 1:#Main loop
 			
 					
 			if item.hover((mouse[0],mouse[1]),avatarParams[2]) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
+				
 				clickedState = item.getState()
 				
-				if clickedState == 86 and itemsBought[0] == 0:
-					print 'test'
+				#if clickedState == 86 and itemsBought[0] == 0:
 					#And if have available money, then subtract $$$
 						#Play kaching sound here
 					#else, play error sound
 			item.isHover = False
 			item.update(screen)
+			
 		for item in storeTitles:
 		
-			if item.hover((mouse[0],mouse[1]),avatarParams[2]) == True and pygame.mouse.get_pressed()[0]:
+			if item.hover((mouse[0],mouse[1]),avatarParams[2]) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
 				m.playSound(clickSound,soundToggle)
 				clickedState = item.getState()
 				item.isHover = False

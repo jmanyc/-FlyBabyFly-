@@ -3,7 +3,7 @@
 # CS269
 # 1/5/17
 
-import pygame, os, sys, random
+import pygame, os, sys, random, copy
 from obstacles import Obstacle
 
 class Wall(Obstacle):
@@ -58,31 +58,31 @@ class Wall(Obstacle):
 		
 			if self.colorList[x] == (255,0,0): #Red
 				self.image = self.preLoaded[0]
-				self.label = label[0]
+				self.label = copy.copy(label[0])
 				
 			elif self.colorList[x] == (0,0,255): #Blue
 				self.image = self.preLoaded[1]
-				self.label = label[1]
+				self.label = copy.copy(label[1])
 
 			elif self.colorList[x] == (0,255,0): #Green
 				self.image = self.preLoaded[2]
-				self.label = label[2]
+				self.label = copy.copy(label[2])
 
 			elif self.colorList[x] == (255,0,255): #Purple
 				self.image = self.preLoaded[3]
-				self.label = label[3]
+				self.label = copy.copy(label[3])
 				
 			elif self.colorList[x] == (255,255,0): #Yellow
 				self.image = self.preLoaded[4]
-				self.label = label[4]
+				self.label = copy.copy(label[4])
 				
 			elif self.colorList[x] == (0,255,255): #Cyan
 				self.image = self.preLoaded[5]
-				self.label = label[5]
+				self.label = copy.copy(label[5])
 				
 			elif self.colorList[x] == (255,99,71): #Orange
 				self.image = self.preLoaded[6]
-				self.label = label[6]
+				self.label = copy.copy(label[6])
 
 			self.section = Obstacle((xPos, self.top + self.obstacleHeight * x), self.colorList[x], self.width, self.obstacleHeight, self.image, self.label)
 			

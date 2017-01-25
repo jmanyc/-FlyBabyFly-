@@ -88,10 +88,14 @@ def updateSoundOptions(bools, gameState, optionsList, mouse, screen, avatarParam
 					bools[4] = False
 				else:
 					bools[4] = True
-					
+			elif clickedState == 48:
+				if bools[6] == True:
+					bools[6] = False
+				else:
+					bools[6] = True
 			elif clickedState == 0:
 				gameState = 0
-				settings = [bools[4], bools[0], avatarParams[2]]
+				settings = [bools[4], bools[0], avatarParams[2], bools[6]]
 				writeString = ''
 				for set in settings:
 					if set == True:
@@ -114,7 +118,10 @@ def updateSoundOptions(bools, gameState, optionsList, mouse, screen, avatarParam
 	if bools[4] == True:
 		bools[5].isHover = True
 		bools[5].update(screen)
-	return [bools[0], avatarParams[2], gameState,bools[4]]
+	if bools[6] == True:
+		optionsList[4].isHover = True
+		optionsList[4].update(screen)
+	return [bools[0], avatarParams[2], gameState, bools[4], bools[6]]
 	
 # If the user is at the main menu, mainButtonsClicked is called to check if the mouse is
 # \ hovering over a button and clicks it. If so, it routes the user to the appropriate screen.

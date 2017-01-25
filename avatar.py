@@ -37,7 +37,7 @@ class Avatar():
 		self.cyanImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelCyanPlane.png" ).convert_alpha(), self.imageScale)
 		self.orangeImage =  pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelOrangePlane.png" ).convert_alpha(), self.imageScale)
 		self.rainbowImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelRainbowPlane.png" ).convert_alpha(), self.imageScale)
-		
+		self.string = 'White'
 		self.image = self.whiteImage
 		self.tempImage = self.image
 		#for testing collision
@@ -85,6 +85,7 @@ class Avatar():
 		self.crashAngle = 0
 		self.curSpeed = 0
 		self.soundToggle = soundToggle
+		self.string = 'White'
 		
 	def crash(self):
 		self.curSpeed = 0
@@ -188,21 +189,29 @@ class Avatar():
 					beam.setVisited(True)
 					if self.color == (255,0,0): #Red
 						self.image = self.redImage
+						self.string = 'Red'
 					elif self.color == (0,0,255): #Blue
 						self.image = self.blueImage
+						self.string = 'Blue'
 					elif self.color == (0,255,0): #Green
 						self.image = self.greenImage
+						self.string = 'Green'
 					elif self.color == (255,0,255): #Purple
 						self.image = self.purpleImage
+						self.string = 'Purple'
 					elif self.color == (0,255,255): #Cyan
 						self.image = self.cyanImage
+						self.string = 'Cyan'
 					elif self.color == (255,255,0): #Yellow
 						self.image = self.yellowImage
+						self.string = 'Yellow'
 					elif self.color == (255,99,71): #Orange
 						self.image = self.orangeImage
+						self.string = 'Orange'
 					self.flierState = 0
 					self.tempImage = self.image
 					self.applyRotation()			
+					return True
  
  	# applyRainbow is called from main once the flier has collided with the rainbow powerup
  
