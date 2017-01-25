@@ -40,6 +40,8 @@ class Wall(Obstacle):
 		
 		self.preLoaded = preLoaded
 		
+		self.visited = False
+		
 		#this loops one time less than the number of obstacles and randomly picks colors from self.colors and appends them to colorList
 		#(which is where our last beam color was stored in the first place). This ensures that colorList will be a list of colors of length 
 		#equal to the number of obstacles in the wall and that it will include the color of the las beam encountered. 
@@ -106,4 +108,8 @@ class Wall(Obstacle):
 	def getWallSections(self):
 		#returns the list of Obstacle objects that make up this Wall object
 		return self.wallSections
+	def setVisited(self, bool):
+		self.visited = bool
 		
+	def getVisited(self):
+		return self.visited

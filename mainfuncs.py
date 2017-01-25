@@ -141,7 +141,7 @@ def mainButtonsClicked(gameState, score, counter, bools, mainMenu, mouse, screen
 						pygame.mixer.music.play(-1)
 					score = 0
 					scoreLabel.updateText("Score: "+str(score))
-					pygame.mixer.music.set_volume(0.4)
+					pygame.mixer.music.set_volume(0.75)
 					counter = 0
 				break
 			
