@@ -4,7 +4,7 @@
 # 1/10/17
 
 import pygame, os, sys
-from Label import MenuLabel
+from label import MenuLabel
 
 class Obstacle():
 
