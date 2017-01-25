@@ -4,6 +4,7 @@
 # 1/10/17
 
 import pygame, os, sys
+
 from label import MenuLabel
 
 class Obstacle():
@@ -27,7 +28,7 @@ class Obstacle():
 			self.label.y = self.y
 			self.label.x = self.x
 		else:
-			self.hasLabel = False		
+			self.hasLabel = False
 
 		#stores the color of the obstacle object
 		self.color = color

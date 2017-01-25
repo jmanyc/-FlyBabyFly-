@@ -63,11 +63,11 @@ class Wall(Obstacle):
 			elif self.colorList[x] == (0,0,255): #Blue
 				self.image = self.preLoaded[1]
 				self.label = label[1]
-				
+
 			elif self.colorList[x] == (0,255,0): #Green
 				self.image = self.preLoaded[2]
 				self.label = label[2]
-				
+
 			elif self.colorList[x] == (255,0,255): #Purple
 				self.image = self.preLoaded[3]
 				self.label = label[3]
