@@ -23,6 +23,13 @@ settings = [] #list of scores that is returned
 for line in lines: 
 	words = line.split()
 	settings.append( int(words[0]) )
+fp = file('Store.txt') #reads the file
+lines = fp.readlines() #reads lines and creates an array of lines
+fp.close() #closes the file
+itemsBought = [] #list of scores that is returned
+for line in lines: 
+	words = line.split()
+	itemsBought.append( int(words[0]) )
 '''
 Settings File: 0: off, 1: on
 Line 0: Low Resolution Mode
@@ -135,13 +142,13 @@ for label in creditsMenu :
 	label.start()
 	
 #Colorblind Mode Labels
-redLabel = loadMenuLabels("Red",(0,0,0), screenWidth/80, (screenWidth/2, screenHeight/8), 100)
-blueLabel = loadMenuLabels("Blue",(0,0,0), screenWidth/80, (screenWidth/2, screenHeight/8), 100)
-greenLabel = loadMenuLabels("Green",(0,0,0), screenWidth/80, (screenWidth/2, screenHeight/8), 100)
-purpleLabel = loadMenuLabels("Purple",(0,0,0), screenWidth/80, (screenWidth/2, screenHeight/8), 100)
-yellowLabel = loadMenuLabels("Yellow",(0,0,0), screenWidth/80, (screenWidth/2, screenHeight/8), 100)
-cyanLabel = loadMenuLabels("Cyan",(0,0,0), screenWidth/80, (screenWidth/2, screenHeight/8), 100)
-orangeLabel = loadMenuLabels("Orange",(0,0,0), screenWidth/80, (screenWidth/2, screenHeight/8), 100)
+redLabel = MenuLabel("Red",(0,0,0), screenWidth/80, (screenWidth/2, screenHeight/8), 100)
+blueLabel = MenuLabel("Blue",(0,0,0), screenWidth/80, (screenWidth/2, screenHeight/8), 100)
+greenLabel = MenuLabel("Green",(0,0,0), screenWidth/80, (screenWidth/2, screenHeight/8), 100)
+purpleLabel = MenuLabel("Purple",(0,0,0), screenWidth/80, (screenWidth/2, screenHeight/8), 100)
+yellowLabel = MenuLabel("Yellow",(0,0,0), screenWidth/80, (screenWidth/2, screenHeight/8), 100)
+cyanLabel = MenuLabel("Cyan",(0,0,0), screenWidth/80, (screenWidth/2, screenHeight/8), 100)
+orangeLabel = MenuLabel("Orange",(0,0,0), screenWidth/80, (screenWidth/2, screenHeight/8), 100)
 
 cbLabels = [redLabel, blueLabel, greenLabel, purpleLabel, yellowLabel, cyanLabel, orangeLabel]
 
@@ -160,14 +167,33 @@ soundToggled = MenuLabel("Sound Effects On/Off",(191, 255, 0),screenWidth/57,(sc
 optionsList = [mainBack, musicToggled, soundToggled,lowResolution]
 
 #Loss Screen
-credits = loadMenuLabels("Credits",(0,0,0),screenWidth/53,(300,260),3)
-restart = loadMenuLabels("Retry!",(0,0,0),screenWidth/53,(300,100),1)
-main = loadMenuLabels("Main Menu",(0,0,0),screenWidth/53,(300,180),0)
-lossQuit = loadMenuLabels("Quit",(0,0,0),screenWidth/53,(300,340),4)
-lossMenu = [restart, credits, lossQuit, main]
+credits = loadMenuLabels("Credits",(0,0,0),screenWidth/53,(screenWidth/5,screenHeight*5/10),3)
+restart = loadMenuLabels("Retry!",(0,0,0),screenWidth/53,(screenWidth/5,screenHeight*2/10),1)
+main = loadMenuLabels("Main Menu",(0,0,0),screenWidth/53,(screenWidth/5,screenHeight*3/10),0)
+supply = loadMenuLabels("Supply Stash",(0,0,0),screenWidth/53,(screenWidth/5,screenHeight*4/10),8)
+lossQuit = loadMenuLabels("Quit",(0,0,0),screenWidth/53,(screenWidth/5,screenHeight*6/10),4)
+lossMenu = [restart, credits, lossQuit,supply, main]
 
 for label in lossMenu :
 	label.start()
+
+#Store state 8
+storeTitle = MenuLabel("Squirrel Supply Stash",(0, 0, 0),screenWidth/40,(screenWidth/2,screenHeight/7),80)
+planeSkins = MenuLabel("Plane Types",(0, 0, 0),screenWidth/48,(screenWidth/3,screenHeight*2/7),80)
+paperBomber = MenuLabel("Paper Bomber",(0, 0, 0),screenWidth/57,(screenWidth/3,screenHeight*3/7),81)
+paperFlyboy = MenuLabel("Paper Flyboy",(0, 0, 0),screenWidth/57,(screenWidth/3,screenHeight*4/7),82)
+biBomber = MenuLabel("Biplane Bomber",(0, 0, 0),screenWidth/57,(screenWidth/3,screenHeight*5/7),83)
+biFlyboy = MenuLabel("Biplane Flyboy",(0, 0, 0),screenWidth/57,(screenWidth/3,screenHeight*6/7),84)
+lossBack = MenuLabel("Back",(0,0,0), screenWidth/57,(screenWidth*8/9,screenHeight/15),5)
+storeTitles = [storeTitle, planeSkins, paperBomber, paperFlyboy, biBomber, biFlyboy, lossBack]
+
+currentType = 'paperBomber'
+
+paperFlyboyBuy = MenuLabel("Buy",(0, 0, 0),screenWidth/57,(screenWidth*2/3,screenHeight*4/7),86)
+biBomberBuy = MenuLabel("Buy",(0, 0, 0),screenWidth/57,(screenWidth*2/3,screenHeight*5/7),87)
+biFlyboyBuy = MenuLabel("Buy",(0, 0, 0),screenWidth/57,(screenWidth*2/3,screenHeight*6/7),88)
+storeBuy = [paperFlyboyBuy, biBomberBuy, biFlyboyBuy]
+
 
 #In-Game
 scoreLabel = MenuLabel("Score: 0",(0, 0, 0),screenWidth/57,(screenWidth/9,screenHeight/9),100)
@@ -189,7 +215,7 @@ paused = False
 counter = 0
 score = 0
 wallSpeed = -3
-nextWall = random.randint(130, 160)
+nextWall = random.randint(145, 170)
 nextBeam = 60
 nextPowerUp = 850
 low = 80
@@ -221,7 +247,7 @@ PURPLE = (255,0,255)
 CYAN = (0,255,255)
 ORANGE = (255,99,71)
 colors = [RED, BLUE, GREEN, YELLOW, PURPLE, CYAN, ORANGE] ### For current game, only BLUE RED GREEN
-baseColors = [RED,BLUE,GREEN,PURPLE,CYAN,ORANGE]
+baseColors = [RED,BLUE,GREEN,PURPLE,CYAN,ORANGE,YELLOW]
 
 ### load all paint beam images ###
 
@@ -230,7 +256,7 @@ redPaint = pygame.transform.scale(pygame.image.load( "Assets/img/RedPaint.png" )
 bluePaint = pygame.transform.scale(pygame.image.load( "Assets/img/BluePaint.png" ).convert_alpha(), imageScale)
 greenPaint = pygame.transform.scale(pygame.image.load( "Assets/img/GreenPaint.png" ).convert_alpha(), imageScale)
 purplePaint = pygame.transform.scale(pygame.image.load( "Assets/img/PurplePaint.png" ).convert_alpha(), imageScale)
-#yellowPaint = pygame.transform.scale(pygame.image.load( "Assets/img/YellowPaint.png" ).convert_alpha(), imageScale)
+yellowPaint = pygame.transform.scale(pygame.image.load( "Assets/img/YellowPaint.png" ).convert_alpha(), imageScale)
 orangePaint = pygame.transform.scale(pygame.image.load( "Assets/img/OrangePaint.png" ).convert_alpha(), imageScale)
 cyanPaint = pygame.transform.scale(pygame.image.load( "Assets/img/CyanPaint.png" ).convert_alpha(), imageScale)
 
@@ -342,7 +368,7 @@ while 1:#Main loop
 		tempList = []
 		if counter == nextBeam:
 			rainbowSound.stop()
-			if abs(nextBeam - nextWall) > 55: #So they don't spawn on top of each other
+			if abs(nextBeam - nextWall) > 65: #So they don't spawn on top of each other
 				difColor = random.choice(baseColors)
 				
 				while difColor == flier.getColor():
@@ -358,8 +384,8 @@ while 1:#Main loop
 					myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, purplePaint)
 				elif difColor == ORANGE:
 					myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, orangePaint)
-			#	elif difColor == YELLOW:
-			#		myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, yellowPaint)
+				elif difColor == YELLOW:
+					myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, yellowPaint)
 				elif difColor == CYAN:
 					myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, cyanPaint)
 					
@@ -373,12 +399,12 @@ while 1:#Main loop
 			
 		if counter == nextWall:
 			if activeBeams != []:
-				myWall = Wall(activeBeams[-1].getColor(), screenWidth, screenHeight, colors, obstacleList)	# create the Wall object with a certain number of obstacles
+				myWall = Wall(activeBeams[-1].getColor(), screenWidth, screenHeight, colors, obstacleList, cbLabels)	# create the Wall object with a certain number of obstacles
 				#Last beam in the list is the closest one to the wall being created
 			else:
-				myWall = Wall(flier.getColor(), screenWidth, screenHeight, baseColors, obstacleList)
-				
-			nextWall = random.randint(low + 130, high + 160) + counter
+				myWall = Wall(flier.getColor(), screenWidth, screenHeight, baseColors, obstacleList, cbLabels)
+
+			nextWall = random.randint(low + 145, high + 170) + counter
 			activeWalls.append(myWall)
 			
 		
@@ -432,9 +458,6 @@ while 1:#Main loop
 
 		else:
 			isPassing = False
-			
-# ----------------------------------------------- powerups ------------------------------------
-
 		
 		# Powerup collision handling, created one powerup for testing purposes, still need
 		# \ to implement spawning
@@ -464,8 +487,6 @@ while 1:#Main loop
 				activeBeams = []
 				nextBeam = random.randint(low + 200, high + 260) + counter
 				#Play rainbow Sound
-					
-# -----------------------------------------------^^^powerups^^^------------------------------
 
 			#inputs the current score, then returns a list of all scores cut off at top 10
 		scoreLabel.update(screen)
@@ -488,7 +509,7 @@ while 1:#Main loop
 			wallSpeed = -3
 			gameState = 5 #goto loss screen
 			flier.restart(soundToggle)
-			nextWall = random.randint(130, 160)
+			nextWall = random.randint(145, 170)
 			nextBeam = 60
 			low = 80
 			high = 120
@@ -545,7 +566,7 @@ while 1:#Main loop
 			for item in instructions :
 				item.join()
 				tempList.append(item.getLabel())
-			instructions = tempList
+			instructions = list(tempList)
 			
 		screen.fill((40,80,160))
 		mouse = pygame.mouse.get_pos()
@@ -561,7 +582,13 @@ while 1:#Main loop
 	elif gameState == 3: #Credits
 		screen.fill((40,80,160))
 		mouse = pygame.mouse.get_pos()
-		
+		if type(creditsMenu[0]) is loadMenuLabels :
+			tempList = []
+			for item in creditsMenu :
+				item.join()
+				tempList.append(item.getLabel())
+			creditsMenu = list(tempList)
+			
 		for item in creditsMenu:
 			item.update(screen)
 			
@@ -584,7 +611,7 @@ while 1:#Main loop
 		
 		
 	elif gameState == 5: #Loss Screen
-
+		
 		key = pygame.key.get_pressed()
 		if key[pygame.K_SPACE] == True and isSpacebar == False:
 			gameState = 1
@@ -601,7 +628,7 @@ while 1:#Main loop
 			for item in lossMenu :
 				item.join()
 				tempList.append(item.getLabel())
-			lossMenu = tempList
+			lossMenu = list(tempList)
 			
 		for item in scoreLabels:
 			item.update(screen)
@@ -646,6 +673,10 @@ while 1:#Main loop
 		resInfo.update(screen)
 		justClicked = pygame.mouse.get_pressed()[0]
 		flier.restart(soundToggle)
+		
+# -----------------------------------------------------------------------------------------
+		
+		
 	
 	if gameState == 7:
 		pauseLabel.update(screen)
@@ -657,6 +688,82 @@ while 1:#Main loop
 		else:
 			paused = False
 			
+			
+# -----------------------------------------------------------------------------------------
+
+
+	if gameState == 8: #Store page
+		screen.fill((40,80,160)) ### Market stall image please? ###
+		if itemsBought[0] == 1:
+			if storeBuy[0].text != "Bought":
+				storeBuy[0].updateText("Bought")
+		if itemsBought[1] == 1:
+			if storeBuy[1].text != "Bought":
+				storeBuy[1].updateText("Bought")
+		if itemsBought[2] == 1:	
+			if storeBuy[2].text != "Bought":
+				storeBuy[2].updateText("Bought")
+
+		mouse = pygame.mouse.get_pos()
+		
+		for item in storeBuy:
+			
+					
+			if item.hover((mouse[0],mouse[1]),avatarParams[2]) == True and pygame.mouse.get_pressed()[0]:
+				clickedState = item.getState()
+				
+				if clickedState == 86 and itemsBought[0] == 0:
+					print 'test'
+					#And if have available money, then subtract $$$
+						#Play kaching sound here
+					#else, play error sound
+			item.isHover = False
+			item.update(screen)
+		for item in storeTitles:
+		
+		### ADd the if clicked thing again ###
+		
+			if item.hover((mouse[0],mouse[1]),avatarParams[2]) == True and pygame.mouse.get_pressed()[0]:
+				m.playSound(clickSound,soundToggle)
+				clickedState = item.getState()
+				item.isHover = False
+				#item.bkgColor = (40,40,40)
+				if clickedState == 81:
+					currentType = 'paperBomber'
+					
+				elif clickedState == 82 and itemsBought[0] == 1:
+					currentType = 'paperFlyboy'
+
+				elif clickedState == 83 and itemsBought[1] == 1:
+					currentType = 'biBomber'
+					
+				elif clickedState == 84 and itemsBought[2] == 1:
+					currentType = 'biFlyboy'
+					
+				elif clickedState == 5:
+					screen.fill((40,80,160))
+					gameState = 5
+					break
+			item.update(screen)
+			if currentType == 'paperBomber':
+				paperBomber.isHover = True
+				paperBomber.update(screen)
+			elif currentType == 'paperFlyboy':
+				paperFlyboy.isHover = True
+				paperFlyboy.update(screen)
+			elif currentType == 'biBomber':
+				biBomber.isHover = True
+				biBomber.update(screen)
+			elif currentType == 'biFlyboy':
+				biFlyboy.isHover = True
+				biFlyboy.update(screen)
+		
+		
+				
+		
+			
+	### Make it write to the file on exit ###
+	
 	for event in pygame.event.get(): ##### Find out why removing this crashes the program #####
 			if event.type == pygame.QUIT:
 				pygame.quit() # quit the screen
@@ -665,4 +772,4 @@ while 1:#Main loop
 		
 	pygame.display.update() # update the screen
 
-	clock.tick(70) # 60 fps
+	clock.tick(65) # 65 fps

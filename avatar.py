@@ -212,6 +212,11 @@ class Avatar():
 		self.tempImage = self.image
 		self.applyRotation()
 		
+	def applyFlip(self) :
+		self.image = pygame.transform.rotate(pygame.transform.flip(self.image, True, False), 180)
+		self.tempImage = self.image
+		self.applyRotation()
+
 	def resetState(self):
 		self.flierState = 0		
 
@@ -230,5 +235,6 @@ class Avatar():
 							self.applyRainbow()
 						if powerup.getType() == 'gravitySwitch':
 							self.flierState = 2
+							self.applyFlip()
 							
 						return True

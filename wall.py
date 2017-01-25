@@ -9,7 +9,7 @@ from obstacles import Obstacle
 class Wall(Obstacle):
 	
 	
-	def __init__(self, lastBeamColor, xPos, screenHeight, colors, preLoaded, label = [0,0,0,0,0,0]):
+	def __init__(self, lastBeamColor, xPos, screenHeight, colors, preLoaded, label = [0,0,0,0,0,0,0]):
 	
 
 		#stores the vertical position of the top edge of the wall object
@@ -17,7 +17,7 @@ class Wall(Obstacle):
 		self.numObs = preLoaded[7]
 		#the sum of the heights of whatever number of obstacles must equal roughly 
 		#13/16 of the screen
-		self.obstacleHeight = screenHeight * 27/32 /self.numObs 
+		self.obstacleHeight = screenHeight * 27/32 /self.numObs
 		
 		#sotres the width of the wall object (currently set to 1/28th of the wall's 
 		#initial x-position, which is the width of the whole screen)
