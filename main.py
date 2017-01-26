@@ -304,7 +304,7 @@ windowImage = pygame.transform.scale(pygame.image.load( "Assets/img/Window.png" 
 grassImage = pygame.transform.scale(pygame.image.load( "Assets/img/grass.png" ).convert(), (screenWidth, screenHeight/16))
 
 #m.importLists(avatarParams, creditsMenu, optionsList, lossMenu, instructions)	# call mainfunc's importLists function to return local lists
-avatarParams = [screenWidth, screenHeight, soundToggle]
+avatarParams = [screenWidth, screenHeight, soundToggle, currentType]
 
 flier = avatar.Avatar(avatarParams[0], avatarParams[1], avatarParams[2], imageList)
 
@@ -361,7 +361,7 @@ while 1:#Main loop
 		title.update(screen)	# relocated code to mainButtonsClicked function
 		
 		bools = [musicToggle, musicToggled, soundToggled, justClicked, lowRes, lowResolution,colorBlind]
-		avatarParams = [screenWidth, screenHeight, soundToggle]
+		avatarParams = [screenWidth, screenHeight, soundToggle, currentType]
 		gameState, score, counter = m.mainButtonsClicked(gameState, score, counter, bools, mainMenu, mouse, screen, clickSound, scoreLabel, avatarParams)	# relocated code to checkMainItems function
 
 
@@ -686,7 +686,7 @@ while 1:#Main loop
 		for item in creditsMenu:
 			item.update(screen)
 			
-		lossBack = creditsMenu[9]
+		lossBack = creditsMenu[10]
 		key = pygame.key.get_pressed()
 		if key[pygame.K_BACKSPACE] or (lossBack.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0]):
 			#If back button is clicked, go back to loss screen
@@ -712,7 +712,7 @@ while 1:#Main loop
 			### Call this to restart the game and scores ###
 			score = 0
 			scoreLabel.updateText("Score: "+str(score))
-			pygame.mixer.music.set_volume(0.4)
+			pygame.mixer.music.set_volume(0.75)
 			counter = 0
 		mouse = pygame.mouse.get_pos()
 		isSpacebar = key[pygame.K_SPACE]
@@ -738,7 +738,7 @@ while 1:#Main loop
 				if gameState == 1:
 
 					### Call this to restart the game and scores ###
-					counter, flier, score = m.restartGame(counter, score, scoreLabel, flier)	# relocated code to restartGame function
+					flier, score = m.restartGame(score, scoreLabel, flier)	# relocated code to restartGame function
 
 				elif gameState == 0:
 				
@@ -757,22 +757,21 @@ while 1:#Main loop
 
 		
 	if gameState == 6: #Options menu
-		screen.fill((40,80,160))
-		avatarParams = [screenWidth, screenHeight, soundToggle]
+		screen.fill((40,80,160)) #Blue screen
+		avatarParams = [screenWidth, screenHeight, soundToggle, currentType]
 		mouse = pygame.mouse.get_pos()
 		bools = [musicToggle, musicToggled, soundToggled, justClicked, lowRes, lowResolution, colorBlind]
-		avatarParams = [screenWidth, screenHeight, soundToggle]
 		musicToggle, soundToggle, gameState, lowRes, colorBlind = m.updateSoundOptions(bools, gameState, optionsList, mouse, screen, avatarParams, clickSound)
 		# relocated code to updateSoundOptions function
 		resInfo.update(screen)
 		justClicked = pygame.mouse.get_pressed()[0]
-		flier.restart(soundToggle)
+		flier.restart(soundToggle) #Restart all the fields of the flier
 		
 # -----------------------------------------------------------------------------------------
 		
-		
 	
-	if gameState == 7:
+	
+	if gameState == 7:#Pause game state, press p to unpause
 		pauseLabel.update(screen)
 		key = pygame.key.get_pressed()
 		if key[pygame.K_p] == True:
@@ -791,6 +790,8 @@ while 1:#Main loop
 		storeTitle.update(screen)
 		planeSkins.update(screen)
 		totalLabel.update(screen)
+		
+		#Checking if the items have been bought already
 		if itemsBought[0] == 1:
 			if storeBuy[0].text != "Bought":
 				storeBuy[0].updateText("Bought")
@@ -808,9 +809,11 @@ while 1:#Main loop
 				storeBuy[4].updateText("Bought")
 				
 		mouse = pygame.mouse.get_pos()
-		for item in storeCost:
+		
+		for item in storeCost: #Display cost
 			item.update(screen)
-		for item in storeBuy:
+			
+		for item in storeBuy: #Display and allow buying of planes
 			if item.hover((mouse[0],mouse[1]),avatarParams[2]) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
 				clickedState = item.getState()
 				
@@ -862,13 +865,12 @@ while 1:#Main loop
 			item.isHover = False
 			item.update(screen)
 			
-		for item in storeTitles:
+		for item in storeTitles: #Display and allowing selection of planes you own
 		
 			if item.hover((mouse[0],mouse[1]),avatarParams[2]) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
 				m.playSound(clickSound,soundToggle)
 				clickedState = item.getState()
 				item.isHover = False
-				#item.bkgColor = (40,40,40)
 				if clickedState == 81:
 					currentType = 'paperBomber'
 					whiteImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelWhitePlane.png" ).convert_alpha(), imageScale)
@@ -882,6 +884,8 @@ while 1:#Main loop
 					rainbowImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelRainbowPlane.png" ).convert_alpha(), imageScale)
 					imageList = [whiteImage, redImage, blueImage, greenImage, purpleImage, yellowImage, cyanImage, orangeImage, rainbowImage]
 					flier.load(imageList)
+					pygame.mixer.music.load("Assets/sound/background.ogg")
+					pygame.mixer.music.play(-1)
 					
 				elif clickedState == 82 and itemsBought[0] == 1:
 					currentType = 'paperFlyboy'
@@ -897,7 +901,9 @@ while 1:#Main loop
 					rainbowImage = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesRainbowPlane.png" ).convert_alpha(), imageScale)
 					imageList = [whiteImage, redImage, blueImage, greenImage, purpleImage, yellowImage, cyanImage, orangeImage, rainbowImage]
 					flier.load(imageList)
-
+					pygame.mixer.music.load("Assets/sound/background.ogg")
+					pygame.mixer.music.play(-1)
+					
 				elif clickedState == 83 and itemsBought[1] == 1:
 					currentType = 'biBomber'
 					imageScale = (screenHeight/9, screenHeight/9)
@@ -912,6 +918,8 @@ while 1:#Main loop
 					rainbowImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelRainbowBP.png" ).convert_alpha(), imageScale)
 					imageList = [whiteImage, redImage, blueImage, greenImage, purpleImage, yellowImage, cyanImage, orangeImage, rainbowImage]
 					flier.load(imageList)
+					pygame.mixer.music.load("Assets/sound/Original_Soundtrack.ogg")
+					pygame.mixer.music.play(-1)
 					
 				elif clickedState == 84 and itemsBought[2] == 1:
 					currentType = 'biFlyboy'
@@ -927,6 +935,8 @@ while 1:#Main loop
 					rainbowImage = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesRainbowBP.png" ).convert_alpha(), imageScale)
 					imageList = [whiteImage, redImage, blueImage, greenImage, purpleImage, yellowImage, cyanImage, orangeImage, rainbowImage]
 					flier.load(imageList)
+					pygame.mixer.music.load("Assets/sound/Original_Soundtrack.ogg")
+					pygame.mixer.music.play(-1)
 					
 				elif clickedState == 85 and itemsBought[3] == 1:
 					currentType = 'bubbleBomber'
@@ -942,9 +952,11 @@ while 1:#Main loop
 					rainbowImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelRainbowBubble.png" ).convert_alpha(), imageScale)
 					imageList = [whiteImage, redImage, blueImage, greenImage, purpleImage, yellowImage, cyanImage, orangeImage, rainbowImage]
 					flier.load(imageList)
+					pygame.mixer.music.load("Assets/sound/soundtrack3.ogg")
+					pygame.mixer.music.play(-1)
 					
 				elif clickedState == 80 and itemsBought[4] == 1:
-					currentType = 'BubbleFlyboy'
+					currentType = 'bubbleFlyboy'
 					imageScale = (screenHeight/9, screenHeight/9)
 					whiteImage = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesWhiteBubble.png" ).convert_alpha(), imageScale)
 					redImage = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesRedBubble.png" ).convert_alpha(), imageScale)
@@ -957,8 +969,10 @@ while 1:#Main loop
 					rainbowImage = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesRainbowBubble.png" ).convert_alpha(), imageScale)
 					imageList = [whiteImage, redImage, blueImage, greenImage, purpleImage, yellowImage, cyanImage, orangeImage, rainbowImage]
 					flier.load(imageList)
+					pygame.mixer.music.load("Assets/sound/soundtrack3.ogg")
+					pygame.mixer.music.play(-1)
 					
-				elif clickedState == 5:
+				elif clickedState == 5: #Back to the loss screen!
 					screen.fill((40,80,160))
 					gameState = 5
 					flier.restart(soundToggle)
@@ -980,7 +994,7 @@ while 1:#Main loop
 			elif currentType == 'bubbleBomber':
 				bubble.isHover = True
 				bubble.update(screen)
-			elif currentType == 'BubbleFlyboy':
+			elif currentType == 'bubbleFlyboy':
 				bubbleBoy.isHover = True
 				bubbleBoy.update(screen)
 		justClicked = pygame.mouse.get_pressed()[0]	

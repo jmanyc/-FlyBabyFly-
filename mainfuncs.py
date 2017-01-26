@@ -137,7 +137,12 @@ def mainButtonsClicked(gameState, score, counter, bools, mainMenu, mouse, screen
 				if gameState == 1: #If you add anything to this if statement, add it to the retry menu too
 					### Call this to restart the game and scores ###
 					if bools[0] == True:
-						pygame.mixer.music.load("Assets/sound/Original_Soundtrack.ogg")
+						if avatarParams[3] == 'paperBomber' or avatarParams[3] == 'paperFlyboy':
+							pygame.mixer.music.load("Assets/sound/background.ogg")
+						elif avatarParams[3] == 'biBomber' or avatarParams[3] == 'biFlyboy':
+							pygame.mixer.music.load("Assets/sound/Original_Soundtrack.ogg")
+						elif avatarParams[3] == 'bubbleBomber' or avatarParams[3] == 'bubbleFlyboy':
+							pygame.mixer.music.load("Assets/sound/soundtrack3.ogg")
 						pygame.mixer.music.play(-1)
 					score = 0
 					scoreLabel.updateText("Score: "+str(score))
@@ -151,9 +156,8 @@ def mainButtonsClicked(gameState, score, counter, bools, mainMenu, mouse, screen
 # If you're at the loss screen and click Retry to play the game again (as checked in the 
 # \ main loop), then restartGame is called to restart the game for the user (line 286 in main).
 	
-def restartGame(counter, score, scoreLabel, flier):	# main consolidation
+def restartGame(score, scoreLabel, flier):	# main consolidation
 	score = 0
 	scoreLabel.updateText("Score: "+str(score))
-	pygame.mixer.music.set_volume(0.4)
-	counter = 0
-	return counter, flier, score
+	pygame.mixer.music.set_volume(0.75)
+	return flier, score
