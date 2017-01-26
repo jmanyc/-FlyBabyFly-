@@ -52,9 +52,10 @@ def playSound(sound, toggle):
 	
 def State2Update(screen, instructions):	# main consolidation
 	
-	help, controls, mainBack, paint = instructions
+	help, controls, powerUps, mainBack, paint = instructions
 	help.update(screen)		
-	controls.update(screen)		
+	controls.update(screen)
+	powerUps.update(screen)		
 	mainBack.update(screen)
 	paint.update(screen)
 

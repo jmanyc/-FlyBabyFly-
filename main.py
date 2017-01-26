@@ -164,8 +164,9 @@ cbLabels = [redLabel, blueLabel, greenLabel, purpleLabel, yellowLabel, cyanLabel
 paint = MenuLabel("Paint streams will change your plane's color",(255,105,180),screenWidth/57,(screenWidth/2,screenHeight*2/7),100)
 help = MenuLabel("Go through the color block that matches your plane",(255,105,180),screenWidth/57,(screenWidth/2,screenHeight*3/7),100)
 controls = MenuLabel("Press Spacebar to increase your upward speed!",(255,105,180),screenWidth/57,(screenWidth/2,screenHeight*4/7),100)
+powerUps = MenuLabel("Use Powerups to increase your chances!",(255,105,180),screenWidth/57,(screenWidth/2,screenHeight*5/7),100)
 mainBack = MenuLabel("Back", (0,0,0),screenWidth/57,(screenWidth*6/7,screenHeight/15),0)
-instructions = [paint, help, controls, mainBack]
+instructions = [help, controls, powerUps, mainBack, paint]
 
 #Options Menu
 lowResolution = MenuLabel("Slow Game Mode",(191, 255, 0),screenWidth/57,(screenWidth/2,screenHeight*5/8),41)
