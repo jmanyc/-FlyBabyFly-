@@ -4,10 +4,10 @@
 # 1/10/17
 
 import pygame, os, sys
-
+from label import MenuLabel
 class Beam():
 
-	def __init__(self, position, color, screenWidth, screenHeight, image): #Work on this
+	def __init__(self, position, color, screenWidth, screenHeight, image, label = None): #Work on this
 		
 		#initialize the beam's xposition to the <position argument>
 		self.x = position
@@ -34,6 +34,13 @@ class Beam():
 		#moves the Rect object to the beam's image's initial position
 		self.beam.move_ip(self.x + self.screenWidth/15, self.y)
 
+		if isinstance(label, MenuLabel):
+			self.hasLabel = True
+			self.label = label
+			self.label.y = self.y + self.image.get_height()/2
+			self.label.x = self.x 
+		else:
+			self.hasLabel = False
 	def getVisited(self):\
 		#returns the object's visited state
 		return self.visited
@@ -57,7 +64,8 @@ class Beam():
 	def draw(self, surface):		
 		#blitst the beam's image onto the given <surface> at the beam's (x,y) position
 		surface.blit(self.image,(self.x,self.y))
-
+		if self.hasLabel:
+			self.label.update(surface)
 	def getBeam(self):
 		#returns this Beam object's Rect defined in self.beam
 		return self.beam
@@ -72,3 +80,6 @@ class Beam():
 		
 		#redraw the beam at its new position on the display
 		self.draw(surface)    
+		
+		if self.hasLabel:
+			self.label.x += speed

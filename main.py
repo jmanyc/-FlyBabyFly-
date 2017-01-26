@@ -3,7 +3,7 @@
 # CS269
 # 1/5/17
 
-import pygame, sys, avatar, socket, HighScoreReader, quoteReader, random
+import pygame, sys, avatar, socket, HighScoreReader, quoteReader, random, copy
 from beams import Beam
 from wall import Wall
 from label import MenuLabel
@@ -86,6 +86,7 @@ hoverSound = pygame.mixer.Sound( "Assets/sound/click.wav" )
 clickSound = pygame.mixer.Sound( "Assets/sound/pop.wav" )
 pointSound = pygame.mixer.Sound( "Assets/sound/blip.wav" )
 rainbowSound = pygame.mixer.Sound( "Assets/sound/paintsplash_sound16.wav" )
+errorSound = pygame.mixer.Sound( "Assets/sound/beep.wav" )
 
 pygame.mixer.music.load("Assets/sound/soundtrack2.ogg")
 
@@ -186,21 +187,31 @@ for label in lossMenu :
 	label.start()
 
 #Store state 8
-storeTitle = MenuLabel("Squirrel Supply Stash",(0, 0, 0),screenWidth/40,(screenWidth/2,screenHeight/7),80)
-planeSkins = MenuLabel("Plane Types",(0, 0, 0),screenWidth/48,(screenWidth/3,screenHeight*2/7),80)
-paperBomber = MenuLabel("Paper Bomber",(0, 0, 0),screenWidth/57,(screenWidth/3,screenHeight*3/7),81)
-paperFlyboy = MenuLabel("Paper Flyboy",(0, 0, 0),screenWidth/57,(screenWidth/3,screenHeight*4/7),82)
-biBomber = MenuLabel("Biplane Bomber",(0, 0, 0),screenWidth/57,(screenWidth/3,screenHeight*5/7),83)
-biFlyboy = MenuLabel("Biplane Flyboy",(0, 0, 0),screenWidth/57,(screenWidth/3,screenHeight*6/7),84)
+storeTitle = MenuLabel("Squirrel Supply Stash",(0, 0, 0),screenWidth/40,(screenWidth/2,screenHeight/7),100)
+planeSkins = MenuLabel("Plane Types",(0, 0, 0),screenWidth/40,(screenWidth/3,screenHeight*2/8),100)
+paperBomber = MenuLabel("Paper Bomber",(0, 0, 0),screenWidth/57,(screenWidth/3,screenHeight*3/8),81)
+paperFlyboy = MenuLabel("Paper Flyboy",(0, 0, 0),screenWidth/57,(screenWidth/3,screenHeight*4/8),82)
+biBomber = MenuLabel("Biplane Bomber",(0, 0, 0),screenWidth/57,(screenWidth/3,screenHeight*5/8),83)
+biFlyboy = MenuLabel("Biplane Flyboy",(0, 0, 0),screenWidth/57,(screenWidth/3,screenHeight*6/8),84)
+bubble = MenuLabel("BubbleBoy",(0, 0, 0),screenWidth/57,(screenWidth/3,screenHeight*7/8),85)
 lossBack = MenuLabel("Back",(0,0,0), screenWidth/57,(screenWidth*8/9,screenHeight/15),5)
-storeTitles = [storeTitle, planeSkins, paperBomber, paperFlyboy, biBomber, biFlyboy, lossBack]
+totalLabel = MenuLabel("Total Score: "+str(itemsBought[-1]),(0,0,0), screenWidth/52,(screenWidth*5/7,screenHeight/3),100)
+storeTitles = [paperBomber, paperFlyboy, biBomber, biFlyboy ,bubble, lossBack]
+
+cost= MenuLabel("Cost",(0, 0, 0),screenWidth/40,(screenWidth/2,screenHeight*2/8),100)
+cost25 = MenuLabel(" 50 ",(0, 0, 0),screenWidth/57,(screenWidth/2,screenHeight*4/8),100)
+cost50 = MenuLabel(" 100 ",(0, 0, 0),screenWidth/57,(screenWidth/2,screenHeight*5/8),100)
+cost75 = MenuLabel(" 150 ",(0, 0, 0),screenWidth/57,(screenWidth/2,screenHeight*6/8),100)
+cost100 = MenuLabel(" 200 ",(0, 0, 0),screenWidth/57,(screenWidth/2,screenHeight*7/8),100)
+storeCost = [cost, cost25, cost50, cost75, cost100]
 
 currentType = 'paperBomber'
 
-paperFlyboyBuy = MenuLabel("Buy",(0, 0, 0),screenWidth/57,(screenWidth*2/3,screenHeight*4/7),86)
-biBomberBuy = MenuLabel("Buy",(0, 0, 0),screenWidth/57,(screenWidth*2/3,screenHeight*5/7),87)
-biFlyboyBuy = MenuLabel("Buy",(0, 0, 0),screenWidth/57,(screenWidth*2/3,screenHeight*6/7),88)
-storeBuy = [paperFlyboyBuy, biBomberBuy, biFlyboyBuy]
+paperFlyboyBuy = MenuLabel("Buy",(0, 0, 0),screenWidth/57,(screenWidth*2/3,screenHeight*4/8),86)
+biBomberBuy = MenuLabel("Buy",(0, 0, 0),screenWidth/57,(screenWidth*2/3,screenHeight*5/8),87)
+biFlyboyBuy = MenuLabel("Buy",(0, 0, 0),screenWidth/57,(screenWidth*2/3,screenHeight*6/8),88)
+bubbleBuy = MenuLabel("Buy",(0, 0, 0),screenWidth/57,(screenWidth*2/3,screenHeight*7/8),89)
+storeBuy = [paperFlyboyBuy, biBomberBuy, biFlyboyBuy, bubbleBuy]
 
 
 #In-Game
@@ -258,7 +269,6 @@ PURPLE = (255,0,255)
 CYAN = (0,255,255)
 ORANGE = (255,99,71)
 
-colors = [RED, BLUE, GREEN, YELLOW, PURPLE, CYAN, ORANGE] ### For current game, only BLUE RED GREEN
 baseColors = [RED,BLUE,GREEN,PURPLE,CYAN,ORANGE,YELLOW]
 
 ### load all paint beam images ###
@@ -380,26 +390,41 @@ while 1:#Main loop
 		tempList = []
 		if counter == nextBeam:
 			rainbowSound.stop()
-			if abs(nextBeam - nextWall) > 75: #So they don't spawn on top of each other
-				difColor = random.choice(baseColors)
-				
-				while difColor == flier.getColor():
-					difColor = random.choice(baseColors)
-					
-				if difColor == RED:
-					myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, redPaint)
-				elif difColor == GREEN:
-					myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, greenPaint)
-				elif difColor == BLUE:
-					myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, bluePaint)
-				elif difColor == PURPLE:
-					myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, purplePaint)
-				elif difColor == ORANGE:
-					myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, orangePaint)
-				elif difColor == YELLOW:
-					myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, yellowPaint)
-				elif difColor == CYAN:
-					myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, cyanPaint)
+			if abs(nextBeam - nextWall) > 45: #So they don't spawn on top of each other
+				tempColors = list(baseColors)
+				tempColors.remove(flier.getColor())
+				difColor = random.choice(tempColors)
+
+				if colorBlind:
+					if difColor == RED:
+						myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, redPaint, copy.copy(redLabel))
+					elif difColor == GREEN:
+						myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, greenPaint, copy.copy(greenLabel))
+					elif difColor == BLUE:
+						myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, bluePaint, copy.copy(blueLabel))
+					elif difColor == PURPLE:
+						myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, purplePaint, copy.copy(purpleLabel))
+					elif difColor == ORANGE:
+						myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, orangePaint, copy.copy(orangeLabel))
+					elif difColor == YELLOW:
+						myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, yellowPaint, copy.copy(yellowLabel))
+					elif difColor == CYAN:
+						myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, cyanPaint, copy.copy(cyanLabel))
+				else:
+					if difColor == RED:
+						myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, redPaint)
+					elif difColor == GREEN:
+						myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, greenPaint)
+					elif difColor == BLUE:
+						myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, bluePaint)
+					elif difColor == PURPLE:
+						myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, purplePaint)
+					elif difColor == ORANGE:
+						myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, orangePaint)
+					elif difColor == YELLOW:
+						myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, yellowPaint)
+					elif difColor == CYAN:
+						myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, cyanPaint)
 					
 				if activeBeams != []:
 					if myBeam.getColor() != activeBeams[-1].getColor() and myBeam.getColor() != flier.getColor():
@@ -412,14 +437,14 @@ while 1:#Main loop
 		if counter == nextWall:
 			if activeBeams != []:
 				if colorBlind:
-					myWall = Wall(activeBeams[-1].getColor(), screenWidth, screenHeight, colors, obstacleList, cbLabels)	# create the Wall object with a certain number of obstacles
+					myWall = Wall(activeBeams[-1].getColor(), screenWidth, screenHeight, baseColors, obstacleList, cbLabels)	# create the Wall object with a certain number of obstacles
 				else:
-					myWall = Wall(activeBeams[-1].getColor(), screenWidth, screenHeight, colors, obstacleList)
+					myWall = Wall(activeBeams[-1].getColor(), screenWidth, screenHeight, baseColors, obstacleList)
 			else:
 				if colorBlind:
-					myWall = Wall(flier.getColor(), screenWidth, screenHeight, colors, obstacleList, cbLabels)	# create the Wall object with a certain number of obstacles
+					myWall = Wall(flier.getColor(), screenWidth, screenHeight, baseColors, obstacleList, cbLabels)	# create the Wall object with a certain number of obstacles
 				else:
-					myWall = Wall(flier.getColor(), screenWidth, screenHeight, colors, obstacleList)
+					myWall = Wall(flier.getColor(), screenWidth, screenHeight, baseColors, obstacleList)
 
 			nextWall = random.randint(low + 145, high + 170) + counter
 			activeWalls.append(myWall)
@@ -555,6 +580,25 @@ while 1:#Main loop
 			print fpsSum/len(fpsTest)
 			fpsTest = []
 			fpsSum = 0
+			
+			fp = file('Store.txt') #reads the file
+			lines = fp.readlines() #reads lines and creates an array of lines
+			fp.close() #closes the file
+			itemsBought = [] #list of scores that is returned
+			for line in lines: 
+				words = line.split()
+				itemsBought.append( int(words[0]) )
+				
+			itemsBought[-1] += score
+			totalLabel.updateText("Total Score: "+str(itemsBought[-1]))
+			writeString = '' #creates the string for writing to the file
+			for num in itemsBought:
+				writeString += str(num) + '\n'		
+			
+			fp = file( 'Store.txt', 'w') #writes over the old file, adding the player score
+			fp.write(writeString)
+			fp.close()	
+			
 			
 			
 			loadedScore = MenuLabel("Local High Scores",(0, 0, 0),screenWidth/53,(screenWidth*3/5,screenHeight/15 + screenHeight/10),100)
@@ -726,7 +770,9 @@ while 1:#Main loop
 
 	if gameState == 8: #Store page
 		screen.fill((40,80,160)) ### Market stall image please? ###
-		
+		storeTitle.update(screen)
+		planeSkins.update(screen)
+		totalLabel.update(screen)
 		if itemsBought[0] == 1:
 			if storeBuy[0].text != "Bought":
 				storeBuy[0].updateText("Bought")
@@ -736,20 +782,54 @@ while 1:#Main loop
 		if itemsBought[2] == 1:	
 			if storeBuy[2].text != "Bought":
 				storeBuy[2].updateText("Bought")
-
-		mouse = pygame.mouse.get_pos()
-		
-		for item in storeBuy:
-			
-					
-			if item.hover((mouse[0],mouse[1]),avatarParams[2]) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
+		if itemsBought[3] == 1:
+			if storeBuy[3].text != "Bought":
+				storeBuy[3].updateText("Bought")
 				
+		mouse = pygame.mouse.get_pos()
+		for item in storeCost:
+			item.update(screen)
+		for item in storeBuy:
+			if item.hover((mouse[0],mouse[1]),avatarParams[2]) == True and pygame.mouse.get_pressed()[0] and justClicked == False:
 				clickedState = item.getState()
 				
-				#if clickedState == 86 and itemsBought[0] == 0:
-					#And if have available money, then subtract $$$
-						#Play kaching sound here
-					#else, play error sound
+				if clickedState == 86 and itemsBought[0] == 0:#paper with shades
+					if itemsBought[-1] >= 50:
+						itemsBought[-1] -= 50
+						itemsBought[0] = 1
+						#Kaching sound here
+					else:
+						errorSound.play()
+				if clickedState == 87 and itemsBought[1] == 0:#biplane with hat
+					if itemsBought[-1] >= 100:
+						itemsBought[-1] -= 100
+						itemsBought[1] = 1
+						#Kaching sound here
+					else:
+						errorSound.play()
+				if clickedState == 88 and itemsBought[2] == 0:#biplane with hat
+					if itemsBought[-1] >= 150:
+						itemsBought[-1] -= 150
+						itemsBought[1] = 1
+						#Kaching sound here
+					else:
+						errorSound.play()
+				if clickedState == 89 and itemsBought[3] == 0:#biplane with hat
+					if itemsBought[-1] >= 200:
+						itemsBought[-1] -= 200
+						itemsBought[1] = 1
+						#Kaching sound here
+					else:
+						errorSound.play()
+				writeString = '' #creates the string for writing to the file
+				for num in itemsBought:
+					writeString += str(num) + '\n'		
+				
+				fp = file( 'Store.txt', 'w') #writes over the old file
+				fp.write(writeString)
+				fp.close()	
+				totalLabel.updateText("Total Score: "+str(itemsBought[-1]))
+					
 			item.isHover = False
 			item.update(screen)
 			
