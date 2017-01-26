@@ -87,6 +87,7 @@ clickSound = pygame.mixer.Sound( "Assets/sound/pop.wav" )
 pointSound = pygame.mixer.Sound( "Assets/sound/blip.wav" )
 rainbowSound = pygame.mixer.Sound( "Assets/sound/paintsplash_sound16.wav" )
 errorSound = pygame.mixer.Sound( "Assets/sound/beep.wav" )
+kachingSound = pygame.mixer.Sound( "Assets/sound/KACHING.wav" )
 
 pygame.mixer.music.load("Assets/sound/soundtrack2.ogg")
 
@@ -161,14 +162,19 @@ planeLabel = MenuLabel("Color: White",(0,0,0), screenWidth/70, (screenWidth/9,sc
 cbLabels = [redLabel, blueLabel, greenLabel, purpleLabel, yellowLabel, cyanLabel, orangeLabel]
 
 #Instructions (Original screenWidth/57)
-paint = MenuLabel("Paint streams will change your plane's color",(255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*2/7),100)
-help = MenuLabel("Go through the color block that matches your plane",(255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*3/7),100)
-controls = MenuLabel("Press Spacebar to increase your upward speed!",(255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*4/7),100)
-powerUps = MenuLabel("Use Powerups to increase your chances!",(255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*5/7),100)
-gravityLabel = MenuLabel("Swaps gravity",(255,105,180),screenWidth/57,(screenWidth*6/7,screenHeight*5/7),100)
-rainbowLabel = MenuLabel("Go through any barrier",(255,105,180),screenWidth/57,(screenWidth*6/7,screenHeight*3/7),100)
+paint = MenuLabel("Paint streams will change your plane's color!",(255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*1/14),100)
+help = MenuLabel("Go through the color block that matches your plane!",(255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*3/14),100)
+help2 = MenuLabel("Don't fly above or below the paint beams!",(255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*5/14),100)
+controls = MenuLabel("Press Spacebar, 'w' or the up arrow to increase your upward speed!",(255,105,180),screenWidth/57,(screenWidth*9/28,screenHeight*7/14),100)
+controls2 = MenuLabel("Press spacebar to restart the game!", (255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*9/14),100)
+controls3 = MenuLabel("Press 'p' to pause and unpause the game!", (255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*11/14),100)
+powerUps = MenuLabel("Use Powerups to increase your chances!",(255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*13/14),100)
+gravityLabel = MenuLabel("Swaps gravity",(255,105,180),screenWidth/57,(screenWidth*6/7,screenHeight*10/14),100)
+rainbowLabel = MenuLabel("Go through any barrier",(255,105,180),screenWidth/57,(screenWidth*6/7,screenHeight*6/14),100)
 mainBack = MenuLabel("Back", (0,0,0),screenWidth/57,(screenWidth*6/7,screenHeight/15),0)
-instructions = [help, controls, powerUps, gravityLabel, rainbowLabel, mainBack, paint]
+instructions = [help, help2, controls, controls2, controls3, powerUps, gravityLabel, rainbowLabel, mainBack, paint]
+
+
 
 #Options Menu
 lowResolution = MenuLabel("Slow Game Mode",(191, 255, 0),screenWidth/57,(screenWidth/2,screenHeight*5/8),41)
@@ -198,6 +204,16 @@ biBomber = MenuLabel("Biplane Bomber",(0, 0, 0),screenWidth/57,(screenWidth/3,sc
 biFlyboy = MenuLabel("Biplane Flyboy",(0, 0, 0),screenWidth/57,(screenWidth/3,screenHeight*6/9),84)
 bubble = MenuLabel("Bubble Bomber",(0, 0, 0),screenWidth/57,(screenWidth/3,screenHeight*7/9),85)
 bubbleBoy = MenuLabel("Bubble Flyboy",(0, 0, 0),screenWidth/57,(screenWidth/3,screenHeight*8/9),80)
+
+#Plane images for each plane in the store
+paper_bomber = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelWhitePlane.png" ).convert_alpha(), (screenHeight/9, screenHeight/9))
+paper_flyboy = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesWhitePlane.png" ).convert_alpha(), (screenHeight/9, screenHeight/9))
+biplane_bomber = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelWhiteBP.png" ).convert_alpha(), (screenHeight/9, screenHeight/9))
+biplane_flyboy = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesWhiteBP.png" ).convert_alpha(), (screenHeight/9, screenHeight/9))
+bubble_bomber = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelWhiteBubble.png" ).convert_alpha(), (screenHeight/9, screenHeight/9))
+bubble_flyboy = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesWhiteBubble.png" ).convert_alpha(), (screenHeight/9, screenHeight/9))
+
+#-----------------------------------------------------------------------------------------
 
 lossBack = MenuLabel("Back",(0,0,0), screenWidth/57,(screenWidth*8/9,screenHeight/15),5)
 totalLabel = MenuLabel("Total Score: "+str(itemsBought[-1]),(0,0,0), screenWidth/52,(screenWidth*2/3,screenHeight*2/9),100)
@@ -789,7 +805,7 @@ while 1:#Main loop
 			paused = False
 			
 			
-# -----------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------------
 
 
 	if gameState == 8: #Store page
@@ -797,6 +813,14 @@ while 1:#Main loop
 		storeTitle.update(screen)
 		planeSkins.update(screen)
 		totalLabel.update(screen)
+		
+		# Blit all of the different plane images to the screen
+		screen.blit(paper_bomber, (screenWidth*1/6,screenHeight*5/18))
+		screen.blit(paper_flyboy, (screenWidth*1/6,screenHeight*7/18))
+		screen.blit(biplane_bomber, (screenWidth*1/6,screenHeight*9/18))
+		screen.blit(biplane_flyboy, (screenWidth*1/6,screenHeight*11/18))
+		screen.blit(bubble_bomber, (screenWidth*1/6,screenHeight*13/18))
+		screen.blit(bubble_flyboy, (screenWidth*1/6,screenHeight*15/18))
 		
 		#Checking if the items have been bought already
 		if itemsBought[0] == 1:
@@ -856,7 +880,7 @@ while 1:#Main loop
 					if itemsBought[-1] >= 250:
 						itemsBought[-1] -= 250
 						itemsBought[4] = 1
-						#Kaching sound here
+						m.playSound(kachingSound, soundToggle)
 					else:
 						errorSound.play()
 						
@@ -910,6 +934,7 @@ while 1:#Main loop
 					flier.load(imageList)
 					pygame.mixer.music.load("Assets/sound/background.ogg")
 					pygame.mixer.music.play(-1)
+					
 					
 				elif clickedState == 83 and itemsBought[1] == 1:
 					currentType = 'biBomber'

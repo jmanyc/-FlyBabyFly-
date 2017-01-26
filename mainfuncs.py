@@ -53,9 +53,12 @@ def playSound(sound, toggle):
 	
 def State2Update(screen, instructions, gravity, rainbow):	# main consolidation
 	
-	help, controls, powerUps, gravityLabel, rainbowLabel, mainBack, paint = instructions
-	help.update(screen)		
+	help, help2, controls, controls2, controls3, powerUps, gravityLabel, rainbowLabel, mainBack, paint = instructions
+	help.update(screen)
+	help2.update(screen)	
 	controls.update(screen)
+	controls2.update(screen)
+	controls3.update(screen)
 	powerUps.update(screen)
 	gravityLabel.update(screen)
 	rainbowLabel.update(screen)
@@ -63,6 +66,7 @@ def State2Update(screen, instructions, gravity, rainbow):	# main consolidation
 	rainbow.draw(screen)
 	mainBack.update(screen)
 	paint.update(screen)
+
 
 # If the user is on the sound options screen, if the mouse is hovering over one of the 
 # \ three buttons and clicks on it, then it toggles the appropriate option (background
