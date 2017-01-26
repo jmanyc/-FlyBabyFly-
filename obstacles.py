@@ -9,7 +9,7 @@ from label import MenuLabel
 
 class Obstacle():
 
-	def __init__(self, position, color, width, height, image, label = None):
+	def __init__(self, position, color, width, height, image, label = False):
 		
 		#tuple that stores the position of the obstacle in the following format: (xpos,ypos)
 		self.position = position
@@ -21,11 +21,11 @@ class Obstacle():
 		#stores the y-position of the obstacle object
 		self.y = self.position[1]
 
-		if isinstance(label, MenuLabel):
+		if label != False:
 			self.hasLabel = True
 			self.label = label
-			self.label.y = self.y + height/2
-			self.label.x = self.x 
+			self.labely = self.y + height/2
+			self.labelx = self.x 
 		else:
 			self.hasLabel = False
 
@@ -49,7 +49,6 @@ class Obstacle():
 		#moves the Rect of the obstacle to the obstacle's initial position
 		self.obstacle.move_ip(self.x,self.y)
 		
-		self.label = label
 		
 	def setPosition(self, position):
 		#sets the obstacle's position field to the tuple <position>
@@ -71,7 +70,7 @@ class Obstacle():
 		#blits the object's image onto the given surface at its stored position
 		surface.blit(self.image,(self.x,self.y))
 		if self.hasLabel:
-			self.label.update(surface)
+			surface.blit(self.label,(self.labelx,self.labely))
 		
 	def getObstacle(self):
 		#returns the Rect object associated with this obstacle's image
@@ -90,4 +89,4 @@ class Obstacle():
 		self.obstacle.move_ip(speed, 0)	
 		self.x += speed
 		if self.hasLabel:
-			self.label.x += speed
+			self.labelx += speed
