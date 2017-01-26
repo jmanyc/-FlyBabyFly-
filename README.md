@@ -15,13 +15,16 @@ Main concept:
 /// To Run the game ///squirrel
 Windows:
 1.Go to https://www.python.org/downloads/ and download python 2.7
+
 2.Install the package pygame using PIP (pip install pygame)
 
 
 
 Mac OS:
 1.Python 2.7 is standard in Mac OS
+
 2.Open Terminal and run: sudo easy_install pip
+
 3.Next run: pip install pygame
 
 
