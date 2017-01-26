@@ -865,28 +865,28 @@ while 1:#Main loop
 					if itemsBought[-1] >= 50:
 						itemsBought[-1] -= 50
 						itemsBought[0] = 1
-						#Kaching sound here
+						m.playSound(kachingSound, soundToggle)
 					else:
 						errorSound.play()
 				if clickedState == 87 and itemsBought[1] == 0:#biplane with hat
 					if itemsBought[-1] >= 100:
 						itemsBought[-1] -= 100
 						itemsBought[1] = 1
-						#Kaching sound here
+						m.playSound(kachingSound, soundToggle)
 					else:
 						errorSound.play()
 				if clickedState == 88 and itemsBought[2] == 0:#biplane with hat
 					if itemsBought[-1] >= 150:
 						itemsBought[-1] -= 150
 						itemsBought[2] = 1
-						#Kaching sound here
+						m.playSound(kachingSound, soundToggle)
 					else:
 						errorSound.play()
 				if clickedState == 89 and itemsBought[3] == 0:#biplane with hat
 					if itemsBought[-1] >= 200:
 						itemsBought[-1] -= 200
 						itemsBought[3] = 1
-						#Kaching sound here
+						m.playSound(kachingSound, soundToggle)
 					else:
 						errorSound.play()
 				if clickedState == 90 and itemsBought[4] == 0:#biplane with hat
