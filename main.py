@@ -67,7 +67,7 @@ clock = pygame.time.Clock()
 ### Displays main background while the rest loads ###
 mainBackground = pygame.transform.scale(pygame.image.load( "Assets/img/StartScreenFinal.png" ).convert(),(screenWidth,screenHeight))
 fan = pygame.transform.scale(pygame.image.load( "Assets/img/Fan.png" ).convert_alpha(),(screenHeight*2/11,screenHeight*2/11))
-
+storebackground = pygame.transform.scale(pygame.image.load( "Assets/img/Store.png" ).convert(),(screenWidth,screenHeight))
 introWidth = screenWidth*4
 introHeight = screenHeight*4
 introXPos = screenWidth*7/12*4
@@ -92,7 +92,7 @@ clickSound = pygame.mixer.Sound( "Assets/sound/pop.wav" )
 pointSound = pygame.mixer.Sound( "Assets/sound/blip.wav" )
 rainbowSound = pygame.mixer.Sound( "Assets/sound/paintsplash_sound16.wav" )
 errorSound = pygame.mixer.Sound( "Assets/sound/beep.wav" )
-
+fanSound = pygame.mixer.Sound( "Assets/sound/fan.wav" )
 pygame.mixer.music.load("Assets/sound/soundtrack2.ogg")
 
 pygame.mixer.music.play(-1)
@@ -145,7 +145,7 @@ Sound = loadMenuLabels("Mariachi (Lead Sound Design): Jerry Diaz ", (0,0,0), scr
 Gamer = loadMenuLabels("Gamer (Quality Assurance): Austin Nantkes",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/11*6), 100)
 Knife = loadMenuLabels("Swiss Army Knife (Multirole): Jonathan Stempel",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/11*7), 100)
 DJ = loadMenuLabels("DJ (Art Assistance): Dean Weiner",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/11*8), 100)
-MusicGuy = loadMenuLabels("Most soundtracks from here: JERRY PUT LINK HERE NOW",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/11*10), 100)
+MusicGuy = loadMenuLabels("Most soundtracks from here: http://www.bensound.com/royalty-free-music",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/11*10), 100)
 Bruce = loadMenuLabels("Special Thanks to: Bruce (Totally Not CIA) Maxwell",(0,0,0),screenWidth/53,(screenWidth/2, screenHeight/11*9),100)
 
 lossBack = loadMenuLabels("Back",(0,0,0), screenWidth/57,(screenWidth*8/9,screenHeight/15),5)
@@ -806,7 +806,7 @@ while 1:#Main loop
 
 
 	if gameState == 8: #Store page
-		screen.fill((40,80,160)) ### Market stall image please? ###
+		screen.blit(storebackground,(0,0))
 		storeTitle.update(screen)
 		planeSkins.update(screen)
 		totalLabel.update(screen)
@@ -1023,18 +1023,39 @@ while 1:#Main loop
 # ------------------------------------------------------------------------------------------------------
 	#Intro animation
 	if gameState == 9:
-
-		screen.blit(intro,(0,0),(introXPos, introYPos, introWidth, introHeight))
-		
-		intro = pygame.transform.scale(intro,(introWidth,introHeight))
+		key = pygame.key.get_pressed()
+		if key[pygame.K_SPACE]:
+			gameState = 0
+			
 		if introXPos < screenWidth*8/12*2:
 			counter +=1
+			
 		else:
 			introXPos -= 4
 			introYPos += 4
-		if counter == 70:
-			gameState = 0
+			screen.blit(intro,(0,0),(introXPos, introYPos, introWidth, introHeight))
+			intro = pygame.transform.scale(intro,(introWidth,introHeight))
+			
+		if counter >= 70:
+			if counter == 71:
+				fanSound.play()
+			screen.blit(mainBackground,(0,0))
+			angle -= 3 #Slow speed
+			if angle < -360:
+				angle = 0
+			temp_image = fan
+			orig_rect = fan.get_rect()
+			rotated_image = pygame.transform.rotate(fan, angle)
+			rotated_rect = orig_rect.copy()
+			rotated_rect.center = rotated_image.get_rect().center #Makes sure our new image is centered after rotation
+			fan = rotated_image.subsurface(rotated_rect).copy()
+			screen.blit(fan,(screenWidth*29/128,screenHeight*8/30))
+			fan = temp_image
+			counter += 1
+			
+		if counter >= 230:
 			counter = 0
+			gameState = 0
 			
 	for event in pygame.event.get(): ##### Find out why removing this crashes the program #####
 		if event.type == pygame.QUIT:
