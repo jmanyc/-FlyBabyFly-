@@ -161,15 +161,14 @@ planeLabel = MenuLabel("Color: White",(0,0,0), screenWidth/70, (screenWidth/9,sc
 cbLabels = [redLabel, blueLabel, greenLabel, purpleLabel, yellowLabel, cyanLabel, orangeLabel]
 
 #Instructions (Original screenWidth/57)
-paint = MenuLabel("Paint streams will change your plane's color",(255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*2/12),100)
-help = MenuLabel("Go through the color block that matches your plane",(255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*4/12),100)
-controls = MenuLabel("Press Spacebar to increase your upward speed!",(255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*6/12),100)
-arena = MenuLabel("Don't fly above or below the beams!",(255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*8/12),100)
-powerUps = MenuLabel("Use Powerups to increase your chances!",(255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*10/12),100)
+paint = MenuLabel("Paint streams will change your plane's color",(255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*2/7),100)
+help = MenuLabel("Go through the color block that matches your plane",(255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*3/7),100)
+controls = MenuLabel("Press Spacebar to increase your upward speed!",(255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*4/7),100)
+powerUps = MenuLabel("Use Powerups to increase your chances!",(255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*5/7),100)
 gravityLabel = MenuLabel("Swaps gravity",(255,105,180),screenWidth/57,(screenWidth*6/7,screenHeight*5/7),100)
 rainbowLabel = MenuLabel("Go through any barrier",(255,105,180),screenWidth/57,(screenWidth*6/7,screenHeight*3/7),100)
 mainBack = MenuLabel("Back", (0,0,0),screenWidth/57,(screenWidth*6/7,screenHeight/15),0)
-instructions = [help, controls, arena, powerUps, gravityLabel, rainbowLabel, mainBack, paint]
+instructions = [help, controls, powerUps, gravityLabel, rainbowLabel, mainBack, paint]
 
 #Options Menu
 lowResolution = MenuLabel("Slow Game Mode",(191, 255, 0),screenWidth/57,(screenWidth/2,screenHeight*5/8),41)
