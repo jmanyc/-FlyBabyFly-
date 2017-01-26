@@ -7,7 +7,7 @@ import pygame, os, sys
 from label import MenuLabel
 class Beam():
 
-	def __init__(self, position, color, screenWidth, screenHeight, image, label = None): #Work on this
+	def __init__(self, position, color, screenWidth, screenHeight, image, label = False): #Work on this
 		
 		#initialize the beam's xposition to the <position argument>
 		self.x = position
@@ -34,11 +34,11 @@ class Beam():
 		#moves the Rect object to the beam's image's initial position
 		self.beam.move_ip(self.x + self.screenWidth/15, self.y)
 
-		if isinstance(label, MenuLabel):
+		if label!=False:
 			self.hasLabel = True
 			self.label = label
-			self.label.y = self.y + self.image.get_height()/2
-			self.label.x = self.x 
+			self.labely = self.y + self.image.get_height()/2
+			self.labelx = self.x 
 		else:
 			self.hasLabel = False
 	def getVisited(self):\
@@ -65,7 +65,7 @@ class Beam():
 		#blitst the beam's image onto the given <surface> at the beam's (x,y) position
 		surface.blit(self.image,(self.x,self.y))
 		if self.hasLabel:
-			self.label.update(surface)
+			surface.blit(self.label,(self.labelx,self.labely))
 	def getBeam(self):
 		#returns this Beam object's Rect defined in self.beam
 		return self.beam
@@ -82,4 +82,4 @@ class Beam():
 		self.draw(surface)    
 		
 		if self.hasLabel:
-			self.label.x += speed
+			self.labelx += speed

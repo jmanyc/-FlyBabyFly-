@@ -67,8 +67,13 @@ clock = pygame.time.Clock()
 ### Displays main background while the rest loads ###
 mainBackground = pygame.transform.scale(pygame.image.load( "Assets/img/StartScreenFinal.png" ).convert(),(screenWidth,screenHeight))
 fan = pygame.transform.scale(pygame.image.load( "Assets/img/Fan.png" ).convert_alpha(),(screenHeight*2/11,screenHeight*2/11))
-screen.blit(mainBackground,(0,0))
-screen.blit(fan,(screenWidth*29/128,screenHeight*8/30))
+
+introWidth = screenWidth*4
+introHeight = screenHeight*4
+introXPos = screenWidth*7/12*4
+introYPos = screenHeight/6*3
+intro = pygame.transform.scale(pygame.image.load( "Assets/img/startimage.png" ).convert(),(introWidth,introHeight))
+screen.fill((0,0,0))#Loading
 pygame.display.update()
 
 preLoaded1 = loadObstacles(screenWidth, screenHeight, 1) 
@@ -103,7 +108,7 @@ else:
 	soundToggle = False
 
 ### Gamestate variables ###
-gameState = 0
+gameState = 9
 '''
 	0 = menu loop
 	1 = go to game
@@ -139,8 +144,8 @@ Programmer = loadMenuLabels("Hackerman (Lead Programmer): Lucas DeGraw",(0,0,0),
 Artist = loadMenuLabels("Frida Kahlo + GIMP (Lead Artist): Riley Karp",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/11*4), 100)
 Sound = loadMenuLabels("Mariachi (Lead Sound Design): Jerry Diaz ", (0,0,0), screenWidth/53, (screenWidth/2, screenHeight/11*5), 100)
 Gamer = loadMenuLabels("Gamer (Quality Assurance): Austin Nantkes",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/11*6), 100)
-Knife = loadMenuLabels("Swiss Army Knife (Multirole): Jon",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/11*7), 100)
-DJ = loadMenuLabels("DJ (Art Assistance): Dean",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/11*8), 100)
+Knife = loadMenuLabels("Swiss Army Knife (Multirole): Jonathan Stempel",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/11*7), 100)
+DJ = loadMenuLabels("DJ (Art Assistance): Dean Weiner",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/11*8), 100)
 MusicGuy = loadMenuLabels("Most soundtracks from here: JERRY PUT LINK HERE NOW",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/11*10), 100)
 Bruce = loadMenuLabels("Special Thanks to: Bruce (Totally Not CIA) Maxwell",(0,0,0),screenWidth/53,(screenWidth/2, screenHeight/11*9),100)
 
@@ -151,15 +156,21 @@ for label in creditsMenu :
 	label.start()
 	
 #Colorblind Mode Labels
-redLabel = MenuLabel("Red",(0,0,0), screenWidth/70, (screenWidth/2, screenHeight/8), 100)
-blueLabel = MenuLabel("Blue",(0,0,0), screenWidth/70, (screenWidth/2, screenHeight/8), 100)
-greenLabel = MenuLabel("Green",(0,0,0), screenWidth/70, (screenWidth/2, screenHeight/8), 100)
-purpleLabel = MenuLabel("Purple",(0,0,0), screenWidth/70, (screenWidth/2, screenHeight/8), 100)
-yellowLabel = MenuLabel("Yellow",(0,0,0), screenWidth/70, (screenWidth/2, screenHeight/8), 100)
-cyanLabel = MenuLabel("Cyan",(0,0,0), screenWidth/70, (screenWidth/2, screenHeight/8), 100)
-orangeLabel = MenuLabel("Orange",(0,0,0), screenWidth/70, (screenWidth/2, screenHeight/8), 100)
 planeLabel = MenuLabel("Color: White",(0,0,0), screenWidth/70, (screenWidth/9,screenHeight*2/9), 100)
-cbLabels = [redLabel, blueLabel, greenLabel, purpleLabel, yellowLabel, cyanLabel, orangeLabel]
+
+imageScale = (screenHeight/10, screenHeight/15)
+
+redLabelImage = pygame.transform.scale(pygame.image.load( "Assets/img/RedLabel.png" ).convert_alpha(), imageScale)
+blueLabelImage = pygame.transform.scale(pygame.image.load( "Assets/img/BlueLabel.png" ).convert_alpha(), imageScale)
+greenLabelImage = pygame.transform.scale(pygame.image.load( "Assets/img/GreenLabel.png" ).convert_alpha(), imageScale)
+purpleLabelImage = pygame.transform.scale(pygame.image.load( "Assets/img/PurpleLabel.png" ).convert_alpha(), imageScale)
+yellowLabelImage = pygame.transform.scale(pygame.image.load( "Assets/img/YellowLabel.png" ).convert_alpha(), imageScale)
+cyanLabelImage = pygame.transform.scale(pygame.image.load( "Assets/img/CyanLabel.png" ).convert_alpha(), imageScale)
+orangeLabelImage =  pygame.transform.scale(pygame.image.load( "Assets/img/OrangeLabel.png" ).convert_alpha(), imageScale)
+
+cbImageLabels = [redLabelImage, blueLabelImage, greenLabelImage, purpleLabelImage, yellowLabelImage, cyanLabelImage, orangeLabelImage]
+
+
 
 #Instructions (Original screenWidth/57)
 paint = MenuLabel("Paint streams will change your plane's color!",(255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*1/14),100)
@@ -427,26 +438,26 @@ while 1:#Main loop
 		tempList = []
 		if counter == nextBeam:
 			rainbowSound.stop()
-			if abs(nextBeam - nextWall) > 40: #So they don't spawn on top of each other
+			if abs(nextBeam - nextWall) > 50: #So they don't spawn on top of each other
 				tempColors = list(baseColors)
 				tempColors.remove(flier.getColor())
 				difColor = random.choice(tempColors)
 
 				if colorBlind:
 					if difColor == RED:
-						myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, redPaint, copy.copy(redLabel))
+						myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, redPaint, copy.copy(redLabelImage))
 					elif difColor == GREEN:
-						myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, greenPaint, copy.copy(greenLabel))
+						myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, greenPaint, copy.copy(greenLabelImage))
 					elif difColor == BLUE:
-						myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, bluePaint, copy.copy(blueLabel))
+						myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, bluePaint, copy.copy(blueLabelImage))
 					elif difColor == PURPLE:
-						myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, purplePaint, copy.copy(purpleLabel))
+						myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, purplePaint, copy.copy(purpleLabelImage))
 					elif difColor == ORANGE:
-						myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, orangePaint, copy.copy(orangeLabel))
+						myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, orangePaint, copy.copy(orangeLabelImage))
 					elif difColor == YELLOW:
-						myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, yellowPaint, copy.copy(yellowLabel))
+						myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, yellowPaint, copy.copy(yellowLabelImage))
 					elif difColor == CYAN:
-						myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, cyanPaint, copy.copy(cyanLabel))
+						myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, cyanPaint, copy.copy(cyanLabelImage))
 				else:
 					if difColor == RED:
 						myBeam = Beam(screenWidth, difColor , screenWidth, screenHeight, redPaint)
@@ -474,12 +485,12 @@ while 1:#Main loop
 		if counter == nextWall:
 			if activeBeams != []:
 				if colorBlind:
-					myWall = Wall(activeBeams[-1].getColor(), screenWidth, screenHeight, baseColors, obstacleList, cbLabels)	# create the Wall object with a certain number of obstacles
+					myWall = Wall(activeBeams[-1].getColor(), screenWidth, screenHeight, baseColors, obstacleList, cbImageLabels)	# create the Wall object with a certain number of obstacles
 				else:
 					myWall = Wall(activeBeams[-1].getColor(), screenWidth, screenHeight, baseColors, obstacleList)
 			else:
 				if colorBlind:
-					myWall = Wall(flier.getColor(), screenWidth, screenHeight, baseColors, obstacleList, cbLabels)	# create the Wall object with a certain number of obstacles
+					myWall = Wall(flier.getColor(), screenWidth, screenHeight, baseColors, obstacleList, cbImageLabels)	# create the Wall object with a certain number of obstacles
 				else:
 					myWall = Wall(flier.getColor(), screenWidth, screenHeight, baseColors, obstacleList)
 
@@ -544,6 +555,8 @@ while 1:#Main loop
 					wallSpeed = -6
 				elif score == 35:
 					wallSpeed = -7
+				elif score == 50:
+					wallSpeed = -8
 		else:
 			isPassing = False
 		
@@ -578,7 +591,7 @@ while 1:#Main loop
 					planeLabel.updateText("Color: "+flier.string)
 					planeLabel.update(screen)
 				activeBeams = []
-				nextBeam = random.randint(low + 200, high + 260) + counter
+				nextBeam = random.randint(low + 220, high + 260) + counter
 				#Play rainbow Sound
 
 			#inputs the current score, then returns a list of all scores cut off at top 10
@@ -1030,13 +1043,29 @@ while 1:#Main loop
 				bubbleBoy.isHover = True
 				bubbleBoy.update(screen)
 		justClicked = pygame.mouse.get_pressed()[0]	
-	### Make it write to the file on exit ###
-	
+		
+		
+# ------------------------------------------------------------------------------------------------------
+	#Intro animation
+	if gameState == 9:
+
+		screen.blit(intro,(0,0),(introXPos, introYPos, introWidth, introHeight))
+		
+		intro = pygame.transform.scale(intro,(introWidth,introHeight))
+		if introXPos < screenWidth*8/12*2:
+			counter +=1
+		else:
+			introXPos -= 4
+			introYPos += 4
+		if counter == 70:
+			gameState = 0
+			counter = 0
+			
 	for event in pygame.event.get(): ##### Find out why removing this crashes the program #####
-			if event.type == pygame.QUIT:
-				pygame.quit() # quit the screen
-				sys.exit()
-				break
+		if event.type == pygame.QUIT:
+			pygame.quit() # quit the screen
+			sys.exit()				
+			break
 		
 	pygame.display.update() # update the screen
 
