@@ -373,6 +373,7 @@ def serverConnect(host, port, score):
 
 while 1:#Main loop
 	if gameState == 0: #Start Menu
+		pygame.mouse.set_visible(True)
 		# handle every event since the last frame.
 		screen.blit(mainBackground,(0,0))
 		
@@ -673,7 +674,7 @@ while 1:#Main loop
 				loadedScore = MenuLabel("Score: " +str(localHighScores[x-2]), (0, 0, 0),screenWidth/57,(screenWidth*3/5,screenHeight/15*x + screenHeight/10),100)
 				scoreLabels.append(loadedScore)
 				
-			loadedScore = MenuLabel("Server High Scores",(0, 0, 0),screenWidth/53,(screenWidth*4/5,screenHeight/15 + screenHeight/10),100)
+			loadedScore = MenuLabel("Global High Scores",(0, 0, 0),screenWidth/53,(screenWidth*4/5,screenHeight/15 + screenHeight/10),100)
 			scoreLabels.append(loadedScore)
 			
 			if serverHighScores[0] == "Couldn't Connect to Server":
