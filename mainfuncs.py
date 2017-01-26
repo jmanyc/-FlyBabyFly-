@@ -53,10 +53,12 @@ def playSound(sound, toggle):
 	
 def State2Update(screen, instructions, gravity, rainbow):	# main consolidation
 	
-	help, controls, powerUps, mainBack, paint = instructions
+	help, controls, powerUps, gravityLabel, rainbowLabel, mainBack, paint = instructions
 	help.update(screen)		
 	controls.update(screen)
 	powerUps.update(screen)
+	gravityLabel.update(screen)
+	rainbowLabel.update(screen)
 	gravity.draw(screen)
 	rainbow.draw(screen)
 	mainBack.update(screen)

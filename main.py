@@ -160,13 +160,15 @@ orangeLabel = MenuLabel("Orange",(0,0,0), screenWidth/70, (screenWidth/2, screen
 planeLabel = MenuLabel("Color: White",(0,0,0), screenWidth/70, (screenWidth/9,screenHeight*2/9), 100)
 cbLabels = [redLabel, blueLabel, greenLabel, purpleLabel, yellowLabel, cyanLabel, orangeLabel]
 
-#Instructions
-paint = MenuLabel("Paint streams will change your plane's color",(255,105,180),screenWidth/57,(screenWidth/2,screenHeight*2/7),100)
-help = MenuLabel("Go through the color block that matches your plane",(255,105,180),screenWidth/57,(screenWidth/2,screenHeight*3/7),100)
-controls = MenuLabel("Press Spacebar to increase your upward speed!",(255,105,180),screenWidth/57,(screenWidth/2,screenHeight*4/7),100)
-powerUps = MenuLabel("Use Powerups to increase your chances!",(255,105,180),screenWidth/57,(screenWidth/2,screenHeight*5/7),100)
+#Instructions (Original screenWidth/57)
+paint = MenuLabel("Paint streams will change your plane's color",(255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*2/7),100)
+help = MenuLabel("Go through the color block that matches your plane",(255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*3/7),100)
+controls = MenuLabel("Press Spacebar to increase your upward speed!",(255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*4/7),100)
+powerUps = MenuLabel("Use Powerups to increase your chances!",(255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*5/7),100)
+gravityLabel = MenuLabel("Swaps gravity",(255,105,180),screenWidth/57,(screenWidth*6/7,screenHeight*5/7),100)
+rainbowLabel = MenuLabel("Go through any barrier",(255,105,180),screenWidth/57,(screenWidth*6/7,screenHeight*3/7),100)
 mainBack = MenuLabel("Back", (0,0,0),screenWidth/57,(screenWidth*6/7,screenHeight/15),0)
-instructions = [help, controls, powerUps, mainBack, paint]
+instructions = [help, controls, powerUps, gravityLabel, rainbowLabel, mainBack, paint]
 
 #Options Menu
 lowResolution = MenuLabel("Slow Game Mode",(191, 255, 0),screenWidth/57,(screenWidth/2,screenHeight*5/8),41)
@@ -665,7 +667,7 @@ while 1:#Main loop
 			
 		screen.fill((40,80,160))
 		mouse = pygame.mouse.get_pos()
-		m.State2Update(screen, instructions, Powerup([screenWidth*4/5,screenHeight/2], gravityFlip, 'gravitySwitch'), Powerup([screenWidth*4/5,screenHeight/3], rainbow_powerup, 'rainbow'))	# relocated code to State2Update function
+		m.State2Update(screen, instructions, Powerup([screenWidth*4/5,screenHeight/2], gravityFlip, 'gravitySwitch'), Powerup([screenWidth*4/5,screenHeight/4], rainbow_powerup, 'rainbow'))	# relocated code to State2Update function
 		key = pygame.key.get_pressed()
 		if key[pygame.K_BACKSPACE] or (mainBack.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0]):
 			m.playSound(clickSound,soundToggle)
