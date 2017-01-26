@@ -11,7 +11,7 @@ def enum(**enums):
 Colors = enum(RED = (255,0,0), GREEN = (0,255,0), BLUE = (0,0,255), WHITE = (255,255,255))
 
 class Avatar(): 
-	def __init__(self, screenWidth, screenHeight, soundToggle):
+	def __init__(self, screenWidth, screenHeight, soundToggle, imageList):
 		
 		self.soundToggle = soundToggle
 		self.crashSound = pygame.mixer.Sound( "Assets/sound/obstacle_crash2.wav" )
@@ -28,15 +28,15 @@ class Avatar():
 		self.flierState = 0
 
 		#Preloading the different colors of the squirrel
-		self.whiteImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelWhitePlane.png" ).convert_alpha(), self.imageScale)
-		self.redImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelRedPlane.png" ).convert_alpha(), self.imageScale)
-		self.blueImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelBluePlane.png" ).convert_alpha(), self.imageScale)
-		self.greenImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelGreenPlane.png" ).convert_alpha(), self.imageScale)
-		self.purpleImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelPurplePlane.png" ).convert_alpha(), self.imageScale)
-		self.yellowImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelYellowPlane.png" ).convert_alpha(), self.imageScale)
-		self.cyanImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelCyanPlane.png" ).convert_alpha(), self.imageScale)
-		self.orangeImage =  pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelOrangePlane.png" ).convert_alpha(), self.imageScale)
-		self.rainbowImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelRainbowPlane.png" ).convert_alpha(), self.imageScale)
+		self.whiteImage = imageList[0]
+		self.redImage = imageList[1]
+		self.blueImage = imageList[2]
+		self.greenImage = imageList[3]
+		self.purpleImage = imageList[4]
+		self.yellowImage = imageList[5]
+		self.cyanImage = imageList[6]
+		self.orangeImage =  imageList[7]
+		self.rainbowImage = imageList[8]
 		self.string = 'White'
 		self.image = self.whiteImage
 		self.tempImage = self.image
@@ -87,6 +87,19 @@ class Avatar():
 		self.soundToggle = soundToggle
 		self.string = 'White'
 		
+	def load(self, imageList):
+
+		self.whiteImage = imageList[0]
+		self.redImage = imageList[1]
+		self.blueImage = imageList[2]
+		self.greenImage = imageList[3]
+		self.purpleImage = imageList[4]
+		self.yellowImage = imageList[5]
+		self.cyanImage = imageList[6]
+		self.orangeImage =  imageList[7]
+		self.rainbowImage = imageList[8]
+
+	
 	def crash(self):
 		self.curSpeed = 0
 		self.crashing = True

@@ -132,19 +132,19 @@ mainQuit = MenuLabel("Quit",(255,153,0),screenWidth/53,(screenWidth*9/16,screenH
 mainMenu = [start, mainQuit, instruction, options] #Main Menu Labels
 
 #Credits
-Producer = loadMenuLabels("He's a People Person (Producer): Chris Marcello",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8), 100)
-Designer = loadMenuLabels("Man with Vision (Designer): James Lindberg", (0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8 + 70), 100)
-Programmer = loadMenuLabels("Hackerman (Lead Programmer): Lucas DeGraw",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8 + 140), 100)
-Artist = loadMenuLabels("Frida Kahlo + GIMP (Lead Artist): Riley Karp",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8 + 210), 100)
-Sound = loadMenuLabels("Mariachi (Lead Sound Design): Jerry Diaz ", (0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8 + 280), 100)
-Gamer = loadMenuLabels("Gamer (Quality Assurance): Austin Nantkes",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8 + 350), 100)
-Knife = loadMenuLabels("Swiss Army Knife (Multirole): Jon",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8 + 420), 100)
-DJ = loadMenuLabels("DJ (Art Assistance): Dean",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/8 + 490), 100)
-
-Bruce = loadMenuLabels("Special Thanks to: Bruce (Totally Not CIA) Maxwell",(0,0,0),screenWidth/53,(screenWidth/2, screenHeight/8 + 560),100)
+Producer = loadMenuLabels("He's a People Person (Producer): Chris Marcello",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/11), 100)
+Designer = loadMenuLabels("Man with Vision (Designer): James Lindberg", (0,0,0), screenWidth/53, (screenWidth/2, screenHeight*2/11), 100)
+Programmer = loadMenuLabels("Hackerman (Lead Programmer): Lucas DeGraw",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/11*3), 100)
+Artist = loadMenuLabels("Frida Kahlo + GIMP (Lead Artist): Riley Karp",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/11*4), 100)
+Sound = loadMenuLabels("Mariachi (Lead Sound Design): Jerry Diaz ", (0,0,0), screenWidth/53, (screenWidth/2, screenHeight/11*5), 100)
+Gamer = loadMenuLabels("Gamer (Quality Assurance): Austin Nantkes",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/11*6), 100)
+Knife = loadMenuLabels("Swiss Army Knife (Multirole): Jon",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/11*7), 100)
+DJ = loadMenuLabels("DJ (Art Assistance): Dean",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/11*8), 100)
+MusicGuy = loadMenuLabels("Most soundtracks from here: JERRY PUT LINK HERE NOW",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/11*10), 100)
+Bruce = loadMenuLabels("Special Thanks to: Bruce (Totally Not CIA) Maxwell",(0,0,0),screenWidth/53,(screenWidth/2, screenHeight/11*9),100)
 
 lossBack = loadMenuLabels("Back",(0,0,0), screenWidth/57,(screenWidth*8/9,screenHeight/15),5)
-creditsMenu = [Producer, Designer, Programmer, Artist, Sound, Gamer, Knife, DJ, Bruce, lossBack]
+creditsMenu = [Producer, Designer, Programmer, Artist, Sound, Gamer, Knife, DJ, Bruce, MusicGuy, lossBack]
 
 for label in creditsMenu :
 	label.start()
@@ -187,31 +187,35 @@ for label in lossMenu :
 	label.start()
 
 #Store state 8
-storeTitle = MenuLabel("Squirrel Supply Stash",(0, 0, 0),screenWidth/40,(screenWidth/2,screenHeight/7),100)
-planeSkins = MenuLabel("Plane Types",(0, 0, 0),screenWidth/40,(screenWidth/3,screenHeight*2/8),100)
-paperBomber = MenuLabel("Paper Bomber",(0, 0, 0),screenWidth/57,(screenWidth/3,screenHeight*3/8),81)
-paperFlyboy = MenuLabel("Paper Flyboy",(0, 0, 0),screenWidth/57,(screenWidth/3,screenHeight*4/8),82)
-biBomber = MenuLabel("Biplane Bomber",(0, 0, 0),screenWidth/57,(screenWidth/3,screenHeight*5/8),83)
-biFlyboy = MenuLabel("Biplane Flyboy",(0, 0, 0),screenWidth/57,(screenWidth/3,screenHeight*6/8),84)
-bubble = MenuLabel("BubbleBoy",(0, 0, 0),screenWidth/57,(screenWidth/3,screenHeight*7/8),85)
-lossBack = MenuLabel("Back",(0,0,0), screenWidth/57,(screenWidth*8/9,screenHeight/15),5)
-totalLabel = MenuLabel("Total Score: "+str(itemsBought[-1]),(0,0,0), screenWidth/52,(screenWidth*5/7,screenHeight/3),100)
-storeTitles = [paperBomber, paperFlyboy, biBomber, biFlyboy ,bubble, lossBack]
+storeTitle = MenuLabel("Squirrel Supply Stash",(0, 0, 0),screenWidth/40,(screenWidth/2,screenHeight/9),100)
+planeSkins = MenuLabel("Plane Types",(0, 0, 0),screenWidth/40,(screenWidth/3,screenHeight*2/9),100)
+paperBomber = MenuLabel("Paper Bomber",(0, 0, 0),screenWidth/57,(screenWidth/3,screenHeight*3/9),81)
+paperFlyboy = MenuLabel("Paper Flyboy",(0, 0, 0),screenWidth/57,(screenWidth/3,screenHeight*4/9),82)
+biBomber = MenuLabel("Biplane Bomber",(0, 0, 0),screenWidth/57,(screenWidth/3,screenHeight*5/9),83)
+biFlyboy = MenuLabel("Biplane Flyboy",(0, 0, 0),screenWidth/57,(screenWidth/3,screenHeight*6/9),84)
+bubble = MenuLabel("Bubble Bomber",(0, 0, 0),screenWidth/57,(screenWidth/3,screenHeight*7/9),85)
+bubbleBoy = MenuLabel("Bubble Flyboy",(0, 0, 0),screenWidth/57,(screenWidth/3,screenHeight*8/9),80)
 
-cost= MenuLabel("Cost",(0, 0, 0),screenWidth/40,(screenWidth/2,screenHeight*2/8),100)
-cost25 = MenuLabel(" 50 ",(0, 0, 0),screenWidth/57,(screenWidth/2,screenHeight*4/8),100)
-cost50 = MenuLabel(" 100 ",(0, 0, 0),screenWidth/57,(screenWidth/2,screenHeight*5/8),100)
-cost75 = MenuLabel(" 150 ",(0, 0, 0),screenWidth/57,(screenWidth/2,screenHeight*6/8),100)
-cost100 = MenuLabel(" 200 ",(0, 0, 0),screenWidth/57,(screenWidth/2,screenHeight*7/8),100)
-storeCost = [cost, cost25, cost50, cost75, cost100]
+lossBack = MenuLabel("Back",(0,0,0), screenWidth/57,(screenWidth*8/9,screenHeight/15),5)
+totalLabel = MenuLabel("Total Score: "+str(itemsBought[-1]),(0,0,0), screenWidth/52,(screenWidth*2/3,screenHeight*2/9),100)
+storeTitles = [paperBomber, paperFlyboy, biBomber, biFlyboy ,bubble, bubbleBoy, lossBack]
+
+cost= MenuLabel("Cost",(0, 0, 0),screenWidth/40,(screenWidth/2,screenHeight*2/9),100)
+cost25 = MenuLabel(" 50 ",(0, 0, 0),screenWidth/57,(screenWidth/2,screenHeight*4/9),100)
+cost50 = MenuLabel(" 100 ",(0, 0, 0),screenWidth/57,(screenWidth/2,screenHeight*5/9),100)
+cost75 = MenuLabel(" 150 ",(0, 0, 0),screenWidth/57,(screenWidth/2,screenHeight*6/9),100)
+cost100 = MenuLabel(" 200 ",(0, 0, 0),screenWidth/57,(screenWidth/2,screenHeight*7/9),100)
+cost125 = MenuLabel(" 250 ",(0, 0, 0),screenWidth/57,(screenWidth/2,screenHeight*8/9),100)
+storeCost = [cost, cost25, cost50, cost75, cost100, cost125]
 
 currentType = 'paperBomber'
 
-paperFlyboyBuy = MenuLabel("Buy",(0, 0, 0),screenWidth/57,(screenWidth*2/3,screenHeight*4/8),86)
-biBomberBuy = MenuLabel("Buy",(0, 0, 0),screenWidth/57,(screenWidth*2/3,screenHeight*5/8),87)
-biFlyboyBuy = MenuLabel("Buy",(0, 0, 0),screenWidth/57,(screenWidth*2/3,screenHeight*6/8),88)
-bubbleBuy = MenuLabel("Buy",(0, 0, 0),screenWidth/57,(screenWidth*2/3,screenHeight*7/8),89)
-storeBuy = [paperFlyboyBuy, biBomberBuy, biFlyboyBuy, bubbleBuy]
+paperFlyboyBuy = MenuLabel("Buy",(0, 0, 0),screenWidth/57,(screenWidth*2/3,screenHeight*4/9),86)
+biBomberBuy = MenuLabel("Buy",(0, 0, 0),screenWidth/57,(screenWidth*2/3,screenHeight*5/9),87)
+biFlyboyBuy = MenuLabel("Buy",(0, 0, 0),screenWidth/57,(screenWidth*2/3,screenHeight*6/9),88)
+bubbleBuy = MenuLabel("Buy",(0, 0, 0),screenWidth/57,(screenWidth*2/3,screenHeight*7/9),89)
+bubbleBoyBuy = MenuLabel("Buy",(0, 0, 0),screenWidth/57,(screenWidth*2/3,screenHeight*8/9),90)
+storeBuy = [paperFlyboyBuy, biBomberBuy, biFlyboyBuy, bubbleBuy, bubbleBoyBuy]
 
 
 #In-Game
@@ -225,6 +229,20 @@ imageBkg = pygame.transform.scale(pygame.image.load( "Assets/img/HouseNoGrass.pn
 
 rainbow_powerup = pygame.transform.scale(pygame.image.load( "Assets/img/Rainbow.png" ).convert_alpha(), (screenHeight/7, screenHeight/7))
 gravityFlip = pygame.transform.scale(pygame.image.load( "Assets/img/GravitySwap.png" ).convert_alpha(), (screenHeight/7, screenHeight/7))
+
+###Base squirrel###
+imageScale = (screenHeight/9, screenHeight/9)
+whiteImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelWhitePlane.png" ).convert_alpha(), imageScale)
+redImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelRedPlane.png" ).convert_alpha(), imageScale)
+blueImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelBluePlane.png" ).convert_alpha(), imageScale)
+greenImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelGreenPlane.png" ).convert_alpha(), imageScale)
+purpleImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelPurplePlane.png" ).convert_alpha(), imageScale)
+yellowImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelYellowPlane.png" ).convert_alpha(), imageScale)
+cyanImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelCyanPlane.png" ).convert_alpha(), imageScale)
+orangeImage =  pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelOrangePlane.png" ).convert_alpha(), imageScale)
+rainbowImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelRainbowPlane.png" ).convert_alpha(), imageScale)
+imageList = [whiteImage, redImage, blueImage, greenImage, purpleImage, yellowImage, cyanImage, orangeImage, rainbowImage]
+
 
 isSpacebar = False
 justClicked = False #Boolean so we can't double click options in the menu
@@ -288,7 +306,7 @@ grassImage = pygame.transform.scale(pygame.image.load( "Assets/img/grass.png" ).
 #m.importLists(avatarParams, creditsMenu, optionsList, lossMenu, instructions)	# call mainfunc's importLists function to return local lists
 avatarParams = [screenWidth, screenHeight, soundToggle]
 
-flier = avatar.Avatar(avatarParams[0], avatarParams[1], avatarParams[2])
+flier = avatar.Avatar(avatarParams[0], avatarParams[1], avatarParams[2], imageList)
 
 preLoaded1.join()
 preLoaded2.join()
@@ -785,6 +803,9 @@ while 1:#Main loop
 		if itemsBought[3] == 1:
 			if storeBuy[3].text != "Bought":
 				storeBuy[3].updateText("Bought")
+		if itemsBought[4] == 1:
+			if storeBuy[4].text != "Bought":
+				storeBuy[4].updateText("Bought")
 				
 		mouse = pygame.mouse.get_pos()
 		for item in storeCost:
@@ -810,17 +831,25 @@ while 1:#Main loop
 				if clickedState == 88 and itemsBought[2] == 0:#biplane with hat
 					if itemsBought[-1] >= 150:
 						itemsBought[-1] -= 150
-						itemsBought[1] = 1
+						itemsBought[2] = 1
 						#Kaching sound here
 					else:
 						errorSound.play()
 				if clickedState == 89 and itemsBought[3] == 0:#biplane with hat
 					if itemsBought[-1] >= 200:
 						itemsBought[-1] -= 200
-						itemsBought[1] = 1
+						itemsBought[3] = 1
 						#Kaching sound here
 					else:
 						errorSound.play()
+				if clickedState == 90 and itemsBought[4] == 0:#biplane with hat
+					if itemsBought[-1] >= 250:
+						itemsBought[-1] -= 250
+						itemsBought[4] = 1
+						#Kaching sound here
+					else:
+						errorSound.play()
+						
 				writeString = '' #creates the string for writing to the file
 				for num in itemsBought:
 					writeString += str(num) + '\n'		
@@ -842,20 +871,99 @@ while 1:#Main loop
 				#item.bkgColor = (40,40,40)
 				if clickedState == 81:
 					currentType = 'paperBomber'
+					whiteImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelWhitePlane.png" ).convert_alpha(), imageScale)
+					redImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelRedPlane.png" ).convert_alpha(), imageScale)
+					blueImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelBluePlane.png" ).convert_alpha(), imageScale)
+					greenImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelGreenPlane.png" ).convert_alpha(), imageScale)
+					purpleImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelPurplePlane.png" ).convert_alpha(), imageScale)
+					yellowImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelYellowPlane.png" ).convert_alpha(), imageScale)
+					cyanImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelCyanPlane.png" ).convert_alpha(), imageScale)
+					orangeImage =  pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelOrangePlane.png" ).convert_alpha(), imageScale)
+					rainbowImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelRainbowPlane.png" ).convert_alpha(), imageScale)
+					imageList = [whiteImage, redImage, blueImage, greenImage, purpleImage, yellowImage, cyanImage, orangeImage, rainbowImage]
+					flier.load(imageList)
 					
 				elif clickedState == 82 and itemsBought[0] == 1:
 					currentType = 'paperFlyboy'
+					imageScale = (screenHeight/9, screenHeight/9)
+					whiteImage = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesWhitePlane.png" ).convert_alpha(), imageScale)
+					redImage = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesRedPlane.png" ).convert_alpha(), imageScale)
+					blueImage = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesBluePlane.png" ).convert_alpha(), imageScale)
+					greenImage = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesGreenPlane.png" ).convert_alpha(), imageScale)
+					purpleImage = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesPurplePlane.png" ).convert_alpha(), imageScale)
+					yellowImage = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesYellowPlane.png" ).convert_alpha(), imageScale)
+					cyanImage = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesCyanPlane.png" ).convert_alpha(), imageScale)
+					orangeImage =  pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesOrangePlane.png" ).convert_alpha(), imageScale)
+					rainbowImage = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesRainbowPlane.png" ).convert_alpha(), imageScale)
+					imageList = [whiteImage, redImage, blueImage, greenImage, purpleImage, yellowImage, cyanImage, orangeImage, rainbowImage]
+					flier.load(imageList)
 
 				elif clickedState == 83 and itemsBought[1] == 1:
 					currentType = 'biBomber'
+					imageScale = (screenHeight/9, screenHeight/9)
+					whiteImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelWhiteBP.png" ).convert_alpha(), imageScale)
+					redImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelRedBP.png" ).convert_alpha(), imageScale)
+					blueImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelBlueBP.png" ).convert_alpha(), imageScale)
+					greenImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelGreenBP.png" ).convert_alpha(), imageScale)
+					purpleImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelPurpleBP.png" ).convert_alpha(), imageScale)
+					yellowImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelYellowBP.png" ).convert_alpha(), imageScale)
+					cyanImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelCyanBP.png" ).convert_alpha(), imageScale)
+					orangeImage =  pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelOrangeBP.png" ).convert_alpha(), imageScale)
+					rainbowImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelRainbowBP.png" ).convert_alpha(), imageScale)
+					imageList = [whiteImage, redImage, blueImage, greenImage, purpleImage, yellowImage, cyanImage, orangeImage, rainbowImage]
+					flier.load(imageList)
 					
 				elif clickedState == 84 and itemsBought[2] == 1:
 					currentType = 'biFlyboy'
+					imageScale = (screenHeight/9, screenHeight/9)
+					whiteImage = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesWhiteBP.png" ).convert_alpha(), imageScale)
+					redImage = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesRedBP.png" ).convert_alpha(), imageScale)
+					blueImage = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesBlueBP.png" ).convert_alpha(), imageScale)
+					greenImage = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesGreenBP.png" ).convert_alpha(), imageScale)
+					purpleImage = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesPurpleBP.png" ).convert_alpha(), imageScale)
+					yellowImage = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesYellowBP.png" ).convert_alpha(), imageScale)
+					cyanImage = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesCyanBP.png" ).convert_alpha(), imageScale)
+					orangeImage =  pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesOrangeBP.png" ).convert_alpha(), imageScale)
+					rainbowImage = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesRainbowBP.png" ).convert_alpha(), imageScale)
+					imageList = [whiteImage, redImage, blueImage, greenImage, purpleImage, yellowImage, cyanImage, orangeImage, rainbowImage]
+					flier.load(imageList)
+					
+				elif clickedState == 85 and itemsBought[3] == 1:
+					currentType = 'bubbleBomber'
+					imageScale = (screenHeight/9, screenHeight/9)
+					whiteImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelWhiteBubble.png" ).convert_alpha(), imageScale)
+					redImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelRedBubble.png" ).convert_alpha(), imageScale)
+					blueImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelBlueBubble.png" ).convert_alpha(), imageScale)
+					greenImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelGreenBubble.png" ).convert_alpha(), imageScale)
+					purpleImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelPurpleBubble.png" ).convert_alpha(), imageScale)
+					yellowImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelYellowBubble.png" ).convert_alpha(), imageScale)
+					cyanImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelCyanBubble.png" ).convert_alpha(), imageScale)
+					orangeImage =  pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelOrangeBubble.png" ).convert_alpha(), imageScale)
+					rainbowImage = pygame.transform.scale(pygame.image.load( "Assets/img/SquirrelRainbowBubble.png" ).convert_alpha(), imageScale)
+					imageList = [whiteImage, redImage, blueImage, greenImage, purpleImage, yellowImage, cyanImage, orangeImage, rainbowImage]
+					flier.load(imageList)
+					
+				elif clickedState == 80 and itemsBought[4] == 1:
+					currentType = 'BubbleFlyboy'
+					imageScale = (screenHeight/9, screenHeight/9)
+					whiteImage = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesWhiteBubble.png" ).convert_alpha(), imageScale)
+					redImage = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesRedBubble.png" ).convert_alpha(), imageScale)
+					blueImage = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesBlueBubble.png" ).convert_alpha(), imageScale)
+					greenImage = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesGreenBubble.png" ).convert_alpha(), imageScale)
+					purpleImage = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesPurpleBubble.png" ).convert_alpha(), imageScale)
+					yellowImage = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesYellowBubble.png" ).convert_alpha(), imageScale)
+					cyanImage = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesCyanBubble.png" ).convert_alpha(), imageScale)
+					orangeImage =  pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesOrangeBubble.png" ).convert_alpha(), imageScale)
+					rainbowImage = pygame.transform.scale(pygame.image.load( "Assets/img/SunglassesRainbowBubble.png" ).convert_alpha(), imageScale)
+					imageList = [whiteImage, redImage, blueImage, greenImage, purpleImage, yellowImage, cyanImage, orangeImage, rainbowImage]
+					flier.load(imageList)
 					
 				elif clickedState == 5:
 					screen.fill((40,80,160))
 					gameState = 5
+					flier.restart(soundToggle)
 					break
+			item.isHover = False
 			item.update(screen)
 			if currentType == 'paperBomber':
 				paperBomber.isHover = True
@@ -869,6 +977,12 @@ while 1:#Main loop
 			elif currentType == 'biFlyboy':
 				biFlyboy.isHover = True
 				biFlyboy.update(screen)
+			elif currentType == 'bubbleBomber':
+				bubble.isHover = True
+				bubble.update(screen)
+			elif currentType == 'BubbleFlyboy':
+				bubbleBoy.isHover = True
+				bubbleBoy.update(screen)
 		justClicked = pygame.mouse.get_pressed()[0]	
 	### Make it write to the file on exit ###
 	
