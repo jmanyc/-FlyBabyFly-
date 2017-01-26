@@ -411,7 +411,7 @@ while 1:#Main loop
 		tempList = []
 		if counter == nextBeam:
 			rainbowSound.stop()
-			if abs(nextBeam - nextWall) > 45: #So they don't spawn on top of each other
+			if abs(nextBeam - nextWall) > 40: #So they don't spawn on top of each other
 				tempColors = list(baseColors)
 				tempColors.remove(flier.getColor())
 				difColor = random.choice(tempColors)
@@ -507,13 +507,13 @@ while 1:#Main loop
 				### Changing the difficulty ###
 				if score % 2 == 0:
 					if low > 0:
-						low -= 8
+						low -= 7
 					if high > 0:
-						high -= 8
+						high -= 7
 				if score == 1:
 					obstacleList = preLoaded2.getObstacles()
 				elif score == 3:
-					wallSpeed = -6
+					wallSpeed = -4
 				elif score == 6:
 					obstacleList = preLoaded3.getObstacles()
 				elif score == 10:
@@ -524,6 +524,8 @@ while 1:#Main loop
 					obstacleList = preLoaded3.getObstacles()
 				elif score == 20:
 					obstacleList = preLoaded4.getObstacles()
+				elif score == 24:
+					wallSpeed = -6
 		else:
 			isPassing = False
 		
