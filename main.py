@@ -90,10 +90,11 @@ preLoaded4.start()
 hoverSound = pygame.mixer.Sound( "Assets/sound/click.wav" )
 clickSound = pygame.mixer.Sound( "Assets/sound/pop.wav" )
 pointSound = pygame.mixer.Sound( "Assets/sound/blip.wav" )
-rainbowSound = pygame.mixer.Sound( "Assets/sound/paintsplash_sound16.wav" )
+rainbowSound = pygame.mixer.Sound( "Assets/sound/rainbowsound.ogg" )
 errorSound = pygame.mixer.Sound( "Assets/sound/beep.wav" )
-fanSound = pygame.mixer.Sound( "Assets/sound/fan.wav" )
+fanSound = pygame.mixer.Sound( "Assets/sound/fan.ogg" )
 kachingSound = pygame.mixer.Sound( "Assets/sound/KACHING.wav" )
+antiGravity = pygame.mixer.Sound( "Assets/sound/antigravitysong.ogg" )
 pygame.mixer.music.load("Assets/sound/soundtrack2.ogg")
 
 pygame.mixer.music.play(-1)
@@ -440,7 +441,7 @@ while 1:#Main loop
 		
 		tempList = []
 		if counter == nextBeam:
-			rainbowSound.stop()
+			
 			if abs(nextBeam - nextWall) > 50: #So they don't spawn on top of each other
 				tempColors = list(baseColors)
 				tempColors.remove(flier.getColor())
@@ -525,6 +526,9 @@ while 1:#Main loop
 				
 		activeBeams = list(tempList)
 		if flier.beamCollision(activeBeams[:1]):
+			rainbowSound.stop()
+			antiGravity.stop()
+			pygame.mixer.music.set_volume(0.75)
 			planeLabel.updateText("Color: "+flier.string)
 		
 		if flier.wallCollision(activeWalls[:1]) == True: #If passing through the wall is true
@@ -595,8 +599,11 @@ while 1:#Main loop
 					planeLabel.update(screen)
 				activeBeams = []
 				nextBeam = random.randint(low + 220, high + 260) + counter
-				#Play rainbow Sound
-
+				rainbowSound.play()
+				pygame.mixer.music.set_volume(0.0)
+			if flier.flierState == 2:
+				antiGravity.play()
+				pygame.mixer.music.set_volume(0.0)
 			#inputs the current score, then returns a list of all scores cut off at top 10
 		scoreLabel.update(screen)
 		if colorBlind:
@@ -1051,6 +1058,7 @@ while 1:#Main loop
 # ------------------------------------------------------------------------------------------------------
 	#Intro animation
 	if gameState == 9:
+		pygame.mouse.set_visible(False)
 		key = pygame.key.get_pressed()
 		if key[pygame.K_SPACE]:
 			gameState = 0
@@ -1065,7 +1073,7 @@ while 1:#Main loop
 			intro = pygame.transform.scale(intro,(introWidth,introHeight))
 			
 		if counter >= 70:
-			if counter == 71:
+			if counter == 75:
 				fanSound.play()
 			screen.blit(mainBackground,(0,0))
 			angle -= 3 #Slow speed
@@ -1082,6 +1090,7 @@ while 1:#Main loop
 			counter += 1
 			
 		if counter >= 230:
+			pygame.mouse.set_visible(True)
 			counter = 0
 			gameState = 0
 			
