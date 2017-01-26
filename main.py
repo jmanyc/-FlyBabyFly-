@@ -230,7 +230,8 @@ lossBack = MenuLabel("Back",(0,0,0), screenWidth/57,(screenWidth*8/9,screenHeigh
 totalLabel = MenuLabel("Total Score: "+str(itemsBought[-1]),(0,0,0), screenWidth/52,(screenWidth*2/3,screenHeight*2/9),100)
 storeTitles = [paperBomber, paperFlyboy, biBomber, biFlyboy ,bubble, bubbleBoy, lossBack]
 
-cost= MenuLabel("Cost",(0, 0, 0),screenWidth/40,(screenWidth/2,screenHeight*2/9),100)
+#Cost boxes in store
+cost = MenuLabel("Cost",(0, 0, 0),screenWidth/40,(screenWidth/2,screenHeight*2/9),100)
 cost25 = MenuLabel(" 50 ",(0, 0, 0),screenWidth/57,(screenWidth/2,screenHeight*4/9),100)
 cost50 = MenuLabel(" 100 ",(0, 0, 0),screenWidth/57,(screenWidth/2,screenHeight*5/9),100)
 cost75 = MenuLabel(" 150 ",(0, 0, 0),screenWidth/57,(screenWidth/2,screenHeight*6/9),100)
@@ -238,8 +239,10 @@ cost100 = MenuLabel(" 200 ",(0, 0, 0),screenWidth/57,(screenWidth/2,screenHeight
 cost125 = MenuLabel(" 250 ",(0, 0, 0),screenWidth/57,(screenWidth/2,screenHeight*8/9),100)
 storeCost = [cost, cost25, cost50, cost75, cost100, cost125]
 
+#Default flyer type (before others are bought)
 currentType = 'paperBomber'
 
+#Buy buttons for each plane in the store
 paperFlyboyBuy = MenuLabel("Buy",(0, 0, 0),screenWidth/57,(screenWidth*2/3,screenHeight*4/9),86)
 biBomberBuy = MenuLabel("Buy",(0, 0, 0),screenWidth/57,(screenWidth*2/3,screenHeight*5/9),87)
 biFlyboyBuy = MenuLabel("Buy",(0, 0, 0),screenWidth/57,(screenWidth*2/3,screenHeight*6/9),88)
