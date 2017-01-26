@@ -261,8 +261,8 @@ wallSpeed = -3
 nextWall = random.randint(145, 170)
 nextBeam = 60
 nextPowerUp = 850
-low = 80
-high = 120
+low = 100
+high = 140
 angle = 0
 
 rainbowYvel = 3 # we could make it proportional to the wall speed, but idk if James wants
@@ -526,6 +526,8 @@ while 1:#Main loop
 					obstacleList = preLoaded4.getObstacles()
 				elif score == 24:
 					wallSpeed = -6
+				elif score == 35:
+					wallSpeed = -7
 		else:
 			isPassing = False
 		
