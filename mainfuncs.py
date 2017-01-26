@@ -13,6 +13,7 @@ from beams import Beam
 from wall import Wall
 from label import *
 from grass import Grass
+from powerups import Powerup
 
 ### All of these functions are called in the main loop; they manage transition of game 
 # \ states and update the appropriate buttons, objects and sounds within the game.
@@ -50,12 +51,14 @@ def playSound(sound, toggle):
 # \ four buttons' update methods; their update methods check if the mouse is hovering over
 # \ them and has been clicked, and route the 
 	
-def State2Update(screen, instructions):	# main consolidation
+def State2Update(screen, instructions, gravity, rainbow):	# main consolidation
 	
 	help, controls, powerUps, mainBack, paint = instructions
 	help.update(screen)		
 	controls.update(screen)
-	powerUps.update(screen)		
+	powerUps.update(screen)
+	gravity.draw(screen)
+	rainbow.draw(screen)
 	mainBack.update(screen)
 	paint.update(screen)
 

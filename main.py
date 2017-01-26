@@ -665,7 +665,7 @@ while 1:#Main loop
 			
 		screen.fill((40,80,160))
 		mouse = pygame.mouse.get_pos()
-		m.State2Update(screen, instructions)	# relocated code to State2Update function
+		m.State2Update(screen, instructions, Powerup([screenWidth*4/5,screenHeight/2], gravityFlip, 'gravitySwitch'), Powerup([screenWidth*4/5,screenHeight/3], rainbow_powerup, 'rainbow'))	# relocated code to State2Update function
 		key = pygame.key.get_pressed()
 		if key[pygame.K_BACKSPACE] or (mainBack.hover((mouse[0],mouse[1]),soundToggle) == True and pygame.mouse.get_pressed()[0]):
 			m.playSound(clickSound,soundToggle)
