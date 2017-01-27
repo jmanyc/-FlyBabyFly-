@@ -627,7 +627,8 @@ while 1:#Main loop
 			activePowerUps = []
 			windowList = []
 			grassList = []
-			
+			rainbowSound.stop()
+			antiGravity.stop()
 			nextPowerUp = 850
 			wallSpeed = -3
 			gameState = 5 #goto loss screen
