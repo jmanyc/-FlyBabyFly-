@@ -1074,13 +1074,15 @@ while 1:#Main loop
 			introXPos -= 4
 			introYPos += 4
 			screen.blit(intro,(0,0),(introXPos, introYPos, introWidth, introHeight))
+		
+		
+		if counter == 10:
+			fanSound.play()
 			
 			
 		if counter >= 70:
-			if counter == 75:
-				fanSound.play()
+			angle -= 5 #Slow speed
 			screen.blit(mainBackground,(0,0))
-			angle -= 3 #Slow speed
 			if angle < -360:
 				angle = 0
 			temp_image = fan
@@ -1093,8 +1095,9 @@ while 1:#Main loop
 			fan = temp_image
 			counter += 1
 			
-		if counter >= 230:
+		if counter >= 360:
 			pygame.mouse.set_visible(True)
+			fanSound.stop()
 			counter = 0
 			gameState = 0
 			
