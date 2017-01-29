@@ -600,11 +600,11 @@ while 1:#Main loop
 					planeLabel.update(screen)
 				activeBeams = []
 				nextBeam = random.randint(low + 220, high + 260) + counter
-				if soundToggled == True:
+				if soundToggle == True:
 					rainbowSound.play()
 					pygame.mixer.music.set_volume(0.0)
 			if flier.flierState == 2:
-				if soundToggled == True:
+				if soundToggle == True:
 					antiGravity.play()
 					pygame.mixer.music.set_volume(0.0)
 			#inputs the current score, then returns a list of all scores cut off at top 10
