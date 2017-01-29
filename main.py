@@ -146,7 +146,7 @@ Artist = loadMenuLabels("Frida Kahlo + GIMP (Lead Artist): Riley Karp",(0,0,0), 
 Sound = loadMenuLabels("Mariachi (Lead Sound Design): Jerry Diaz ", (0,0,0), screenWidth/53, (screenWidth/2, screenHeight/11*5), 100)
 Gamer = loadMenuLabels("Gamer (Quality Assurance): Austin Nantkes",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/11*6), 100)
 Knife = loadMenuLabels("Swiss Army Knife (Multirole): Jonathan Stempel",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/11*7), 100)
-DJ = loadMenuLabels("DJ (Art Assistance): Dean Weiner",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/11*8), 100)
+DJ = loadMenuLabels("DJ (Sound & Art Assistance): Dean Weiner",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/11*8), 100)
 MusicGuy = loadMenuLabels("Most soundtracks from here: http://www.bensound.com/royalty-free-music",(0,0,0), screenWidth/53, (screenWidth/2, screenHeight/11*10), 100)
 Bruce = loadMenuLabels("Special Thanks to: Bruce (Totally Not CIA) Maxwell",(0,0,0),screenWidth/53,(screenWidth/2, screenHeight/11*9),100)
 
@@ -174,15 +174,15 @@ cbImageLabels = [redLabelImage, blueLabelImage, greenLabelImage, purpleLabelImag
 
 
 #Instructions (Original screenWidth/57)
-paint = MenuLabel("Paint streams will change your plane's color!",(255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*1/14),100)
-help = MenuLabel("Go through the color block that matches your plane!",(255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*3/14),100)
-help2 = MenuLabel("Don't fly above or below the paint beams!",(255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*5/14),100)
-controls = MenuLabel("Press Spacebar, 'w' or the up arrow to increase your upward speed!",(255,105,180),screenWidth/57,(screenWidth*9/28,screenHeight*7/14),100)
-controls2 = MenuLabel("Press spacebar to restart the game!", (255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*9/14),100)
+paint = MenuLabel("Flying through paint streams changes your plane's color!",(255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*1/14),100)
+help = MenuLabel("Fly through blocks that are the same color as your plane!",(255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*3/14),100)
+help2 = MenuLabel("Stay above the grass and below the gutter!",(255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*5/14),100)
+controls = MenuLabel("Hold the spacebar, 'w', or up arrow key to accelerate upwards!",(255,105,180),screenWidth/57,(screenWidth*9/28,screenHeight*7/14),100)
+controls2 = MenuLabel("At the end, press spacebar to restart the game!", (255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*9/14),100)
 controls3 = MenuLabel("Press 'p' to pause and unpause the game!", (255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*11/14),100)
-powerUps = MenuLabel("Use Powerups to increase your chances!",(255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*13/14),100)
-gravityLabel = MenuLabel("Swaps gravity",(255,105,180),screenWidth/57,(screenWidth*6/7,screenHeight*10/14),100)
-rainbowLabel = MenuLabel("Go through any barrier",(255,105,180),screenWidth/57,(screenWidth*6/7,screenHeight*6/14),100)
+powerUps = MenuLabel("Hit the rainbow and arrow icons to alter the ease of playing!",(255,105,180),screenWidth/57,(screenWidth*2/7,screenHeight*13/14),100)
+gravityLabel = MenuLabel("Swaps direction of gravity",(255,105,180),screenWidth/57,(screenWidth*6/7,screenHeight*10/14),100)
+rainbowLabel = MenuLabel("Go through any colored block",(255,105,180),screenWidth/57,(screenWidth*6/7,screenHeight*6/14),100)
 mainBack = MenuLabel("Back", (0,0,0),screenWidth/57,(screenWidth*6/7,screenHeight/15),0)
 instructions = [help, help2, controls, controls2, controls3, powerUps, gravityLabel, rainbowLabel, mainBack, paint]
 
