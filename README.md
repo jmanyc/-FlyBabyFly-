@@ -1,4 +1,4 @@
-# FlyBabyFly (Working Title)
+# FlyBabyFly
 # JanPlan 2017
 Dean, Austin, James, Riley, Jerry, Lucas, Jon, Chris
 
@@ -12,7 +12,7 @@ Main concept:
   Don't crash into the ground (or cieling!). 
 
   
-/// To Run the game ///squirrel
+/// To Run the game ////
 
 Windows:
 
@@ -33,6 +33,6 @@ Mac OS:
 
 Using a terminal or command line, navigate to the FlyBabyFly folder and start the game by running "python2.7 main"
 
-The Highscore server will be up during the class to show how it works, but in general will NOT be up. 
+The Highscore server will be up during the class presentation to show how it works, but in general will NOT be up. 
 
 Instructions located inside the game, enjoy!
